@@ -1,0 +1,28 @@
+name: MinePlotCMD
+main: net.daniel.Plotcmds.main.Main
+version: 3.4
+depend: [Essentials,Vault,PlotSquared]
+
+commands:
+  mineplotcmd:
+    permission: MinePlotCMD.reload
+  땅바이옴:
+  땅초기화:
+  땅삭제:
+  땅멤버:
+  땅약식멤버:
+  땅계정이전:
+  땅보존기간:
+  땅정보:
+  땅목록:
+  땅해제:
+  만기일자지난땅청소:
+    permission: MinePlotCMD.resetExpired
+  땅채팅스파이:
+    permission: MinePlotCMD.Admin.localChat
+  땅채팅:
+    description: local chat with players in same plot
+    aliases:
+      - pc
+      - plotchat
+      - 플롯채팅
