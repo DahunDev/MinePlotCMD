@@ -8,250 +8,250 @@ import com.google.common.base.CaseFormat;
 import net.daniel.plotcmd.Utils.MCUtils;
 
 public enum Lang {
-	// Class ¸íÀÌ ÆÄÀÏ¸í°ú °°À» ÇÊ¿ä´Â ¾øÀ½
-	// ÀÌ¸§ÀÌ ÆÄÀÏ¿¡ ÀÖ´Â ¸Þ¼¼Áö¿Í °°À»°Í, ¶ç¾î¾²±â´Â _ ·Î ´ëÃ¼ (¸Þ¼¼Áö X)
+	// Class ëª…ì´ íŒŒì¼ëª…ê³¼ ê°™ì„ í•„ìš”ëŠ” ì—†ìŒ
+	// ì´ë¦„ì´ íŒŒì¼ì— ìžˆëŠ” ë©”ì„¸ì§€ì™€ ê°™ì„ê²ƒ, ë„ì–´ì“°ê¸°ëŠ” _ ë¡œ ëŒ€ì²´ (ë©”ì„¸ì§€ X)
 
-	CANCEL_BY_NOMONEY("&b&l[ &f&lServer &b&l] &cµ·ÀÌ ºÎÁ·ÇÏ¿© ¿äÃ»µÈ ÀÛ¾÷ÀÌ Ãë¼Ò µÇ¾ú½À´Ï´Ù. ÇÊ¿äÇÑ ±Ý¾×: &e%money_need%¿ø"),
-	CANCEL_BY_SIZE_CHANGE("&b&l[ &f&lServer &b&l] &cÃ³¸® ¿äÃ»µÈ ¶¥ÀÇ Å©±â°¡ º¯°æµÇ¾î ÀÖ¾î ÀÛ¾÷ÀÌ Ãë¼ÒµÇ¾ú½À´Ï´Ù."),
+	CANCEL_BY_NOMONEY("&b&l[ &f&lServer &b&l] &cëˆì´ ë¶€ì¡±í•˜ì—¬ ìš”ì²­ëœ ìž‘ì—…ì´ ì·¨ì†Œ ë˜ì—ˆìŠµë‹ˆë‹¤. í•„ìš”í•œ ê¸ˆì•¡: &e%money_need%ì›"),
+	CANCEL_BY_SIZE_CHANGE("&b&l[ &f&lServer &b&l] &cì²˜ë¦¬ ìš”ì²­ëœ ë•…ì˜ í¬ê¸°ê°€ ë³€ê²½ë˜ì–´ ìžˆì–´ ìž‘ì—…ì´ ì·¨ì†Œë˜ì—ˆìŠµë‹ˆë‹¤."),
 
 	
-	PLOT_PROTECTED_BLOCK("&b&l[ &f&lServer &b&l] &cÅ¬¸¯ ÇÏ½Å ºí·°Àº ¶¥ ¸â¹ö/¾à½Ä¸â¹ö ¹× ¼ÒÀ¯ÀÚ¸¸ ÀÌ¿ë°¡´ÉÇÕ´Ï´Ù."),
+	PLOT_PROTECTED_BLOCK("&b&l[ &f&lServer &b&l] &cí´ë¦­ í•˜ì‹  ë¸”ëŸ­ì€ ë•… ë©¤ë²„/ì•½ì‹ë©¤ë²„ ë° ì†Œìœ ìžë§Œ ì´ìš©ê°€ëŠ¥í•©ë‹ˆë‹¤."),
 	
-	NO_MONEY("&b&l[ &f&lServer &b&l] &cµ·ÀÌ ºÎÁ·ÇÕ´Ï´Ù. ÇÊ¿äÇÑ ±Ý¾×: &e%money_need%¿ø"),
+	NO_MONEY("&b&l[ &f&lServer &b&l] &cëˆì´ ë¶€ì¡±í•©ë‹ˆë‹¤. í•„ìš”í•œ ê¸ˆì•¡: &e%money_need%ì›"),
 
-	NO_NAME_SPACE("&b&l[ &f&lServer &b&l] &cÇÃ·¹ÀÌ¾î ÀÌ¸§¿¡´Â °ø¹éÀÌ ÀÖÀ» ¼ö ¾ø½À´Ï´Ù."),
+	NO_NAME_SPACE("&b&l[ &f&lServer &b&l] &cí”Œë ˆì´ì–´ ì´ë¦„ì—ëŠ” ê³µë°±ì´ ìžˆì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤."),
 
-	BIOME_HELP_PRICE_DEFAULT("±âº»¶¥: 3¸¸¿ø, ÀÛÀº¶¥: 30¸¸¿ø, Å«¶¥: 120¸¸¿ø"),
+	BIOME_HELP_PRICE_DEFAULT("ê¸°ë³¸ë•…: 3ë§Œì›, ìž‘ì€ë•…: 30ë§Œì›, í°ë•…: 120ë§Œì›"),
 
-	BIOME_HELP("&b&l[ &f&lServer &b&l] &7/¶¥¹ÙÀÌ¿È <¹ÙÀÌ¿È> - &6%price%¿ø&fÀ» ¼Ò¸ðÇÏ¿© ÇöÀç ´ç½ÅÀÌ ¼­ÀÖ´Â ¶¥ÀÇ ¹ÙÀÌ¿ÈÀ» <¹ÙÀÌ¿È>À¸·Î º¯°æÇÕ´Ï´Ù."),
+	BIOME_HELP("&b&l[ &f&lServer &b&l] &7/ë•…ë°”ì´ì˜´ <ë°”ì´ì˜´> - &6%price%ì›&fì„ ì†Œëª¨í•˜ì—¬ í˜„ìž¬ ë‹¹ì‹ ì´ ì„œìžˆëŠ” ë•…ì˜ ë°”ì´ì˜´ì„ <ë°”ì´ì˜´>ìœ¼ë¡œ ë³€ê²½í•©ë‹ˆë‹¤."),
 
-	BIOME_HELP_DEFAULT("&b&l[ &f&lServer &b&l] &7/¶¥¹ÙÀÌ¿È <¹ÙÀÌ¿È> - ÇöÀç ´ç½ÅÀÌ ¼­ÀÖ´Â ¶¥ÀÇ ¹ÙÀÌ¿ÈÀ» <¹ÙÀÌ¿È>À¸·Î º¯°æÇÕ´Ï´Ù. ( °¡°Ý: %price% )"),
+	BIOME_HELP_DEFAULT("&b&l[ &f&lServer &b&l] &7/ë•…ë°”ì´ì˜´ <ë°”ì´ì˜´> - í˜„ìž¬ ë‹¹ì‹ ì´ ì„œìžˆëŠ” ë•…ì˜ ë°”ì´ì˜´ì„ <ë°”ì´ì˜´>ìœ¼ë¡œ ë³€ê²½í•©ë‹ˆë‹¤. ( ê°€ê²©: %price% )"),
 	
-	BIOME_CONFIRM_HELP("&b&l[ &f&lServer &b&l] &7/¶¥¹ÙÀÌ¿È ÀÛ¾÷È®ÀÎ - °¡Àå ÃÖ±Ù¿¡ ¿äÃ»ÇÏ½Å ¶¥ ¹ÙÀÌ¿È º¯°æ¿äÃ»À» ¼ö¶ôÇÕ´Ï´Ù. (¹ÙÀÌ¿È º¯°æ ½ÇÇà)"),
+	BIOME_CONFIRM_HELP("&b&l[ &f&lServer &b&l] &7/ë•…ë°”ì´ì˜´ ìž‘ì—…í™•ì¸ - ê°€ìž¥ ìµœê·¼ì— ìš”ì²­í•˜ì‹  ë•… ë°”ì´ì˜´ ë³€ê²½ìš”ì²­ì„ ìˆ˜ë½í•©ë‹ˆë‹¤. (ë°”ì´ì˜´ ë³€ê²½ ì‹¤í–‰)"),
 
-	BIOME_INFO("&b&l[ &f&lServer &b&l] &fÇöÀç ¶¥ÀÇ ¹ÙÀÌ¿È: &6%biome%"),
+	BIOME_INFO("&b&l[ &f&lServer &b&l] &fí˜„ìž¬ ë•…ì˜ ë°”ì´ì˜´: &6%biome%"),
 
 	BIOME_SET_CONFIRM(
-			"&b&l[ &f&lServer &b&l] &fÁ¤¸»·Î &6%price%¿ø&fÀ» ¼Ò¸ðÇÏ¿© ´ëÁö &6%plot%&fÀÇ ¹ÙÀÌ¿ÈÀ» &6%biome%&fÀ¸·Î ¹ÙÀÌ¿È º¯°æ ÇÏ´Â°ÍÀ» ¿øÇÏ½Ã¸é &6%sec%ÃÊ&f ¾È¿¡ &6\"%cmd_confirm%\"&f ¸í·É¾î¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä."), // \"%cmd_confirm%\"
+			"&b&l[ &f&lServer &b&l] &fì •ë§ë¡œ &6%price%ì›&fì„ ì†Œëª¨í•˜ì—¬ ëŒ€ì§€ &6%plot%&fì˜ ë°”ì´ì˜´ì„ &6%biome%&fìœ¼ë¡œ ë°”ì´ì˜´ ë³€ê²½ í•˜ëŠ”ê²ƒì„ ì›í•˜ì‹œë©´ &6%sec%ì´ˆ&f ì•ˆì— &6\"%cmd_confirm%\"&f ëª…ë ¹ì–´ë¥¼ ìž…ë ¥í•´ì£¼ì„¸ìš”."), // \"%cmd_confirm%\"
 
-	CANCELED_BIOME_CONFIRM("&b&l[ &f&lServer &b&l] &cÃÖ±Ù¿¡ ¿äÃ»µÈ ¶¥ ¹ÙÀÌ¿È ¼³Á¤ °ü·Ã ¸í·É¾î È®ÀÎ ÀÛ¾÷ÀÌ Ãë¼ÒµÇ¾ú½À´Ï´Ù."),
+	CANCELED_BIOME_CONFIRM("&b&l[ &f&lServer &b&l] &cìµœê·¼ì— ìš”ì²­ëœ ë•… ë°”ì´ì˜´ ì„¤ì • ê´€ë ¨ ëª…ë ¹ì–´ í™•ì¸ ìž‘ì—…ì´ ì·¨ì†Œë˜ì—ˆìŠµë‹ˆë‹¤."),
 
-	BIOME_SET("&b&l[ &f&lServer &b&l] &6%price%&f¿øÀ» ÁöºÒÇÏ¿©, ´ëÁöÀÇ ¹ÙÀÌ¿ÈÀ» &6%biome%&f(À¸)·Î º¯°æÇÏ¿´½À´Ï´Ù. "),
-	BIOME_SET_CONSOLE("[Server] %player%´ÔÀÌ %price%¿øÀ» ÁöºÒÇÏ¿© %plot%ÀÇ ¹ÙÀÌ¿ÈÀ» %biome%(À¸)·Î º¯°æÇÏ¿´½À´Ï´Ù."),
-
-	
-	
-	DELETE_PLOT_HELP("&b&l[ &f&lServer &b&l] &7/¶¥»èÁ¦ - &6%price%¿ø&fÀ» ¼Ò¸ðÇÏ¿© ÇöÀç ¼­ÀÖ´Â ¶¥À» »èÁ¦ÇÕ´Ï´Ù. (¼ÒÀ¯±Ç Æ÷±â)"),
-	DELETE_PLOT_HELP_DEFAULT("&b&l[ &f&lServer &b&l] &7/¶¥»èÁ¦ - ÇöÀç ¼­ÀÖ´Â ¶¥À» »èÁ¦ÇÕ´Ï´Ù. ( °¡°Ý: %price% )"),
+	BIOME_SET("&b&l[ &f&lServer &b&l] &6%price%&fì›ì„ ì§€ë¶ˆí•˜ì—¬, ëŒ€ì§€ì˜ ë°”ì´ì˜´ì„ &6%biome%&f(ìœ¼)ë¡œ ë³€ê²½í•˜ì˜€ìŠµë‹ˆë‹¤. "),
+	BIOME_SET_CONSOLE("[Server] %player%ë‹˜ì´ %price%ì›ì„ ì§€ë¶ˆí•˜ì—¬ %plot%ì˜ ë°”ì´ì˜´ì„ %biome%(ìœ¼)ë¡œ ë³€ê²½í•˜ì˜€ìŠµë‹ˆë‹¤."),
 
 	
-	DELETE_HELP_PRICE_DEFAULT("±âº»¶¥: 1000¿ø, ÀÛÀº¶¥: 1¸¸¿ø, Å«¶¥: 10¸¸¿ø"),
-	DELETE_CONFIRM_HELP("&b&l[ &f&lServer &b&l] &7/¶¥»èÁ¦ ÀÛ¾÷È®ÀÎ - °¡Àå ÃÖ±Ù¿¡ ¿äÃ»ÇÏ½Å ¶¥ »èÁ¦ ¿äÃ»À» ¼ö¶ôÇÕ´Ï´Ù. (¶¥ »èÁ¦ ½ÇÇà)"),
+	
+	DELETE_PLOT_HELP("&b&l[ &f&lServer &b&l] &7/ë•…ì‚­ì œ - &6%price%ì›&fì„ ì†Œëª¨í•˜ì—¬ í˜„ìž¬ ì„œìžˆëŠ” ë•…ì„ ì‚­ì œí•©ë‹ˆë‹¤. (ì†Œìœ ê¶Œ í¬ê¸°)"),
+	DELETE_PLOT_HELP_DEFAULT("&b&l[ &f&lServer &b&l] &7/ë•…ì‚­ì œ - í˜„ìž¬ ì„œìžˆëŠ” ë•…ì„ ì‚­ì œí•©ë‹ˆë‹¤. ( ê°€ê²©: %price% )"),
+
+	
+	DELETE_HELP_PRICE_DEFAULT("ê¸°ë³¸ë•…: 1000ì›, ìž‘ì€ë•…: 1ë§Œì›, í°ë•…: 10ë§Œì›"),
+	DELETE_CONFIRM_HELP("&b&l[ &f&lServer &b&l] &7/ë•…ì‚­ì œ ìž‘ì—…í™•ì¸ - ê°€ìž¥ ìµœê·¼ì— ìš”ì²­í•˜ì‹  ë•… ì‚­ì œ ìš”ì²­ì„ ìˆ˜ë½í•©ë‹ˆë‹¤. (ë•… ì‚­ì œ ì‹¤í–‰)"),
 
 	DELETE_PLOT_CONFIRM(
-			"&b&l[ &f&lServer &b&l] &fÁ¤¸»·Î &6%price%¿ø&fÀ» ¼Ò¸ðÇÏ¿© ´ëÁö &6%plot%&f¸¦(À») ÃÊ±âÈ­ ¹× ¼ÒÀ¯±Ç Æ÷±âÇÏ½Ã±â¸¦ ¿øÇÏ½Ã¸é &6%sec%ÃÊ&f ¾È¿¡ &6\"%cmd_confirm%\"&f ¸í·É¾î¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä."),
+			"&b&l[ &f&lServer &b&l] &fì •ë§ë¡œ &6%price%ì›&fì„ ì†Œëª¨í•˜ì—¬ ëŒ€ì§€ &6%plot%&fë¥¼(ì„) ì´ˆê¸°í™” ë° ì†Œìœ ê¶Œ í¬ê¸°í•˜ì‹œê¸°ë¥¼ ì›í•˜ì‹œë©´ &6%sec%ì´ˆ&f ì•ˆì— &6\"%cmd_confirm%\"&f ëª…ë ¹ì–´ë¥¼ ìž…ë ¥í•´ì£¼ì„¸ìš”."),
 
-	CANCELED_DELETE_CONFIRM("&b&l[ &f&lServer &b&l] &cÃÖ±Ù¿¡ ¿äÃ»µÈ ¶¥ »èÁ¦ °ü·Ã ¸í·É¾î È®ÀÎ ÀÛ¾÷ÀÌ Ãë¼ÒµÇ¾ú½À´Ï´Ù."),
+	CANCELED_DELETE_CONFIRM("&b&l[ &f&lServer &b&l] &cìµœê·¼ì— ìš”ì²­ëœ ë•… ì‚­ì œ ê´€ë ¨ ëª…ë ¹ì–´ í™•ì¸ ìž‘ì—…ì´ ì·¨ì†Œë˜ì—ˆìŠµë‹ˆë‹¤."),
 
-	DELETED_PLOT("&b&l[ &f&lServer &b&l] &6%price%¿ø&fÀ» ÁöºÒÇÏ¿©, ÇØ´ç ¶¥À» ÃÊ±âÈ­ ¹× ¼ÒÀ¯±Ç Æ÷±âÇÏ¿´½À´Ï´Ù. ¼Ò¿ä ½Ã°£: %time%"),
-	DELETED_PLOT_CONSOLE("[Server] %player%´ÔÀÌ %price%¿øÀ» ÁöºÒÇÏ¿© %plot%À» »èÁ¦ÇÏ¿´½À´Ï´Ù. ¼Ò¿ä ½Ã°£: %time%"),
+	DELETED_PLOT("&b&l[ &f&lServer &b&l] &6%price%ì›&fì„ ì§€ë¶ˆí•˜ì—¬, í•´ë‹¹ ë•…ì„ ì´ˆê¸°í™” ë° ì†Œìœ ê¶Œ í¬ê¸°í•˜ì˜€ìŠµë‹ˆë‹¤. ì†Œìš” ì‹œê°„: %time%"),
+	DELETED_PLOT_CONSOLE("[Server] %player%ë‹˜ì´ %price%ì›ì„ ì§€ë¶ˆí•˜ì—¬ %plot%ì„ ì‚­ì œí•˜ì˜€ìŠµë‹ˆë‹¤. ì†Œìš” ì‹œê°„: %time%"),
 
 	
-	CLEAR_CONFIRM_HELP("&b&l[ &f&lServer &b&l] &7/¶¥ÃÊ±âÈ­ ÀÛ¾÷È®ÀÎ - °¡Àå ÃÖ±Ù¿¡ ¿äÃ»ÇÏ½Å ¶¥ ÃÊ±âÈ­ ¿äÃ»À» ¼ö¶ôÇÕ´Ï´Ù. (¶¥ ÃÊ±âÈ­ ½ÇÇà)"),
+	CLEAR_CONFIRM_HELP("&b&l[ &f&lServer &b&l] &7/ë•…ì´ˆê¸°í™” ìž‘ì—…í™•ì¸ - ê°€ìž¥ ìµœê·¼ì— ìš”ì²­í•˜ì‹  ë•… ì´ˆê¸°í™” ìš”ì²­ì„ ìˆ˜ë½í•©ë‹ˆë‹¤. (ë•… ì´ˆê¸°í™” ì‹¤í–‰)"),
 
 	CLEAR_PLOT_CONFIRM(
-			"&b&l[ &f&lServer &b&l] &fÁ¤¸»·Î &6%price%¿ø&fÀ» ¼Ò¸ðÇÏ¿© ´ëÁö &6%plot%&f¸¦ ÃÊ±âÈ­ ÇÏ½Ã´Â °ÍÀ» ¿øÇÏ½Ã¸é &6%sec%ÃÊ &f¾È¿¡ &6\"%cmd_confirm%\"&f ¸í·É¾î¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä. "),
+			"&b&l[ &f&lServer &b&l] &fì •ë§ë¡œ &6%price%ì›&fì„ ì†Œëª¨í•˜ì—¬ ëŒ€ì§€ &6%plot%&fë¥¼ ì´ˆê¸°í™” í•˜ì‹œëŠ” ê²ƒì„ ì›í•˜ì‹œë©´ &6%sec%ì´ˆ &fì•ˆì— &6\"%cmd_confirm%\"&f ëª…ë ¹ì–´ë¥¼ ìž…ë ¥í•´ì£¼ì„¸ìš”. "),
 
-	CANCELED_CLEAR_CONFIRM("&b&l[ &f&lServer &b&l] &cÃÖ±Ù¿¡ ¿äÃ»µÈ ¶¥ ÃÊ±âÈ­ °ü·Ã ¸í·É¾î È®ÀÎ ÀÛ¾÷ÀÌ Ãë¼ÒµÇ¾ú½À´Ï´Ù."),
+	CANCELED_CLEAR_CONFIRM("&b&l[ &f&lServer &b&l] &cìµœê·¼ì— ìš”ì²­ëœ ë•… ì´ˆê¸°í™” ê´€ë ¨ ëª…ë ¹ì–´ í™•ì¸ ìž‘ì—…ì´ ì·¨ì†Œë˜ì—ˆìŠµë‹ˆë‹¤."),
 
-	CLEAR_PLOT("&b&l[ &f&lServer &b&l] &6%price%¿ø&fÀ» ¼Ò¸ðÇÏ¿© ¶¥À» ÃÊ±âÈ­ ÇÏ¿´½À´Ï´Ù. ¼Ò¿ä ½Ã°£: %time%"),
-	CLEAR_PLOT_CONSOLE("[Server] &6%player%´ÔÀÌ &6%price%¿øÀ» ÁöºÒÇÏ¿© &6%plot%À» ÃÊ±âÈ­ÇÏ¿´½À´Ï´Ù. ¼Ò¿ä ½Ã°£: %time%"),
+	CLEAR_PLOT("&b&l[ &f&lServer &b&l] &6%price%ì›&fì„ ì†Œëª¨í•˜ì—¬ ë•…ì„ ì´ˆê¸°í™” í•˜ì˜€ìŠµë‹ˆë‹¤. ì†Œìš” ì‹œê°„: %time%"),
+	CLEAR_PLOT_CONSOLE("[Server] &6%player%ë‹˜ì´ &6%price%ì›ì„ ì§€ë¶ˆí•˜ì—¬ &6%plot%ì„ ì´ˆê¸°í™”í•˜ì˜€ìŠµë‹ˆë‹¤. ì†Œìš” ì‹œê°„: %time%"),
 
-	CLEAR_PLOT_HELP("&b&l[ &f&lServer &b&l] &7/¶¥ÃÊ±âÈ­ - &6%price%¿ø&fÀ» ¼Ò¸ðÇÏ¿© ¶¥À» ÃÊ±âÈ­ ÇÕ´Ï´Ù."),
+	CLEAR_PLOT_HELP("&b&l[ &f&lServer &b&l] &7/ë•…ì´ˆê¸°í™” - &6%price%ì›&fì„ ì†Œëª¨í•˜ì—¬ ë•…ì„ ì´ˆê¸°í™” í•©ë‹ˆë‹¤."),
 
-	CLEAR_HELP_PRICE_DEFAULT("±âº»¶¥: 1¸¸¿ø, ÀÛÀº¶¥: 50¸¸¿ø, Å«¶¥: 200¸¸¿ø"),
+	CLEAR_HELP_PRICE_DEFAULT("ê¸°ë³¸ë•…: 1ë§Œì›, ìž‘ì€ë•…: 50ë§Œì›, í°ë•…: 200ë§Œì›"),
 
-	CLEAR_PLOT_HELP_DEFAULT("&b&l[ &f&lServer &b&l] &7/¶¥ÃÊ±âÈ­ &f- ¶¥À» ÃÊ±âÈ­ ÇÕ´Ï´Ù. ( °¡°Ý: %price% )"),
+	CLEAR_PLOT_HELP_DEFAULT("&b&l[ &f&lServer &b&l] &7/ë•…ì´ˆê¸°í™” &f- ë•…ì„ ì´ˆê¸°í™” í•©ë‹ˆë‹¤. ( ê°€ê²©: %price% )"),
 
-	ADD_MEMBER_PRICE_DEFAULT("±âº»¶¥: 7500¿ø, ÀÛÀº¶¥: 75,000¿ø, Å«¶¥: 45¸¸¿ø"),
+	ADD_MEMBER_PRICE_DEFAULT("ê¸°ë³¸ë•…: 7500ì›, ìž‘ì€ë•…: 75,000ì›, í°ë•…: 45ë§Œì›"),
 
-	ADD_MEMBER_HELP("&b&l[ &f&lServer &b&l] &7/¶¥¾à½Ä¸â¹ö <´Ð³×ÀÓ> - &6%price%¿ø&fÀ» ¼Ò¸ðÇÏ¿© <´Ð³×ÀÓ>´ÔÀ» ÇöÀç ´ç½ÅÀÌ ¼­ÀÖ´Â ¶¥ÀÇ ¾à½Ä¸â¹ö·Î Ãß°¡ÇÕ´Ï´Ù."),
+	ADD_MEMBER_HELP("&b&l[ &f&lServer &b&l] &7/ë•…ì•½ì‹ë©¤ë²„ <ë‹‰ë„¤ìž„> - &6%price%ì›&fì„ ì†Œëª¨í•˜ì—¬ <ë‹‰ë„¤ìž„>ë‹˜ì„ í˜„ìž¬ ë‹¹ì‹ ì´ ì„œìžˆëŠ” ë•…ì˜ ì•½ì‹ë©¤ë²„ë¡œ ì¶”ê°€í•©ë‹ˆë‹¤."),
 
 	ADD_MEMBER_HELP_DEFAULT(
-			"&b&l[ &f&lServer &b&l] &7/¶¥¾à½Ä¸â¹ö <´Ð³×ÀÓ> - <´Ð³×ÀÓ>´ÔÀ» ÇöÀç ´ç½ÅÀÌ ¼­ÀÖ´Â ¶¥ÀÇ ¾à½Ä¸â¹ö·Î Ãß°¡ÇÕ´Ï´Ù. ( °¡°Ý: %price% )"),
+			"&b&l[ &f&lServer &b&l] &7/ë•…ì•½ì‹ë©¤ë²„ <ë‹‰ë„¤ìž„> - <ë‹‰ë„¤ìž„>ë‹˜ì„ í˜„ìž¬ ë‹¹ì‹ ì´ ì„œìžˆëŠ” ë•…ì˜ ì•½ì‹ë©¤ë²„ë¡œ ì¶”ê°€í•©ë‹ˆë‹¤. ( ê°€ê²©: %price% )"),
 
 	
-	ADD_CONFIRM_HELP("&b&l[ &f&lServer &b&l] &7/¶¥¾à½Ä¸â¹ö ÀÛ¾÷È®ÀÎ - °¡Àå ÃÖ±Ù¿¡ ¿äÃ»ÇÏ½Å ¶¥ ¾à½Ä¸â¹ö Ãß°¡ ¿äÃ»À» ¼ö¶ôÇÕ´Ï´Ù. (¶¥ ¾à½Ä¸â¹ö Ãß°¡)"),
+	ADD_CONFIRM_HELP("&b&l[ &f&lServer &b&l] &7/ë•…ì•½ì‹ë©¤ë²„ ìž‘ì—…í™•ì¸ - ê°€ìž¥ ìµœê·¼ì— ìš”ì²­í•˜ì‹  ë•… ì•½ì‹ë©¤ë²„ ì¶”ê°€ ìš”ì²­ì„ ìˆ˜ë½í•©ë‹ˆë‹¤. (ë•… ì•½ì‹ë©¤ë²„ ì¶”ê°€)"),
 
 	ADD_MEMBER_CONFIRM(
-			"&b&l[ &f&lServer &b&l] &fÁ¤¸»·Î &6%price%¿ø&fÀ» ¼Ò¸ðÇÏ¿© ´ëÁö &6%plot%&f¿¡ &6%target%&f¸¦(À») ¾à½Ä¸â¹ö·Î Ãß°¡ ÇÏ´Â°ÍÀ» ¿øÇÏ½Ã¸é &6%sec%ÃÊ &f¾È¿¡ &6\"%cmd_confirm%\"&f ¸í·É¾î¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä. "),
+			"&b&l[ &f&lServer &b&l] &fì •ë§ë¡œ &6%price%ì›&fì„ ì†Œëª¨í•˜ì—¬ ëŒ€ì§€ &6%plot%&fì— &6%target%&fë¥¼(ì„) ì•½ì‹ë©¤ë²„ë¡œ ì¶”ê°€ í•˜ëŠ”ê²ƒì„ ì›í•˜ì‹œë©´ &6%sec%ì´ˆ &fì•ˆì— &6\"%cmd_confirm%\"&f ëª…ë ¹ì–´ë¥¼ ìž…ë ¥í•´ì£¼ì„¸ìš”. "),
 
 	
 	REMOVE_MEMBER_CONFIRM(
-			"&b&l[ &f&lServer &b&l] &fÁ¤¸»·Î ´ëÁö &6%plot%&f¿¡ &6%target%&f¸¦(À») ¾à½Ä¸â¹ö¿¡¼­ Ãß¹æ ÇÏ´Â°ÍÀ» ¿øÇÏ½Ã¸é &6%sec%ÃÊ &f¾È¿¡ &6\"%cmd_confirm%\"&f ¸í·É¾î¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä. "),
+			"&b&l[ &f&lServer &b&l] &fì •ë§ë¡œ ëŒ€ì§€ &6%plot%&fì— &6%target%&fë¥¼(ì„) ì•½ì‹ë©¤ë²„ì—ì„œ ì¶”ë°© í•˜ëŠ”ê²ƒì„ ì›í•˜ì‹œë©´ &6%sec%ì´ˆ &fì•ˆì— &6\"%cmd_confirm%\"&f ëª…ë ¹ì–´ë¥¼ ìž…ë ¥í•´ì£¼ì„¸ìš”. "),
 	
 	UNTRUST_CONFIRM(
-			"&b&l[ &f&lServer &b&l] &fÁ¤¸»·Î ´ëÁö &6%plot%&f¿¡ &6%target%&f¸¦(À») ¸â¹ö¿¡¼­ Ãß¹æ ÇÏ´Â°ÍÀ» ¿øÇÏ½Ã¸é &6%sec%ÃÊ &f¾È¿¡ &6\"%cmd_confirm%\"&f ¸í·É¾î¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä. "),
+			"&b&l[ &f&lServer &b&l] &fì •ë§ë¡œ ëŒ€ì§€ &6%plot%&fì— &6%target%&fë¥¼(ì„) ë©¤ë²„ì—ì„œ ì¶”ë°© í•˜ëŠ”ê²ƒì„ ì›í•˜ì‹œë©´ &6%sec%ì´ˆ &fì•ˆì— &6\"%cmd_confirm%\"&f ëª…ë ¹ì–´ë¥¼ ìž…ë ¥í•´ì£¼ì„¸ìš”. "),
 	
 		
-	CANCELED_UNTRUST_CONFIRM("&b&l[ &f&lServer &b&l] &cÃÖ±Ù¿¡ ¿äÃ»µÈ ¶¥ ¸â¹ö Ãß¹æ ¸í·É¾î È®ÀÎ ÀÛ¾÷ÀÌ Ãë¼ÒµÇ¾ú½À´Ï´Ù."),
+	CANCELED_UNTRUST_CONFIRM("&b&l[ &f&lServer &b&l] &cìµœê·¼ì— ìš”ì²­ëœ ë•… ë©¤ë²„ ì¶”ë°© ëª…ë ¹ì–´ í™•ì¸ ìž‘ì—…ì´ ì·¨ì†Œë˜ì—ˆìŠµë‹ˆë‹¤."),
 
-	CANCELED_REMOVE_MEMBER_CONFIRM("&b&l[ &f&lServer &b&l] &cÃÖ±Ù¿¡ ¿äÃ»µÈ ¶¥ ¾à½Ä¸â¹ö Ãß¹æ ¸í·É¾î È®ÀÎ ÀÛ¾÷ÀÌ Ãë¼ÒµÇ¾ú½À´Ï´Ù."),
-
-	
-	
-	PLOT_REMOVE_HELP("&b&l[ &f&lServer &b&l] &7/¶¥ÇØÁ¦ Â÷´Ü <´Ð³×ÀÓ> &f- ÇöÀç ¼­ ÀÖ´Â ¶¥ÀÇ Â÷´Ü¸ñ·Ï¿¡¼­ <´Ð³×ÀÓ>´ÔÀ» Â÷´ÜÇØÁ¦ÇÕ´Ï´Ù.\n"
-			+ "&7/¶¥ÇØÁ¦ ¸â¹ö <´Ð³×ÀÓ> &f- ÇöÀç ¼­ ÀÖ´Â ¶¥ÀÇ ¸É¹ö ¸ñ·Ï¿¡¼­ <´Ð³×ÀÓ>´ÔÀ» Ãß¹æÇÕ´Ï´Ù.\n"
-
-			+ "&7/¶¥ÇØÁ¦ ¾à½Ä¸â¹ö <´Ð³×ÀÓ> &f- ÇöÀç ¼­ ÀÖ´Â ¶¥ÀÇ ¾à½Ä¸É¹ö ¸ñ·Ï¿¡¼­ <´Ð³×ÀÓ>´ÔÀ» Ãß¹æÇÕ´Ï´Ù."),
-
-	PLOT_UNDENY_HELP("&b&l[ &f&lServer &b&l] &7/¶¥ÇØÁ¦ Â÷´Ü <´Ð³×ÀÓ> &f- ÇöÀç ¼­ ÀÖ´Â ¶¥ÀÇ Â÷´Ü¸ñ·Ï¿¡¼­ <´Ð³×ÀÓ>´ÔÀ» Â÷´ÜÇØÁ¦ÇÕ´Ï´Ù."),
-	PLOT_UNTRUST_HELP("&b&l[ &f&lServer &b&l] &7/¶¥ÇØÁ¦ ¸â¹ö <´Ð³×ÀÓ> &f- ÇöÀç ¼­ ÀÖ´Â ¶¥ÀÇ ¸É¹ö ¸ñ·Ï¿¡¼­ <´Ð³×ÀÓ>´ÔÀ» Ãß¹æÇÕ´Ï´Ù."),
-	PLOT_REMOVE_MEMBER_HELP("&b&l[ &f&lServer &b&l] &7/¶¥ÇØÁ¦ ¾à½Ä¸â¹ö <´Ð³×ÀÓ> &f- ÇöÀç ¼­ ÀÖ´Â ¶¥ÀÇ ¾à½Ä¸É¹ö ¸ñ·Ï¿¡¼­ <´Ð³×ÀÓ>´ÔÀ» Ãß¹æÇÕ´Ï´Ù."),
-
-	
-	PLOT_UNDENY("&b&l[ &f&lServer &b&l] &f´ëÁö &6%plot%&fÀÇ Â÷´Ü¸ñ·Ï¿¡¼­ &6%target%&f´ÔÀ» Â÷´ÜÇØÁ¦ ÇÏ¿´½À´Ï´Ù."),
-
-	PLOT_UNDENY_CONSOLE("[Server] %player%´ÔÀÌ %plot%ÀÇ Â÷´Ü¸ñ·Ï¿¡¼­ %target%´ÔÀ» Â÷´ÜÇØÁ¦ ÇÏ¿´½À´Ï´Ù."),
+	CANCELED_REMOVE_MEMBER_CONFIRM("&b&l[ &f&lServer &b&l] &cìµœê·¼ì— ìš”ì²­ëœ ë•… ì•½ì‹ë©¤ë²„ ì¶”ë°© ëª…ë ¹ì–´ í™•ì¸ ìž‘ì—…ì´ ì·¨ì†Œë˜ì—ˆìŠµë‹ˆë‹¤."),
 
 	
 	
-	PLOT_UNTRUST("&b&l[ &f&lServer &b&l] &f´ëÁö &6%plot%&fÀÇ ¸â¹ö¸ñ·Ï¿¡¼­ &6%target%&f´ÔÀ» Ãß¹æÇÏ¿´½À´Ï´Ù."),
+	PLOT_REMOVE_HELP("&b&l[ &f&lServer &b&l] &7/ë•…í•´ì œ ì°¨ë‹¨ <ë‹‰ë„¤ìž„> &f- í˜„ìž¬ ì„œ ìžˆëŠ” ë•…ì˜ ì°¨ë‹¨ëª©ë¡ì—ì„œ <ë‹‰ë„¤ìž„>ë‹˜ì„ ì°¨ë‹¨í•´ì œí•©ë‹ˆë‹¤.\n"
+			+ "&7/ë•…í•´ì œ ë©¤ë²„ <ë‹‰ë„¤ìž„> &f- í˜„ìž¬ ì„œ ìžˆëŠ” ë•…ì˜ ë§´ë²„ ëª©ë¡ì—ì„œ <ë‹‰ë„¤ìž„>ë‹˜ì„ ì¶”ë°©í•©ë‹ˆë‹¤.\n"
 
-	PLOT_UNTRUST_CONSOLE("[Server] %player%´ÔÀÌ %plot%¿¡ %target%´ÔÀ» ¸â¹ö¿¡¼­ Ãß¹æÇÏ¿´½À´Ï´Ù."),
-	
-	
-	PLOT_REMOVE_MEMBER("&b&l[ &f&lServer &b&l] &f´ëÁö &6%plot%&fÀÇ ¾à½Ä¸â¹ö¿¡¼­ &6%target%&f´ÔÀ»  Ãß¹æÇÏ¿´½À´Ï´Ù."),
+			+ "&7/ë•…í•´ì œ ì•½ì‹ë©¤ë²„ <ë‹‰ë„¤ìž„> &f- í˜„ìž¬ ì„œ ìžˆëŠ” ë•…ì˜ ì•½ì‹ë§´ë²„ ëª©ë¡ì—ì„œ <ë‹‰ë„¤ìž„>ë‹˜ì„ ì¶”ë°©í•©ë‹ˆë‹¤."),
 
-	PLOT_REMOVE_MEMBER_CONSOLE("[Server] %player%´ÔÀÌ %plot%ÀÇ ¾à½Ä¸â¹ö¿¡¼­  %target%´ÔÀ» Ãß¹æÇÏ¿´½À´Ï´Ù."),
-	
-	
-
-	CANCELED_ADD_CONFIRM("&b&l[ &f&lServer &b&l] &cÃÖ±Ù¿¡ ¿äÃ»µÈ ¶¥ ¾à½Ä¸â¹ö Ãß°¡ ¸í·É¾î È®ÀÎ ÀÛ¾÷ÀÌ Ãë¼ÒµÇ¾ú½À´Ï´Ù."),
-
-	ADD_MEMBER("&b&l[ &f&lServer &b&l] &6%price%¿ø&fÀ» ¼Ò¸ðÇÏ¿© ´ëÁö &6%plot%&f¿¡ &6%target%&f´ÔÀ» ¾à½Ä¸â¹ö·Î Ãß°¡ ÇÏ¿´½À´Ï´Ù."),
-
-	ADD_MEMBER_CONSOLE("[Server] %player%´ÔÀÌ %price%¿øÀ» ÁöºÒÇÏ¿© %plot%¿¡ ¾à½Ä¸â¹ö %target%´ÔÀ» Ãß°¡ÇÏ¿´½À´Ï´Ù."),
+	PLOT_UNDENY_HELP("&b&l[ &f&lServer &b&l] &7/ë•…í•´ì œ ì°¨ë‹¨ <ë‹‰ë„¤ìž„> &f- í˜„ìž¬ ì„œ ìžˆëŠ” ë•…ì˜ ì°¨ë‹¨ëª©ë¡ì—ì„œ <ë‹‰ë„¤ìž„>ë‹˜ì„ ì°¨ë‹¨í•´ì œí•©ë‹ˆë‹¤."),
+	PLOT_UNTRUST_HELP("&b&l[ &f&lServer &b&l] &7/ë•…í•´ì œ ë©¤ë²„ <ë‹‰ë„¤ìž„> &f- í˜„ìž¬ ì„œ ìžˆëŠ” ë•…ì˜ ë§´ë²„ ëª©ë¡ì—ì„œ <ë‹‰ë„¤ìž„>ë‹˜ì„ ì¶”ë°©í•©ë‹ˆë‹¤."),
+	PLOT_REMOVE_MEMBER_HELP("&b&l[ &f&lServer &b&l] &7/ë•…í•´ì œ ì•½ì‹ë©¤ë²„ <ë‹‰ë„¤ìž„> &f- í˜„ìž¬ ì„œ ìžˆëŠ” ë•…ì˜ ì•½ì‹ë§´ë²„ ëª©ë¡ì—ì„œ <ë‹‰ë„¤ìž„>ë‹˜ì„ ì¶”ë°©í•©ë‹ˆë‹¤."),
 
 	
-	TRUST_CONFIRM_HELP("&b&l[ &f&lServer &b&l] &7/¶¥¸â¹ö ÀÛ¾÷È®ÀÎ - °¡Àå ÃÖ±Ù¿¡ ¿äÃ»ÇÏ½Å ¶¥ ¸â¹ö Ãß°¡ ¿äÃ»À» ¼ö¶ôÇÕ´Ï´Ù. (¶¥ ¸â¹ö Ãß°¡)"),
+	PLOT_UNDENY("&b&l[ &f&lServer &b&l] &fëŒ€ì§€ &6%plot%&fì˜ ì°¨ë‹¨ëª©ë¡ì—ì„œ &6%target%&fë‹˜ì„ ì°¨ë‹¨í•´ì œ í•˜ì˜€ìŠµë‹ˆë‹¤."),
+
+	PLOT_UNDENY_CONSOLE("[Server] %player%ë‹˜ì´ %plot%ì˜ ì°¨ë‹¨ëª©ë¡ì—ì„œ %target%ë‹˜ì„ ì°¨ë‹¨í•´ì œ í•˜ì˜€ìŠµë‹ˆë‹¤."),
+
+	
+	
+	PLOT_UNTRUST("&b&l[ &f&lServer &b&l] &fëŒ€ì§€ &6%plot%&fì˜ ë©¤ë²„ëª©ë¡ì—ì„œ &6%target%&fë‹˜ì„ ì¶”ë°©í•˜ì˜€ìŠµë‹ˆë‹¤."),
+
+	PLOT_UNTRUST_CONSOLE("[Server] %player%ë‹˜ì´ %plot%ì— %target%ë‹˜ì„ ë©¤ë²„ì—ì„œ ì¶”ë°©í•˜ì˜€ìŠµë‹ˆë‹¤."),
+	
+	
+	PLOT_REMOVE_MEMBER("&b&l[ &f&lServer &b&l] &fëŒ€ì§€ &6%plot%&fì˜ ì•½ì‹ë©¤ë²„ì—ì„œ &6%target%&fë‹˜ì„  ì¶”ë°©í•˜ì˜€ìŠµë‹ˆë‹¤."),
+
+	PLOT_REMOVE_MEMBER_CONSOLE("[Server] %player%ë‹˜ì´ %plot%ì˜ ì•½ì‹ë©¤ë²„ì—ì„œ  %target%ë‹˜ì„ ì¶”ë°©í•˜ì˜€ìŠµë‹ˆë‹¤."),
+	
+	
+
+	CANCELED_ADD_CONFIRM("&b&l[ &f&lServer &b&l] &cìµœê·¼ì— ìš”ì²­ëœ ë•… ì•½ì‹ë©¤ë²„ ì¶”ê°€ ëª…ë ¹ì–´ í™•ì¸ ìž‘ì—…ì´ ì·¨ì†Œë˜ì—ˆìŠµë‹ˆë‹¤."),
+
+	ADD_MEMBER("&b&l[ &f&lServer &b&l] &6%price%ì›&fì„ ì†Œëª¨í•˜ì—¬ ëŒ€ì§€ &6%plot%&fì— &6%target%&fë‹˜ì„ ì•½ì‹ë©¤ë²„ë¡œ ì¶”ê°€ í•˜ì˜€ìŠµë‹ˆë‹¤."),
+
+	ADD_MEMBER_CONSOLE("[Server] %player%ë‹˜ì´ %price%ì›ì„ ì§€ë¶ˆí•˜ì—¬ %plot%ì— ì•½ì‹ë©¤ë²„ %target%ë‹˜ì„ ì¶”ê°€í•˜ì˜€ìŠµë‹ˆë‹¤."),
+
+	
+	TRUST_CONFIRM_HELP("&b&l[ &f&lServer &b&l] &7/ë•…ë©¤ë²„ ìž‘ì—…í™•ì¸ - ê°€ìž¥ ìµœê·¼ì— ìš”ì²­í•˜ì‹  ë•… ë©¤ë²„ ì¶”ê°€ ìš”ì²­ì„ ìˆ˜ë½í•©ë‹ˆë‹¤. (ë•… ë©¤ë²„ ì¶”ê°€)"),
 
 	ADD_TRUSTED_CONFIRM(
-			"&b&l[ &f&lServer &b&l] &fÁ¤¸»·Î &6%price%¿ø&fÀ» ¼Ò¸ðÇÏ¿© &6%target%&f´ÔÀ» ¸â¹ö·Î Ãß°¡ ÇÏ´Â°ÍÀ» ¿øÇÏ½Ã¸é &6%sec%ÃÊ &f¾È¿¡ &6\"%cmd_confirm%\"&f ¸í·É¾î¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä. "),
+			"&b&l[ &f&lServer &b&l] &fì •ë§ë¡œ &6%price%ì›&fì„ ì†Œëª¨í•˜ì—¬ &6%target%&fë‹˜ì„ ë©¤ë²„ë¡œ ì¶”ê°€ í•˜ëŠ”ê²ƒì„ ì›í•˜ì‹œë©´ &6%sec%ì´ˆ &fì•ˆì— &6\"%cmd_confirm%\"&f ëª…ë ¹ì–´ë¥¼ ìž…ë ¥í•´ì£¼ì„¸ìš”. "),
 
-	CANCELED_TRUST_CONFIRM("&b&l[ &f&lServer &b&l] &cÃÖ±Ù¿¡ ¿äÃ»µÈ ¶¥ ¸â¹ö Ãß°¡ °ü·Ã ½ÇÇà È®ÀÎ ÀÛ¾÷ÀÌ Ãë¼ÒµÇ¾ú½À´Ï´Ù."),
+	CANCELED_TRUST_CONFIRM("&b&l[ &f&lServer &b&l] &cìµœê·¼ì— ìš”ì²­ëœ ë•… ë©¤ë²„ ì¶”ê°€ ê´€ë ¨ ì‹¤í–‰ í™•ì¸ ìž‘ì—…ì´ ì·¨ì†Œë˜ì—ˆìŠµë‹ˆë‹¤."),
 
-	ADD_TRUSTED_PRICE_DEFAULT("±âº»¶¥: 5¸¸¿ø, ÀÛÀº¶¥: 8¸¸¿ø, Å«¶¥: 50¸¸¿ø"),
+	ADD_TRUSTED_PRICE_DEFAULT("ê¸°ë³¸ë•…: 5ë§Œì›, ìž‘ì€ë•…: 8ë§Œì›, í°ë•…: 50ë§Œì›"),
 
-	ADD_TRUSTED_HELP("&b&l[ &f&lServer &b&l] &7/¶¥¸â¹ö <´Ð³×ÀÓ> - &6%price%¿ø&fÀ» ¼Ò¸ðÇÏ¿© <´Ð³×ÀÓ>´ÔÀ» ÇöÀç ´ç½ÅÀÌ ¼­ÀÖ´Â ¶¥ÀÇ ¸â¹ö·Î Ãß°¡ÇÕ´Ï´Ù."),
-	ADD_TRUSTED_HELP_DEFAULT("&b&l[ &f&lServer &b&l] &7/¶¥¸â¹ö <´Ð³×ÀÓ> - <´Ð³×ÀÓ>´Ôµé ÇöÀç ´ç½ÅÀÌ ¼­ÀÖ´Â ¶¥ÀÇ ¸â¹ö·Î Ãß°¡ÇÕ´Ï´Ù. ( °¡°Ý: %price% )"),
+	ADD_TRUSTED_HELP("&b&l[ &f&lServer &b&l] &7/ë•…ë©¤ë²„ <ë‹‰ë„¤ìž„> - &6%price%ì›&fì„ ì†Œëª¨í•˜ì—¬ <ë‹‰ë„¤ìž„>ë‹˜ì„ í˜„ìž¬ ë‹¹ì‹ ì´ ì„œìžˆëŠ” ë•…ì˜ ë©¤ë²„ë¡œ ì¶”ê°€í•©ë‹ˆë‹¤."),
+	ADD_TRUSTED_HELP_DEFAULT("&b&l[ &f&lServer &b&l] &7/ë•…ë©¤ë²„ <ë‹‰ë„¤ìž„> - <ë‹‰ë„¤ìž„>ë‹˜ë“¤ í˜„ìž¬ ë‹¹ì‹ ì´ ì„œìžˆëŠ” ë•…ì˜ ë©¤ë²„ë¡œ ì¶”ê°€í•©ë‹ˆë‹¤. ( ê°€ê²©: %price% )"),
 
-	ADD_TRUSTED("&b&l[ &f&lServer &b&l] &f&6%price%¿ø&fÀ» ¼Ò¸ðÇÏ¿© ´ëÁö &6%plot%&f¿¡ &6%target%&f´ÔÀ» ¸â¹ö·Î Ãß°¡ ÇÏ¿´½À´Ï´Ù."),
+	ADD_TRUSTED("&b&l[ &f&lServer &b&l] &f&6%price%ì›&fì„ ì†Œëª¨í•˜ì—¬ ëŒ€ì§€ &6%plot%&fì— &6%target%&fë‹˜ì„ ë©¤ë²„ë¡œ ì¶”ê°€ í•˜ì˜€ìŠµë‹ˆë‹¤."),
 
-	ADD_TRUSTED_CONSOLE("[Server] %player%´ÔÀÌ %price%¿øÀ» ÁöºÒÇÏ¿© %plot%¿¡ %target%´ÔÀ» ¸â¹ö·Î Ãß°¡ÇÏ¿´½À´Ï´Ù."),
+	ADD_TRUSTED_CONSOLE("[Server] %player%ë‹˜ì´ %price%ì›ì„ ì§€ë¶ˆí•˜ì—¬ %plot%ì— %target%ë‹˜ì„ ë©¤ë²„ë¡œ ì¶”ê°€í•˜ì˜€ìŠµë‹ˆë‹¤."),
 
-	MIGRATE_HELP("&b&l[ &f&lServer &b&l] &f/¶¥°èÁ¤ÀÌÀü <±âÁ¸´Ð³×ÀÓ> <»õ´Ð³×ÀÓ>"),
-	DELETE_EXPIRED_HELP("&b&l[ &f&lServer &b&l] &f/¸¸±âÀÏÀÚÁö³­¶¥Ã»¼Ò"),
+	MIGRATE_HELP("&b&l[ &f&lServer &b&l] &f/ë•…ê³„ì •ì´ì „ <ê¸°ì¡´ë‹‰ë„¤ìž„> <ìƒˆë‹‰ë„¤ìž„>"),
+	DELETE_EXPIRED_HELP("&b&l[ &f&lServer &b&l] &f/ë§Œê¸°ì¼ìžì§€ë‚œë•…ì²­ì†Œ"),
 
 	
-	DELETE_EXPIRED_INFO("&b&l[ &f&lServer &b&l] &f»èÁ¦µÈ ¸¸±âÀÏÀÚ°¡ Áö³­ ¶¥ ¸ñ·Ï (¼Ò¿À ½Ã°£ %time% ms): \n" +
+	DELETE_EXPIRED_INFO("&b&l[ &f&lServer &b&l] &fì‚­ì œëœ ë§Œê¸°ì¼ìžê°€ ì§€ë‚œ ë•… ëª©ë¡ (ì†Œì˜¤ ì‹œê°„ %time% ms): \n" +
 	"&f%deleted_plots%"
 			),
 	
 	
-	DELETE_EXPIRED_FAILED_RUNNING("&b&l[ &f&lServer &b&l] &f¸¸±âÀÏÀÚ°¡ Áö³­ ¶¥Áß ´Ù¸¥ ÀÛ¾÷Áß¿¡ ÀÖ¾î¼­ »èÁ¦µÇÁö ¾ÊÀº ¶¥ ¸ñ·Ï: \n"
+	DELETE_EXPIRED_FAILED_RUNNING("&b&l[ &f&lServer &b&l] &fë§Œê¸°ì¼ìžê°€ ì§€ë‚œ ë•…ì¤‘ ë‹¤ë¥¸ ìž‘ì—…ì¤‘ì— ìžˆì–´ì„œ ì‚­ì œë˜ì§€ ì•Šì€ ë•… ëª©ë¡: \n"
 			+ "&f%failed_plots%"
 			),
 	
 	MIGRATED_OWNER(
-			"&b&l[ &f&lServer &b&l] &f%from%´ÔÀÌ ¼ÒÀ¯ÁßÀÎ ¶¥ÀÇ ¸íÀÇ°¡ %to%´ÔÀ¸·Î ÀÌÀüµÇ¾ú½À´Ï´Ù. ÀÌÀüµÈ ¶¥ ¸ñ·Ï(º´ÇÕµÈ ¶¥Àº Á¦¿ÜµÊ):\n" 
+			"&b&l[ &f&lServer &b&l] &f%from%ë‹˜ì´ ì†Œìœ ì¤‘ì¸ ë•…ì˜ ëª…ì˜ê°€ %to%ë‹˜ìœ¼ë¡œ ì´ì „ë˜ì—ˆìŠµë‹ˆë‹¤. ì´ì „ëœ ë•… ëª©ë¡(ë³‘í•©ëœ ë•…ì€ ì œì™¸ë¨):\n" 
 			+ "%plotlist%"),
 
-	MIGRATED_OWNER_CONSOLE("[Server] %from%´ÔÀÌ ¼ÒÀ¯ÁßÀÎ ¶¥ÀÇ ¸íÀÇ°¡ %to%´ÔÀ¸·Î ÀÌÀüµÇ¾ú½À´Ï´Ù. ÀÌÀüµÈ ¶¥ ¸ñ·Ï(º´ÇÕµÈ ¶¥Àº Á¦¿ÜµÊ):\n"
+	MIGRATED_OWNER_CONSOLE("[Server] %from%ë‹˜ì´ ì†Œìœ ì¤‘ì¸ ë•…ì˜ ëª…ì˜ê°€ %to%ë‹˜ìœ¼ë¡œ ì´ì „ë˜ì—ˆìŠµë‹ˆë‹¤. ì´ì „ëœ ë•… ëª©ë¡(ë³‘í•©ëœ ë•…ì€ ì œì™¸ë¨):\n"
 	+ "%plotlist%"),
 
-	MIGRATED_MEMBER("&b&l[ &f&lServer &b&l] &f%from%´ÔÀÌ ¾à½Ä¸â¹öÀÎ ¶¥¿¡ %to%´ÔÀÌ ¾à½Ä¸â¹ö·Î Ãß°¡µÇ¾ú½À´Ï´Ù. Ã³¸® µÈ ¶¥ ¸ñ·Ï:\n"
+	MIGRATED_MEMBER("&b&l[ &f&lServer &b&l] &f%from%ë‹˜ì´ ì•½ì‹ë©¤ë²„ì¸ ë•…ì— %to%ë‹˜ì´ ì•½ì‹ë©¤ë²„ë¡œ ì¶”ê°€ë˜ì—ˆìŠµë‹ˆë‹¤. ì²˜ë¦¬ ëœ ë•… ëª©ë¡:\n"
 	+ "%plotlist%"),
 
-	MIGRATED_MEMBER_CONSOLE("[Server] %from%´ÔÀÌ ¾à½Ä¸â¹öÀÎ ¶¥¿¡ %to%´ÔÀÌ ¾à½Ä¸â¹ö·Î Ãß°¡µÇ¾ú½À´Ï´Ù. Ã³¸® µÈ ¶¥ ¸ñ·Ï:\n"
+	MIGRATED_MEMBER_CONSOLE("[Server] %from%ë‹˜ì´ ì•½ì‹ë©¤ë²„ì¸ ë•…ì— %to%ë‹˜ì´ ì•½ì‹ë©¤ë²„ë¡œ ì¶”ê°€ë˜ì—ˆìŠµë‹ˆë‹¤. ì²˜ë¦¬ ëœ ë•… ëª©ë¡:\n"
 	+ "%plotlist%"),
 
-	MIGRATED_TRUSTED("&b&l[ &f&lServer &b&l] &f%from%´ÔÀÌ ¸â¹öÀÎ ¶¥¿¡ %to%´ÔÀÌ ¸â¹ö·Î Ãß°¡µÇ¾ú½À´Ï´Ù. Ã³¸® µÈ ¶¥ ¸ñ·Ï:\n"
+	MIGRATED_TRUSTED("&b&l[ &f&lServer &b&l] &f%from%ë‹˜ì´ ë©¤ë²„ì¸ ë•…ì— %to%ë‹˜ì´ ë©¤ë²„ë¡œ ì¶”ê°€ë˜ì—ˆìŠµë‹ˆë‹¤. ì²˜ë¦¬ ëœ ë•… ëª©ë¡:\n"
 	+ "%plotlist%"),
 
-	MIGRATED_TRUSTED_CONSOLE("[Server] %from%´ÔÀÌ ¸â¹öÀÎ ¶¥¿¡ %to%´ÔÀÌ ¸â¹ö·Î Ãß°¡µÇ¾ú½À´Ï´Ù. Ã³¸® µÈ ¶¥ ¸ñ·Ï: \n"
+	MIGRATED_TRUSTED_CONSOLE("[Server] %from%ë‹˜ì´ ë©¤ë²„ì¸ ë•…ì— %to%ë‹˜ì´ ë©¤ë²„ë¡œ ì¶”ê°€ë˜ì—ˆìŠµë‹ˆë‹¤. ì²˜ë¦¬ ëœ ë•… ëª©ë¡: \n"
 	+ "%plotlist%"),
 
-	NOT_REQUESTED_CONFIRM("&b&l[ &f&lServer &b&l] &cÇØ´ç ¸í·É¾î¿¡ ´ëÇÑ ¿äÃ»µÈ È®ÀÎ ÀÛ¾÷ÀÌ ¾ø½À´Ï´Ù."),
+	NOT_REQUESTED_CONFIRM("&b&l[ &f&lServer &b&l] &cí•´ë‹¹ ëª…ë ¹ì–´ì— ëŒ€í•œ ìš”ì²­ëœ í™•ì¸ ìž‘ì—…ì´ ì—†ìŠµë‹ˆë‹¤."),
 
-	INGAME_ONLY("[ Server ] ÇØ´ç ¸í·É¾î´Â °ÔÀÓ ³» ÇÃ·¹ÀÌ¾î¸¸ »ç¿ëÀÌ °¡´ÉÇÑ ¸í·É¾î ÀÔ´Ï´Ù."),
+	INGAME_ONLY("[ Server ] í•´ë‹¹ ëª…ë ¹ì–´ëŠ” ê²Œìž„ ë‚´ í”Œë ˆì´ì–´ë§Œ ì‚¬ìš©ì´ ê°€ëŠ¥í•œ ëª…ë ¹ì–´ ìž…ë‹ˆë‹¤."),
 
-	NOT_BOOlEAN("&b&l[ &f&lServer &b&l] &c%arg% ¹øÂ° ÀÎÀÚÀÇ ¹®ÀÚ¿­Àº true È¤Àº false ¿©¾ß ÇÕ´Ï´Ù. "),
+	NOT_BOOlEAN("&b&l[ &f&lServer &b&l] &c%arg% ë²ˆì§¸ ì¸ìžì˜ ë¬¸ìžì—´ì€ true í˜¹ì€ false ì—¬ì•¼ í•©ë‹ˆë‹¤. "),
 
-	NO_PERM("&b&l[ &f&lServer &b&l] &c±ÇÇÑÀÌ ¾ø½À´Ï´Ù."),
+	NO_PERM("&b&l[ &f&lServer &b&l] &cê¶Œí•œì´ ì—†ìŠµë‹ˆë‹¤."),
 
-	PlAYER_NOT_ONLINE("&b&l[ &f&lServer &b&l] &c%target%´ÔÀº ¿Â¶óÀÎÀÌ ¾Æ´Õ´Ï´Ù."),
+	PlAYER_NOT_ONLINE("&b&l[ &f&lServer &b&l] &c%target%ë‹˜ì€ ì˜¨ë¼ì¸ì´ ì•„ë‹™ë‹ˆë‹¤."),
 
-	PlAYERNOTFOUND("&b&l[ &f&lServer &b&l] &c%player%´ÔÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù. ¼­¹ö¿¡ 1¹ø ÀÌ»ó Á¢¼ÓÇÑ À¯ÀúÀÎÁö È®ÀÎÇØÁÖ¼¼¿ä."),
+	PlAYERNOTFOUND("&b&l[ &f&lServer &b&l] &c%player%ë‹˜ì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤. ì„œë²„ì— 1ë²ˆ ì´ìƒ ì ‘ì†í•œ ìœ ì €ì¸ì§€ í™•ì¸í•´ì£¼ì„¸ìš”."),
 
-	CONFIG_NOT_SET("&b&l[ &f&lServer &b&l] &cÇØ´ç ¸í·É¾î °ü·Ã ¼³Á¤ÀÌ ´©¶ô‰ç°Å³ª ¿À·ù°¡ ÀÖ½À´Ï´Ù. °ü¸®ÀÚ¿¡°Ô ¿¬¶ô¹Ù¶ø´Ï´Ù."),
-	CONFIG_NOT_SET_CONSOLE("[Mine Plot CMD] %config_node% ÀÇ °ªÀÌ ´©¶ô‰ç°Å³ª Àß¸ø ¼³Á¤µÇ¾î ÀÖ½À´Ï´Ù."),
+	CONFIG_NOT_SET("&b&l[ &f&lServer &b&l] &cí•´ë‹¹ ëª…ë ¹ì–´ ê´€ë ¨ ì„¤ì •ì´ ëˆ„ë½ë¬ê±°ë‚˜ ì˜¤ë¥˜ê°€ ìžˆìŠµë‹ˆë‹¤. ê´€ë¦¬ìžì—ê²Œ ì—°ë½ë°”ëžë‹ˆë‹¤."),
+	CONFIG_NOT_SET_CONSOLE("[Mine Plot CMD] %config_node% ì˜ ê°’ì´ ëˆ„ë½ë¬ê±°ë‚˜ ìž˜ëª» ì„¤ì •ë˜ì–´ ìžˆìŠµë‹ˆë‹¤."),
 
-	NOT_YOUR_PLOT("&b&l[ &f&lServer &b&l] &cÇØ´ç ´ëÁö´Â ´ç½ÅÀÇ ¶¥ÀÌ ¾Æ´Õ´Ï´Ù."),
-	NOT_ALLOWED_PLOT("&b&l[ &f&lServer &b&l] &c´ç½ÅÀº ÇØ´ç ´ëÁöÀÇ ÆÄÆ¼¿øÀÌ³ª ÁÖÀÎÀÌ ¾Æ´Õ´Ï´Ù."),
-	PLOT_OWNER_NOT_SET("&b&l[ &f&lServer &b&l] &cÇØ´ç ´ëÁö´Â ¾ÆÁ÷ ¼ÒÀ¯ÀÚ°¡ ¾ø½À´Ï´Ù."),
-	NOT_IN_PLOT("&b&l[ &f&lServer &b&l] &cÇöÀç ´ç½ÅÀÌ °è½Å À§Ä¡´Â ´ëÁö ¾ÈÀÌ ¾Æ´Õ´Ï´Ù. ´ëÁö ¼¼°è°¡ ¸Â´ÂÁö, ´ëÁö ¾È¿¡ ÀÖ´ÂÁö È®ÀÎÇØÁÖ¼¼¿ä."),
+	NOT_YOUR_PLOT("&b&l[ &f&lServer &b&l] &cí•´ë‹¹ ëŒ€ì§€ëŠ” ë‹¹ì‹ ì˜ ë•…ì´ ì•„ë‹™ë‹ˆë‹¤."),
+	NOT_ALLOWED_PLOT("&b&l[ &f&lServer &b&l] &cë‹¹ì‹ ì€ í•´ë‹¹ ëŒ€ì§€ì˜ íŒŒí‹°ì›ì´ë‚˜ ì£¼ì¸ì´ ì•„ë‹™ë‹ˆë‹¤."),
+	PLOT_OWNER_NOT_SET("&b&l[ &f&lServer &b&l] &cí•´ë‹¹ ëŒ€ì§€ëŠ” ì•„ì§ ì†Œìœ ìžê°€ ì—†ìŠµë‹ˆë‹¤."),
+	NOT_IN_PLOT("&b&l[ &f&lServer &b&l] &cí˜„ìž¬ ë‹¹ì‹ ì´ ê³„ì‹  ìœ„ì¹˜ëŠ” ëŒ€ì§€ ì•ˆì´ ì•„ë‹™ë‹ˆë‹¤. ëŒ€ì§€ ì„¸ê³„ê°€ ë§žëŠ”ì§€, ëŒ€ì§€ ì•ˆì— ìžˆëŠ”ì§€ í™•ì¸í•´ì£¼ì„¸ìš”."),
 
 	
-	ALREADY_UNDENIED("&b&l[ &f&lServer &b&l] &c%target%´ÔÀº ÀÌ¹Ì Â÷´Ü ÇØÁ¦µÇ¾î ÀÖ½À´Ï´Ù."),
-	NOT_MEMBER("&b&l[ &f&lServer &b&l] &c%target%´ÔÀº ¾à½Ä¸â¹ö ¸ñ·Ï¿¡ ¾ø½À´Ï´Ù."),
-	NOT_TRUSTED("&b&l[ &f&lServer &b&l] &c%target%´ÔÀº ¸â¹ö ¸ñ·Ï¿¡ ¾ø½À´Ï´Ù."),
+	ALREADY_UNDENIED("&b&l[ &f&lServer &b&l] &c%target%ë‹˜ì€ ì´ë¯¸ ì°¨ë‹¨ í•´ì œë˜ì–´ ìžˆìŠµë‹ˆë‹¤."),
+	NOT_MEMBER("&b&l[ &f&lServer &b&l] &c%target%ë‹˜ì€ ì•½ì‹ë©¤ë²„ ëª©ë¡ì— ì—†ìŠµë‹ˆë‹¤."),
+	NOT_TRUSTED("&b&l[ &f&lServer &b&l] &c%target%ë‹˜ì€ ë©¤ë²„ ëª©ë¡ì— ì—†ìŠµë‹ˆë‹¤."),
 
-	ALREADY_ADDED("&b&l[ &f&lServer &b&l] &c%target%´ÔÀº ÀÌ¹Ì Ãß°¡µÇ¾î ÀÖ½À´Ï´Ù."),
-	ALREADY_OWNER("&b&l[ &f&lServer &b&l] &c%target%´ÔÀº ÇØ´ç ¶¥ÀÇ ¼ÒÀ¯ÀÚÀÔ´Ï´Ù. µû¶ó¼­ Ãß°¡°¡ ºÒÇÊ¿ä ÇÕ´Ï´Ù."),
+	ALREADY_ADDED("&b&l[ &f&lServer &b&l] &c%target%ë‹˜ì€ ì´ë¯¸ ì¶”ê°€ë˜ì–´ ìžˆìŠµë‹ˆë‹¤."),
+	ALREADY_OWNER("&b&l[ &f&lServer &b&l] &c%target%ë‹˜ì€ í•´ë‹¹ ë•…ì˜ ì†Œìœ ìžìž…ë‹ˆë‹¤. ë”°ë¼ì„œ ì¶”ê°€ê°€ ë¶ˆí•„ìš” í•©ë‹ˆë‹¤."),
 	
 	
 	
-	KEEP_PLOT_HELPS("&b&l[ &f&lServer &b&l] &7/¶¥º¸Á¸±â°£ Á¶È¸/È®ÀÎ - &fÇöÀç ¼­ ÀÖ´Â ¶¥ÀÇ ¶¥ ¸¸±âÀÏÀÚ¸¦ È®ÀÎÇÕ´Ï´Ù.\n"
+	KEEP_PLOT_HELPS("&b&l[ &f&lServer &b&l] &7/ë•…ë³´ì¡´ê¸°ê°„ ì¡°íšŒ/í™•ì¸ - &fí˜„ìž¬ ì„œ ìžˆëŠ” ë•…ì˜ ë•… ë§Œê¸°ì¼ìžë¥¼ í™•ì¸í•©ë‹ˆë‹¤.\n"
 						
-			+ "&b&l[ &f&lServer &b&l] &7/¶¥º¸Á¸±â°£ °»½Å - &fÇöÀç ¼­ ÀÖ´Â ¶¥ÀÇ ¶¥ ¸¸±âÀÏÀÚ¸¦ °»½ÅÇÕ´Ï´Ù."),
+			+ "&b&l[ &f&lServer &b&l] &7/ë•…ë³´ì¡´ê¸°ê°„ ê°±ì‹  - &fí˜„ìž¬ ì„œ ìžˆëŠ” ë•…ì˜ ë•… ë§Œê¸°ì¼ìžë¥¼ ê°±ì‹ í•©ë‹ˆë‹¤."),
 
 
-	PLOT_LIST_MINE_HELP("&b&l[ &f&lServer &b&l] &7/¶¥¸ñ·Ï &f- ´ç½ÅÀÌ ÀÌ¿ë °¡´ÉÇÑ ¶¥ÀÇ ¸ñ·ÏÀ» È®ÀÎÇÕ´Ï´Ù.\n"
-			+ " &fº»ÀÎÀÌ »ç¿ë °¡´ÉÇÑ ¸ñ·Ï Áß¿¡¼­ 2ÆäÀÌÁö ÀÌ»ó Á¶È¸´Â &7\"/¶¥¸ñ·Ï %player% <ÆäÀÌÁö>\"&f ¸í·É¾î·Î °¡´ÉÇÕ´Ï´Ù."),
-	PLOT_LIST_OTHER_HELP( "&b&l[ &f&lServer &b&l] &7/¶¥¸ñ·Ï <´Ð³×ÀÓ> <ÆäÀÌÁö> &f- <´Ð³×ÀÓ>´ÔÀÌ ÀÌ¿ë °¡´ÉÇÑ ¶¥ÀÇ ¸ñ·ÏÀ» È®ÀÎÇÕ´Ï´Ù. &7»ç¿ë ¿¹½Ã: /¶¥¸ñ·Ï playerName 1"),
+	PLOT_LIST_MINE_HELP("&b&l[ &f&lServer &b&l] &7/ë•…ëª©ë¡ &f- ë‹¹ì‹ ì´ ì´ìš© ê°€ëŠ¥í•œ ë•…ì˜ ëª©ë¡ì„ í™•ì¸í•©ë‹ˆë‹¤.\n"
+			+ " &fë³¸ì¸ì´ ì‚¬ìš© ê°€ëŠ¥í•œ ëª©ë¡ ì¤‘ì—ì„œ 2íŽ˜ì´ì§€ ì´ìƒ ì¡°íšŒëŠ” &7\"/ë•…ëª©ë¡ %player% <íŽ˜ì´ì§€>\"&f ëª…ë ¹ì–´ë¡œ ê°€ëŠ¥í•©ë‹ˆë‹¤."),
+	PLOT_LIST_OTHER_HELP( "&b&l[ &f&lServer &b&l] &7/ë•…ëª©ë¡ <ë‹‰ë„¤ìž„> <íŽ˜ì´ì§€> &f- <ë‹‰ë„¤ìž„>ë‹˜ì´ ì´ìš© ê°€ëŠ¥í•œ ë•…ì˜ ëª©ë¡ì„ í™•ì¸í•©ë‹ˆë‹¤. &7ì‚¬ìš© ì˜ˆì‹œ: /ë•…ëª©ë¡ playerName 1"),
 	
 	
-	PAGE_VALUE_NOT_SET( "&b&l[ &f&lServer &b&l] &cÆäÀÌÁö °ªÀÌ ´©¶ôµÇ¾î ÀÖ½À´Ï´Ù."),
-	OUT_BOUND_PAGE("&b&l[ &f&lServer &b&l] &c%page%´Â ÆäÀÌÁö ¹üÀ§ ¹ÛÀÔ´Ï´Ù. &fÆäÀÌÁö ¹üÀ§: %minPage% ~ %maxPage%"),
-	NOT_PAGE_NUMBER("&b&l[ &f&lServer &b&l] &c%value%´Â(Àº) ÆäÀÌÁö °ªÀÌ ¾Æ´Õ´Ï´Ù. ÆäÀÌÁö °ªÀº 0º¸´Ù Å« ¾çÀÇ Á¤¼ö¿©¾ß ÇÕ´Ï´Ù."),
+	PAGE_VALUE_NOT_SET( "&b&l[ &f&lServer &b&l] &cíŽ˜ì´ì§€ ê°’ì´ ëˆ„ë½ë˜ì–´ ìžˆìŠµë‹ˆë‹¤."),
+	OUT_BOUND_PAGE("&b&l[ &f&lServer &b&l] &c%page%ëŠ” íŽ˜ì´ì§€ ë²”ìœ„ ë°–ìž…ë‹ˆë‹¤. &fíŽ˜ì´ì§€ ë²”ìœ„: %minPage% ~ %maxPage%"),
+	NOT_PAGE_NUMBER("&b&l[ &f&lServer &b&l] &c%value%ëŠ”(ì€) íŽ˜ì´ì§€ ê°’ì´ ì•„ë‹™ë‹ˆë‹¤. íŽ˜ì´ì§€ ê°’ì€ 0ë³´ë‹¤ í° ì–‘ì˜ ì •ìˆ˜ì—¬ì•¼ í•©ë‹ˆë‹¤."),
 	
 			
-	PLOT_LIST_HEADER("&b&l[ &f&lServer &b&l] &7(ÆäÀÌÁö %page%&7) &b%player%&f´ÔÀÇ ÀÌ¿ë°¡´ÉÇÑ ´ëÁö¸ñ·Ï (%size%°³ÀÇ ÇÃ·Ô):"),
-	PLOT_INFO_FOR_LIST("&7[%index%&7] %plotID%&r &7- %owner% &6¸¸±âÀÏÀÚ:%expire_date% &6ÆÇ¸Å°¡°Ý: &7%sell_price%"),
+	PLOT_LIST_HEADER("&b&l[ &f&lServer &b&l] &7(íŽ˜ì´ì§€ %page%&7) &b%player%&fë‹˜ì˜ ì´ìš©ê°€ëŠ¥í•œ ëŒ€ì§€ëª©ë¡ (%size%ê°œì˜ í”Œë¡¯):"),
+	PLOT_INFO_FOR_LIST("&7[%index%&7] %plotID%&r &7- %owner% &6ë§Œê¸°ì¼ìž:%expire_date% &6íŒë§¤ê°€ê²©: &7%sell_price%"),
 	
 	PLOT_LIST_FOOTER("%previous% &r&f| %next%"),
 
-	NEXT_PAGE("´ÙÀ½ÆäÀÌÁö"),
-	PREVIOUS_PAGE("ÀÌÀüÆäÀÌÁö"),
+	NEXT_PAGE("ë‹¤ìŒíŽ˜ì´ì§€"),
+	PREVIOUS_PAGE("ì´ì „íŽ˜ì´ì§€"),
 	
 	PAGE_EXIST_COLOR("&6&n"),
 	PAGE_NONEXIST_COLOR("&7"),
 	CURRENT_PAGE("&6%current_page%&7/&6%max_page%"),
 	
 	LIST_VISIT_CMD("/plot visit %plot%"),
-	LIST_INFO_CMD("/¶¥Á¤º¸ %plot%"),
+	LIST_INFO_CMD("/ë•…ì •ë³´ %plot%"),
 	
 	HOVER_LIST_VISIT_CMD("&f/plot visit %plot%"),
 	
-	HOVER_PLOT_INFO("&6¸â¹ö(½Å·ÚµÊ): %trusted%\n"
-			+ "&6¾à½Ä¸â¹ö: %members%\n"
-			+ "&6ÇÃ·¡±×: &7%flags%"),
+	HOVER_PLOT_INFO("&6ë©¤ë²„(ì‹ ë¢°ë¨): %trusted%\n"
+			+ "&6ì•½ì‹ë©¤ë²„: %members%\n"
+			+ "&6í”Œëž˜ê·¸: &7%flags%"),
 	
 	HOVER_ISONLINE("%isOnline%"),
-	ONLINE("&9¿Â¶óÀÎ"),
-	OFFLINE("&c¿ÀÇÁ¶óÀÎ"),
-	UNKNOWN("&c¾Ë¼ö¾øÀ½"),
+	ONLINE("&9ì˜¨ë¼ì¸"),
+	OFFLINE("&cì˜¤í”„ë¼ì¸"),
+	UNKNOWN("&cì•Œìˆ˜ì—†ìŒ"),
 	
 	INDEX("&7[%index%]&r"),
 	INDEX_NUMBER_COLOR("&6"),
@@ -263,47 +263,47 @@ public enum Lang {
 	NOT_EXPIRED_COLOR("&7"),
 	
 	
-	KEEP_PLOT_INFO("&b&l[ &f&lServer &b&l] &fÇØ´ç ´ëÁöÀÇ ¶¥ ¸¸±âÀÏÀÚ : %expire_date%"),
+	KEEP_PLOT_INFO("&b&l[ &f&lServer &b&l] &fí•´ë‹¹ ëŒ€ì§€ì˜ ë•… ë§Œê¸°ì¼ìž : %expire_date%"),
 
-	KEEP_PLOT_UPDATED("&b&l[ &f&lServer &b&l] &f%plot%ÀÇ À¯Áö±â°£ ¼³Á¤À» %expire_date%±îÁö·Î °»½Å‰ç½À´Ï´Ù."),
+	KEEP_PLOT_UPDATED("&b&l[ &f&lServer &b&l] &f%plot%ì˜ ìœ ì§€ê¸°ê°„ ì„¤ì •ì„ %expire_date%ê¹Œì§€ë¡œ ê°±ì‹ ë¬ìŠµë‹ˆë‹¤."),
 	
-	KEEP_PLOT_UPDATED_CONSOLE("[ Server ] %plot%ÀÇ À¯Áö±â°£ ¼³Á¤À» %expire_date%±îÁö·Î °»½Å‰ç½À´Ï´Ù."),
+	KEEP_PLOT_UPDATED_CONSOLE("[ Server ] %plot%ì˜ ìœ ì§€ê¸°ê°„ ì„¤ì •ì„ %expire_date%ê¹Œì§€ë¡œ ê°±ì‹ ë¬ìŠµë‹ˆë‹¤."),
 	
-	NOT_NEED_UPDATE_EXPIRE_DATE("&b&l[ &f&lServer &b&l] &cÇØ´ç ¶¥Àº ÀÌ¹Ì ¸¸±âÀÏÀÚ°¡ °»½ÅµÉ ¸¸±âÀÏÀÚº¸´Ù ¹Ì·¡ÀÓ¿¡ µû¶ó °»½ÅÀÌ ºÒÇÊ¿äÇÕ´Ï´Ù. &f¸¸±âÀÏÀÚ:%expire_date%"),
+	NOT_NEED_UPDATE_EXPIRE_DATE("&b&l[ &f&lServer &b&l] &cí•´ë‹¹ ë•…ì€ ì´ë¯¸ ë§Œê¸°ì¼ìžê°€ ê°±ì‹ ë  ë§Œê¸°ì¼ìžë³´ë‹¤ ë¯¸ëž˜ìž„ì— ë”°ë¼ ê°±ì‹ ì´ ë¶ˆí•„ìš”í•©ë‹ˆë‹¤. &fë§Œê¸°ì¼ìž:%expire_date%"),
 
 	
-	EMPTY_LIST("¾øÀ½"),
+	EMPTY_LIST("ì—†ìŒ"),
 		
-	PLOT_INFO_HELP("&b&l[ &f&lServer &b&l] &7/¶¥Á¤º¸ &f- ÇöÀç ¼­ÀÖ´Â ¶¥ÀÇ Á¤º¸¸¦ È®ÀÎÇÕ´Ï´Ù.\n"+
-			"&b&l[ &f&lServer &b&l] &7/¶¥Á¤º¸ <¿ùµå;ID> &f- <¿ùµå|ID>ÀÇ ¶¥ÀÇ Á¤º¸¸¦ È®ÀÎÇÕ´Ï´Ù."),
+	PLOT_INFO_HELP("&b&l[ &f&lServer &b&l] &7/ë•…ì •ë³´ &f- í˜„ìž¬ ì„œìžˆëŠ” ë•…ì˜ ì •ë³´ë¥¼ í™•ì¸í•©ë‹ˆë‹¤.\n"+
+			"&b&l[ &f&lServer &b&l] &7/ë•…ì •ë³´ <ì›”ë“œ;ID> &f- <ì›”ë“œ|ID>ì˜ ë•…ì˜ ì •ë³´ë¥¼ í™•ì¸í•©ë‹ˆë‹¤."),
 	
 		
-	DATE_FORMAT("yyyy³â MM¿ù ddÀÏ"),
-	FOREVER("&a¹«±âÇÑ/Æò»ý"),
-	NOT_FOR_SELL("ÆÇ¸Å ÁßÀÌ ¾Æ´Ô"),
-	PLOT_INFO("&8&m-------------&r&6Á¤º¸ &8&m------------\n"
-			+ "&6ID: &7%ID% &6¼ÒÀ¯ÀÚ: &7%owner% &6¹ÙÀÌ¿È: &7%biome%\n"
-			+ "&6¸¸±âÀÏÀÚ: &7%expire_date% &6ÆÇ¸Å°¡: &7%sell_price%\n"
-			+ "&6°ÇÃà°¡´É: &7%canBuild% &6Æò°¡: &7%rate%\n"
-			+ "&6¸â¹ö(½Å·ÚµÊ): &7%trusted%\n"
-			+ "&6¾à½Ä¸â¹ö: &7%members%\n"
-			+ "&6Â÷´ÜµÊ: &7%denied%\n"
-			+ "&6´ÜÃà(ÀÌ¸§): &7%ailas%\n"
-			+ "&6ÇÃ·¡±×(¼³Á¤): &7%flags%\n"
-			+ "&8&m-------------&r&6Á¤º¸ &8&m------------"),
+	DATE_FORMAT("yyyyë…„ MMì›” ddì¼"),
+	FOREVER("&aë¬´ê¸°í•œ/í‰ìƒ"),
+	NOT_FOR_SELL("íŒë§¤ ì¤‘ì´ ì•„ë‹˜"),
+	PLOT_INFO("&8&m-------------&r&6ì •ë³´ &8&m------------\n"
+			+ "&6ID: &7%ID% &6ì†Œìœ ìž: &7%owner% &6ë°”ì´ì˜´: &7%biome%\n"
+			+ "&6ë§Œê¸°ì¼ìž: &7%expire_date% &6íŒë§¤ê°€: &7%sell_price%\n"
+			+ "&6ê±´ì¶•ê°€ëŠ¥: &7%canBuild% &6í‰ê°€: &7%rate%\n"
+			+ "&6ë©¤ë²„(ì‹ ë¢°ë¨): &7%trusted%\n"
+			+ "&6ì•½ì‹ë©¤ë²„: &7%members%\n"
+			+ "&6ì°¨ë‹¨ë¨: &7%denied%\n"
+			+ "&6ë‹¨ì¶•(ì´ë¦„): &7%ailas%\n"
+			+ "&6í”Œëž˜ê·¸(ì„¤ì •): &7%flags%\n"
+			+ "&8&m-------------&r&6ì •ë³´ &8&m------------"),
 			
 			
 
 
-	PLOTCHAT_MUTED("&b&l[ &f&lServer &b&l] &c´ç½ÅÀº Ã¤ÆÃ±ÝÁö »óÅÂÀÔ´Ï´Ù."),
+	PLOTCHAT_MUTED("&b&l[ &f&lServer &b&l] &cë‹¹ì‹ ì€ ì±„íŒ…ê¸ˆì§€ ìƒíƒœìž…ë‹ˆë‹¤."),
 
-	PLOTCHAT_NO_PLAYERS("&b&l[ &f&lServer &b&l] &c´ç½ÅÀÌ ¼­ ÀÖ´Â ¶¥¿¡´Â ´ç½Å¹Û¿¡ ÇÃ·¹ÀÌ¾î°¡ ¾ø½À´Ï´Ù."),
-	PLOT_CHAT_HELP("&b&l[ &f&lServer &b&l] &7/%command% <Ã¤ÆÃ³»¿ë> &f- ÇöÀç ´ç½ÅÀÌ ¼­ ÀÖ´Â ¶¥¿¡ ÀÖ´Â À¯Àúµé¿¡°Ô Ã¤ÆÃÀ» º¸³À´Ï´Ù."),
-	PLOT_CHAT_SPY_ENABLED("&b&l[ &f&lServer &b&l] &fÇÃ·Ô Áö¿ª Ã¤ÆÃ ½ºÆÄÀÌ ¸ðµå°¡ È°¼ºÈ­ ‰ç½À´Ï´Ù."),
-	PLOT_CHAT_SPY_DISABLED("&b&l[ &f&lServer &b&l] &fÇÃ·Ô Áö¿ª Ã¤ÆÃ ½ºÆÄÀÌ ¸ðµå°¡ ºñÈ°¼ºÈ­ ‰ç½À´Ï´Ù."),
+	PLOTCHAT_NO_PLAYERS("&b&l[ &f&lServer &b&l] &cë‹¹ì‹ ì´ ì„œ ìžˆëŠ” ë•…ì—ëŠ” ë‹¹ì‹ ë°–ì— í”Œë ˆì´ì–´ê°€ ì—†ìŠµë‹ˆë‹¤."),
+	PLOT_CHAT_HELP("&b&l[ &f&lServer &b&l] &7/%command% <ì±„íŒ…ë‚´ìš©> &f- í˜„ìž¬ ë‹¹ì‹ ì´ ì„œ ìžˆëŠ” ë•…ì— ìžˆëŠ” ìœ ì €ë“¤ì—ê²Œ ì±„íŒ…ì„ ë³´ëƒ…ë‹ˆë‹¤."),
+	PLOT_CHAT_SPY_ENABLED("&b&l[ &f&lServer &b&l] &fí”Œë¡¯ ì§€ì—­ ì±„íŒ… ìŠ¤íŒŒì´ ëª¨ë“œê°€ í™œì„±í™” ë¬ìŠµë‹ˆë‹¤."),
+	PLOT_CHAT_SPY_DISABLED("&b&l[ &f&lServer &b&l] &fí”Œë¡¯ ì§€ì—­ ì±„íŒ… ìŠ¤íŒŒì´ ëª¨ë“œê°€ ë¹„í™œì„±í™” ë¬ìŠµë‹ˆë‹¤."),
 	
-	PLOT_CHAT_MSG_FORMAT("&b[¶¥ Ã¤ÆÃ] %displayName% &7: &f%msg%"),
-	PLOT_CHAT_SPY_MSG_FORAMT("&7[¶¥ Ã¤ÆÃ ½ºÆÄÀÌ] %plotID% %player% : &f%msg%"),;
+	PLOT_CHAT_MSG_FORMAT("&b[ë•… ì±„íŒ…] %displayName% &7: &f%msg%"),
+	PLOT_CHAT_SPY_MSG_FORAMT("&7[ë•… ì±„íŒ… ìŠ¤íŒŒì´] %plotID% %player% : &f%msg%"),;
 
 	private final String def;
 

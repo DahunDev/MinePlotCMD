@@ -98,7 +98,7 @@ public class Main extends JavaPlugin implements Listener {
 	public void onDisable() {
 		final PluginDescriptionFile pdFile = this.getDescription();
 		data.clear();
-		System.out.println(String.valueOf(pdFile.getName()) + " " + pdFile.getVersion() + "ÀÌ(°¡) ºñÈ°¼ºÈ­ µÇ¾ú½À´Ï´Ù.");
+		System.out.println(String.valueOf(pdFile.getName()) + " " + pdFile.getVersion() + "ì´(ê°€) ë¹„í™œì„±í™” ë˜ì—ˆìŠµë‹ˆë‹¤.");
 
 	}
 
@@ -117,7 +117,7 @@ public class Main extends JavaPlugin implements Listener {
 		final PluginDescriptionFile pdFile = this.getDescription();
 		Main.pluginName = pdFile.getName();
 		if (!this.SetupEconomy()) {
-			Bukkit.getConsoleSender().sendMessage("¡×6¡×l[ Mine Plot CMD ] ¡×c¡×lEconomy ¡×fÇÃ·¯±×ÀÎÀÌ ÀÎ½ÄµÇÁö ¾Ê¾ÒÀ¸¹Ç·Î, ºñÈ°¼ºÈ­ µË´Ï´Ù.");
+			Bukkit.getConsoleSender().sendMessage("Â§6Â§l[ Mine Plot CMD ] Â§cÂ§lEconomy Â§fí”ŒëŸ¬ê·¸ì¸ì´ ì¸ì‹ë˜ì§€ ì•Šì•˜ìœ¼ë¯€ë¡œ, ë¹„í™œì„±í™” ë©ë‹ˆë‹¤.");
 			this.getServer().getPluginManager().disablePlugin((Plugin) this);
 			return;
 		}
@@ -125,33 +125,33 @@ public class Main extends JavaPlugin implements Listener {
 
 		spyPlayers = new ArrayList<UUID>();
 		
-		this.getCommand("¶¥ÃÊ±âÈ­").setExecutor(new ClearPlotCommand());
-		this.getCommand("¶¥»èÁ¦").setExecutor(new deletePlotCommand());
-		this.getCommand("¶¥¹ÙÀÌ¿È").setExecutor(new BiomePlotCommand());
+		this.getCommand("ë•…ì´ˆê¸°í™”").setExecutor(new ClearPlotCommand());
+		this.getCommand("ë•…ì‚­ì œ").setExecutor(new deletePlotCommand());
+		this.getCommand("ë•…ë°”ì´ì˜´").setExecutor(new BiomePlotCommand());
 
-		this.getCommand("¶¥¸â¹ö").setExecutor(new TrustCommand());
-		this.getCommand("¶¥¾à½Ä¸â¹ö").setExecutor(new AddCommand());
-		this.getCommand("¶¥°èÁ¤ÀÌÀü").setExecutor(new MigrateCommand());
-		this.getCommand("¶¥º¸Á¸±â°£").setExecutor(new keepPlotCommand());
-		this.getCommand("¶¥Á¤º¸").setExecutor(new InfoCommand());
-		this.getCommand("¶¥¸ñ·Ï").setExecutor(new ListCommand());
+		this.getCommand("ë•…ë©¤ë²„").setExecutor(new TrustCommand());
+		this.getCommand("ë•…ì•½ì‹ë©¤ë²„").setExecutor(new AddCommand());
+		this.getCommand("ë•…ê³„ì •ì´ì „").setExecutor(new MigrateCommand());
+		this.getCommand("ë•…ë³´ì¡´ê¸°ê°„").setExecutor(new keepPlotCommand());
+		this.getCommand("ë•…ì •ë³´").setExecutor(new InfoCommand());
+		this.getCommand("ë•…ëª©ë¡").setExecutor(new ListCommand());
 		
 		
-		this.getCommand("¶¥ÇØÁ¦").setExecutor(new RemoveCommand());
+		this.getCommand("ë•…í•´ì œ").setExecutor(new RemoveCommand());
 		
-		this.getCommand("¸¸±âÀÏÀÚÁö³­¶¥Ã»¼Ò").setExecutor(new deleteExpiredCommand());
+		this.getCommand("ë§Œê¸°ì¼ìì§€ë‚œë•…ì²­ì†Œ").setExecutor(new deleteExpiredCommand());
 		
 		List<String> chatCMDs = new ArrayList<String>();
 		
 		chatCMDs.add("pc");
 		chatCMDs.add("plotchat");
-		chatCMDs.add("ÇÃ·ÔÃ¤ÆÃ");
+		chatCMDs.add("í”Œë¡¯ì±„íŒ…");
 		
-		getCommand("¶¥Ã¤ÆÃ").setExecutor(new PlotChatCommand());
-		getCommand("¶¥Ã¤ÆÃ").setAliases(chatCMDs);
+		getCommand("ë•…ì±„íŒ…").setExecutor(new PlotChatCommand());
+		getCommand("ë•…ì±„íŒ…").setAliases(chatCMDs);
 		
 
-		this.getCommand("¶¥Ã¤ÆÃ½ºÆÄÀÌ").setExecutor(new PlotChatSpyCommand());
+		this.getCommand("ë•…ì±„íŒ…ìŠ¤íŒŒì´").setExecutor(new PlotChatSpyCommand());
 
 		for (Player p : getServer().getOnlinePlayers()) {
 			Main.getData().put(p.getUniqueId().toString(), new PlayerConfirmHolder());
@@ -162,7 +162,7 @@ public class Main extends JavaPlugin implements Listener {
 		getServer().getPluginManager().registerEvents(new OnInteract(), this);
 
 		splitJSON(); 
-		getLogger().info(String.valueOf(pdFile.getFullName() + "ÀÌ(°¡) È°¼ºÈ­ µÇ¾ú½À´Ï´Ù."));
+		getLogger().info(String.valueOf(pdFile.getFullName() + "ì´(ê°€) í™œì„±í™” ë˜ì—ˆìŠµë‹ˆë‹¤."));
 
 	}
 
@@ -212,11 +212,11 @@ public class Main extends JavaPlugin implements Listener {
 
 	private boolean SetupEconomy() {
 		if (this.getServer().getPluginManager().getPlugin("Vault") == null) {
-			Bukkit.getConsoleSender().sendMessage("¡×6¡×l[ Mine Plot CMD ] ¡×c¡×lVault ¡×fÇÃ·¯±×ÀÎÀÌ ÀÎ½ÄµÇÁö ¾Ê¾ÒÀ¸¹Ç·Î, ¼­¹ö°¡ Á¾·á µË´Ï´Ù.");
+			Bukkit.getConsoleSender().sendMessage("Â§6Â§l[ Mine Plot CMD ] Â§cÂ§lVault Â§fí”ŒëŸ¬ê·¸ì¸ì´ ì¸ì‹ë˜ì§€ ì•Šì•˜ìœ¼ë¯€ë¡œ, ì„œë²„ê°€ ì¢…ë£Œ ë©ë‹ˆë‹¤.");
 			Bukkit.shutdown();
 			return false;
 		}
-		Bukkit.getConsoleSender().sendMessage("¡×6¡×l[ Mine Plot CMD ] ¡×a¡×lVault ¡×fÇÃ·¯±×ÀÎÀÌ ÀÎ½Ä µÇ¾ú½À´Ï´Ù.");
+		Bukkit.getConsoleSender().sendMessage("Â§6Â§l[ Mine Plot CMD ] Â§aÂ§lVault Â§fí”ŒëŸ¬ê·¸ì¸ì´ ì¸ì‹ ë˜ì—ˆìŠµë‹ˆë‹¤.");
 		RegisteredServiceProvider<Economy> EconomyProvider = this.getServer().getServicesManager()
 				.getRegistration(Economy.class);
 		if (EconomyProvider != null) {
@@ -294,7 +294,7 @@ public class Main extends JavaPlugin implements Listener {
 			if (sender.hasPermission("MinePlotCMD.reload")) {
 				if (args.length == 0) {
 
-					sender.sendMessage("¡×b¡×l[ ¡×f¡×lMine Plot CMD ¡×b¡×l] ¡×e/Mineplotcmd reload ¡×f: ÇÃ·¯±×ÀÎ ¼³Á¤ ¸®·Îµå");
+					sender.sendMessage("Â§bÂ§l[ Â§fÂ§lMine Plot CMD Â§bÂ§l] Â§e/Mineplotcmd reload Â§f: í”ŒëŸ¬ê·¸ì¸ ì„¤ì • ë¦¬ë¡œë“œ");
 					return true;
 
 				} else {
@@ -309,12 +309,12 @@ public class Main extends JavaPlugin implements Listener {
 
 						}).runTaskLaterAsynchronously(this, 0L);
 
-						sender.sendMessage("¡×b¡×l[ ¡×f¡×lMine Plot CMD ¡×b¡×l] ¡×fÇÃ·¯±×ÀÎ ¼³Á¤ ¸®·Îµå ¿Ï·á");
+						sender.sendMessage("Â§bÂ§l[ Â§fÂ§lMine Plot CMD Â§bÂ§l] Â§fí”ŒëŸ¬ê·¸ì¸ ì„¤ì • ë¦¬ë¡œë“œ ì™„ë£Œ");
 						return true;
 
 					} else {
 
-						sender.sendMessage("¡×b¡×l[ ¡×f¡×lMine Plot CMD ¡×b¡×l] ¡×e/Minecmd reload ¡×f: ÇÃ·¯±×ÀÎ ¼³Á¤ ¸®·Îµå");
+						sender.sendMessage("Â§bÂ§l[ Â§fÂ§lMine Plot CMD Â§bÂ§l] Â§e/Minecmd reload Â§f: í”ŒëŸ¬ê·¸ì¸ ì„¤ì • ë¦¬ë¡œë“œ");
 						return true;
 
 					}
@@ -323,7 +323,7 @@ public class Main extends JavaPlugin implements Listener {
 
 			} else {
 
-				sender.sendMessage("¡×b¡×l[ ¡×f¡×lMine SV ¡×b¡×l] ¡×c±ÇÇÑÀÌ ¾ø½À´Ï´Ù. ÇÊ¿äÇÑ ±ÇÇÑ: MinePlotCMD.reload");
+				sender.sendMessage("Â§bÂ§l[ Â§fÂ§lMine SV Â§bÂ§l] Â§cê¶Œí•œì´ ì—†ìŠµë‹ˆë‹¤. í•„ìš”í•œ ê¶Œí•œ: MinePlotCMD.reload");
 				return true;
 
 			}
@@ -337,7 +337,7 @@ public class Main extends JavaPlugin implements Listener {
 		return data;
 	}
 
-	// ÇöÀç´Â ºÒÇÊ¿ä
+	// í˜„ì¬ëŠ” ë¶ˆí•„ìš”
 	public void setData(HashMap<String, PlayerConfirmHolder> data) {
 		Main.data = data;
 	}

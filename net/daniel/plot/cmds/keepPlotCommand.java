@@ -37,11 +37,11 @@ public class keepPlotCommand implements CommandExecutor {
 
 								if (args.length > 0) {
 
-									if (args[0].equalsIgnoreCase("¡∂»∏") || args[0].equalsIgnoreCase("»Æ¿Œ")) {
+									if (args[0].equalsIgnoreCase("Ï°∞Ìöå") || args[0].equalsIgnoreCase("ÌôïÏù∏")) {
 
 										sender.sendMessage(MCUtils.getExpireDate(playerplot));
 
-									} else if (args[0].equalsIgnoreCase("∞ªΩ≈")) {
+									} else if (args[0].equalsIgnoreCase("Í∞±Ïã†")) {
 
 										if (sender.hasPermission("MinePlotCmd.keep.other")
 												|| playerplot.isAdded(p.getUniqueId())) {

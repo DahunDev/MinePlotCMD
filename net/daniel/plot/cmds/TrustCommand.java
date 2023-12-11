@@ -51,7 +51,7 @@ public class TrustCommand implements CommandExecutor {
 			
 			sender.sendMessage(Lang.withPlaceHolder(Lang.ADD_TRUSTED_CONFIRM,
 					new String[] { "%price%", "%plot%", "%target%", "%cmd_confirm%", "%sec%" },
-					String.format("%.1f", price * plotsize), trustConfirm.playerplot, nick, "/¶¥¸â¹ö ÀÛ¾÷È®ÀÎ",
+					String.format("%.1f", price * plotsize), trustConfirm.playerplot, nick, "/ë•…ë©¤ë²„ ì‘ì—…í™•ì¸",
 					Main.confirm_sec));
 
 			MCUtils.cancelConfirmLater(sender, trustConfirm, p);
@@ -145,7 +145,7 @@ public class TrustCommand implements CommandExecutor {
 
 						TrustConfirm trustConfirm = Main.getData().get(p.getUniqueId().toString()).trust;
 
-						if (args[0].equalsIgnoreCase("ÀÛ¾÷È®ÀÎ") || args[0].equalsIgnoreCase("È®ÀÎ")) {
+						if (args[0].equalsIgnoreCase("ì‘ì—…í™•ì¸") || args[0].equalsIgnoreCase("í™•ì¸")) {
 
 							if (Main.useConfirm_Trust && trustConfirm.isRequested) {
 
@@ -166,7 +166,7 @@ public class TrustCommand implements CommandExecutor {
 						if (MCUtils.checkforConfirm(playerplot, sender, p, trustConfirm, OtherPlotPerm)) {
 							final java.util.Set<Plot> plots = playerplot.getConnectedPlots();
 
-							// ¶¥ÀÌ ÇÕÃÄÁø °æ¿ì ÇÕÃÄÁø ¸¸Å­ ±İ¾× ¹è¼ö Àû¿ë ÇÊ¿ä
+							// ë•…ì´ í•©ì³ì§„ ê²½ìš° í•©ì³ì§„ ë§Œí¼ ê¸ˆì•¡ ë°°ìˆ˜ ì ìš© í•„ìš”
 
 							double price = Main.get().getConfig()
 									.getDouble("Price-by-World." + loc.getWorld().getName() + ".trust", Double.NaN);

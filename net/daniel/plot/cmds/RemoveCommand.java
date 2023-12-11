@@ -40,16 +40,16 @@ public class RemoveCommand implements CommandExecutor, TabCompleter {
 
 		if (args.length < 2) {
 			if (sender.hasPermission(undenyPerm)) {
-				list.add("Â÷´Ü");
+				list.add("ì°¨ë‹¨");
 
 			}
 
 			if (sender.hasPermission(unTrustPerm)) {
-				list.add("¸â¹ö");
+				list.add("ë©¤ë²„");
 			}
 
 			if (sender.hasPermission(removeMemberPerm)) {
-				list.add("¾à½Ä¸â¹ö");
+				list.add("ì•½ì‹ë©¤ë²„");
 			}
 		} else {
 			return null; // Default completion
@@ -75,7 +75,7 @@ public class RemoveCommand implements CommandExecutor, TabCompleter {
 
 		sender.sendMessage(Lang.withPlaceHolder(Lang.REMOVE_MEMBER_CONFIRM,
 				new String[] { "%plot%", "%target%", "%cmd_confirm%", "%sec%" }, memeberConfirm.playerplot, nick,
-				"/¶¥ÇØÁ¦ ¾à½Ä¸â¹ö ÀÛ¾÷È®ÀÎ", Main.confirm_sec));
+				"/ë•…í•´ì œ ì•½ì‹ë©¤ë²„ ì‘ì—…í™•ì¸", Main.confirm_sec));
 
 		MCUtils.cancelConfirmLater(sender, memeberConfirm, p);
 
@@ -97,7 +97,7 @@ public class RemoveCommand implements CommandExecutor, TabCompleter {
 
 		sender.sendMessage(Lang.withPlaceHolder(Lang.UNTRUST_CONFIRM,
 				new String[] { "%plot%", "%target%", "%cmd_confirm%", "%sec%" }, untrustConfirm.playerplot, nick,
-				"/¶¥ÇØÁ¦ ¸â¹ö ÀÛ¾÷È®ÀÎ", Main.confirm_sec));
+				"/ë•…í•´ì œ ë©¤ë²„ ì‘ì—…í™•ì¸", Main.confirm_sec));
 
 		MCUtils.cancelConfirmLater(sender, untrustConfirm, p);
 
@@ -203,7 +203,7 @@ public class RemoveCommand implements CommandExecutor, TabCompleter {
 				public void run() {
 
 					switch (args[0]) {
-					case "Â÷´Ü":
+					case "ì°¨ë‹¨":
 
 						if (MCUtils.checkPlayerPerm(sender, undenyPerm)) {
 							if (playerplot != null) {
@@ -253,7 +253,7 @@ public class RemoveCommand implements CommandExecutor, TabCompleter {
 
 						break;
 
-					case "¸â¹ö":
+					case "ë©¤ë²„":
 
 						if (MCUtils.checkPlayerPerm(sender, unTrustPerm)) {
 							RemoveTrustConfirm unTrustConfirm = Main.getData()
@@ -262,7 +262,7 @@ public class RemoveCommand implements CommandExecutor, TabCompleter {
 
 								if (args.length == 2) {
 
-									if (args[1].equalsIgnoreCase("ÀÛ¾÷È®ÀÎ") || args[1].equalsIgnoreCase("È®ÀÎ")) {
+									if (args[1].equalsIgnoreCase("ì‘ì—…í™•ì¸") || args[1].equalsIgnoreCase("í™•ì¸")) {
 
 										if (Main.useConfirm_unTrust && unTrustConfirm.isRequested) {
 
@@ -281,7 +281,7 @@ public class RemoveCommand implements CommandExecutor, TabCompleter {
 
 										final java.util.Set<Plot> plots = playerplot.getConnectedPlots();
 
-										// ¶¥ÀÌ ÇÕÃÄÁø °æ¿ì ÇÕÃÄÁø ¸¸Å­ ±İ¾× ¹è¼ö Àû¿ë ÇÊ¿ä
+										// ë•…ì´ í•©ì³ì§„ ê²½ìš° í•©ì³ì§„ ë§Œí¼ ê¸ˆì•¡ ë°°ìˆ˜ ì ìš© í•„ìš”
 
 										if (args[1].equalsIgnoreCase("*")) {
 
@@ -343,7 +343,7 @@ public class RemoveCommand implements CommandExecutor, TabCompleter {
 
 						break;
 
-					case "¾à½Ä¸â¹ö":
+					case "ì•½ì‹ë©¤ë²„":
 
 						if (MCUtils.checkPlayerPerm(sender, removeMemberPerm)) {
 							RemoveMemberConfirm memberConfirm = Main.getData()
@@ -352,7 +352,7 @@ public class RemoveCommand implements CommandExecutor, TabCompleter {
 
 								if (args.length == 2) {
 
-									if (args[1].equalsIgnoreCase("ÀÛ¾÷È®ÀÎ") || args[1].equalsIgnoreCase("È®ÀÎ")) {
+									if (args[1].equalsIgnoreCase("ì‘ì—…í™•ì¸") || args[1].equalsIgnoreCase("í™•ì¸")) {
 
 										if (Main.useConfirm_removeMember && memberConfirm.isRequested) {
 											removeMember(memberConfirm, sender, memberConfirm.player,
@@ -371,7 +371,7 @@ public class RemoveCommand implements CommandExecutor, TabCompleter {
 
 										final java.util.Set<Plot> plots = playerplot.getConnectedPlots();
 
-										// ¶¥ÀÌ ÇÕÃÄÁø °æ¿ì ÇÕÃÄÁø ¸¸Å­ ±İ¾× ¹è¼ö Àû¿ë ÇÊ¿ä
+										// ë•…ì´ í•©ì³ì§„ ê²½ìš° í•©ì³ì§„ ë§Œí¼ ê¸ˆì•¡ ë°°ìˆ˜ ì ìš© í•„ìš”
 
 										if (args[1].equalsIgnoreCase("*")) {
 

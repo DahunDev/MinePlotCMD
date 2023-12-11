@@ -34,7 +34,6 @@ public class BiomePlotCommand implements CommandExecutor {
 			biomeConfirm.isRequested = false;
 
 		} else {
-
 			biomeConfirm.isRequested = true;
 			biomeConfirm.player = p;
 			biomeConfirm.playerplot = playerplot;
@@ -46,7 +45,7 @@ public class BiomePlotCommand implements CommandExecutor {
 			
 			sender.sendMessage(Lang.withPlaceHolder(Lang.BIOME_SET_CONFIRM,
 					new String[] { "%price%", "%plot%", "%cmd_confirm%", "%sec%", "%biome%" },
-					 String.format("%.1f", price * plotsize), biomeConfirm.playerplot, "/¶¥¹ÙÀÌ¿È ÀÛ¾÷È®ÀÎ",
+					 String.format("%.1f", price * plotsize), biomeConfirm.playerplot, "/ë•…ë°”ì´ì˜´ ì‘ì—…í™•ì¸",
 							Main.confirm_sec, biomeConfirm.biome));
 
 			MCUtils.cancelConfirmLater(sender, biomeConfirm, p);
@@ -148,7 +147,7 @@ public class BiomePlotCommand implements CommandExecutor {
 						}
 					}
 
-					if (args[0].equalsIgnoreCase("ÀÛ¾÷È®ÀÎ") || args[0].equalsIgnoreCase("È®ÀÎ")) {
+					if (args[0].equalsIgnoreCase("ì‘ì—…í™•ì¸") || args[0].equalsIgnoreCase("í™•ì¸")) {
 
 						if (Main.useConfirm_Biome && biomeConfirm.isRequested) {
 
@@ -164,7 +163,7 @@ public class BiomePlotCommand implements CommandExecutor {
 							return;
 						}
 						return;
-					} else if (args[0].equalsIgnoreCase("Á¶È¸") || args[0].equalsIgnoreCase("Á¤º¸")) {
+					} else if (args[0].equalsIgnoreCase("ì¡°íšŒ") || args[0].equalsIgnoreCase("ì •ë³´")) {
 						if (playerplot != null) {
 
 							sender.sendMessage(Lang.BIOME_INFO.toString().replaceAll("%biome%", playerplot.getBiome()));

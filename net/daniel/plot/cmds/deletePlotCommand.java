@@ -42,7 +42,7 @@ public class deletePlotCommand implements CommandExecutor {
 
 			sender.sendMessage(Lang.withPlaceHolder(Lang.DELETE_PLOT_CONFIRM,
 					new String[] { "%price%", "%plot%", "%cmd_confirm%", "%sec%", "%price%" },
-					String.format("%.1f", price * plotsize), deleteConfirm.playerplot, "/¶¥»èÁ¦ ÀÛ¾÷È®ÀÎ", Main.confirm_sec,
+					String.format("%.1f", price * plotsize), deleteConfirm.playerplot, "/ë•…ì‚­ì œ ì‘ì—…í™•ì¸", Main.confirm_sec,
 					deleteConfirm.price * deleteConfirm.plotsize));
 
 			MCUtils.cancelConfirmLater(sender, deleteConfirm, p);
@@ -122,7 +122,7 @@ public class deletePlotCommand implements CommandExecutor {
 				public void run() {
 
 					if (args.length == 1) {
-						if (args[0].equalsIgnoreCase("È®ÀÎ") || args[0].equalsIgnoreCase("ÀÛ¾÷È®ÀÎ")) {
+						if (args[0].equalsIgnoreCase("í™•ì¸") || args[0].equalsIgnoreCase("ì‘ì—…í™•ì¸")) {
 
 							if (Main.useConfirm_delete && deleteConfirm.isRequested) {
 

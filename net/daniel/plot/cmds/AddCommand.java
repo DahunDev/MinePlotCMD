@@ -49,7 +49,7 @@ public class AddCommand implements CommandExecutor {
 
 			sender.sendMessage(Lang.withPlaceHolder(Lang.ADD_MEMBER_CONFIRM,
 					new String[] { "%price%", "%plot%", "%target%", "%cmd_confirm%", "%sec%" },
-					String.format("%.1f", price * plotsize), addConfirm.playerplot, nick, "/¶¥¾à½Ä¸â¹ö ÀÛ¾÷È®ÀÎ",
+					String.format("%.1f", price * plotsize), addConfirm.playerplot, nick, "/ë•…ì•½ì‹ë©¤ë²„ ì‘ì—…í™•ì¸",
 					Main.confirm_sec));
 
 			MCUtils.cancelConfirmLater(sender, addConfirm, p);
@@ -148,7 +148,7 @@ public class AddCommand implements CommandExecutor {
 
 						AddConfirm addConfirm = Main.getData().get(p.getUniqueId().toString()).add;
 
-						if (args[0].equalsIgnoreCase("ÀÛ¾÷È®ÀÎ") || args[0].equalsIgnoreCase("È®ÀÎ")) {
+						if (args[0].equalsIgnoreCase("ì‘ì—…í™•ì¸") || args[0].equalsIgnoreCase("í™•ì¸")) {
 
 							if (Main.useConfirm_Add && addConfirm.isRequested) {
 
@@ -171,7 +171,7 @@ public class AddCommand implements CommandExecutor {
 
 							final java.util.Set<Plot> plots = playerplot.getConnectedPlots();
 
-							// ¶¥ÀÌ ÇÕÃÄÁø °æ¿ì ÇÕÃÄÁø ¸¸Å­ ±İ¾× ¹è¼ö Àû¿ë ÇÊ¿ä
+							// ë•…ì´ í•©ì³ì§„ ê²½ìš° í•©ì³ì§„ ë§Œí¼ ê¸ˆì•¡ ë°°ìˆ˜ ì ìš© í•„ìš”
 
 							double price = Main.get().getConfig()
 									.getDouble("Price-by-World." + loc.getWorld().getName() + ".add", Double.NaN);

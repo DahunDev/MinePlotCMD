@@ -234,9 +234,9 @@ public class MCUtils {
 	}
 
 	/**
-	 * @param plot ¸¸±âÀÏÀÚ¸¦ È®ÀÎ ÇÒ ÇÃ·Ô
-	 * @return ¸¸±âÀÏÀÚµé; 1¹øÂ° µ¥ÀÌÅÍ´Â ½ÇÁúÀûÀÎ ¸¸±âÀÏÀÚ, 2¹øÂ° µ¥ÀÌÅÍ´Â FLAGÀÇ ¸¸±âÀÏÀÚ, 3¹øÂ° µ¥ÀÌÅÍ´Â ¼ÒÀ¯ÀÚ Á¢¼ÓÀÏ ±â¹Ý
-	 *         ¸¸±âÀÏÀÚ
+	 * @param plot ë§Œê¸°ì¼ìžë¥¼ í™•ì¸ í•  í”Œë¡¯
+	 * @return ë§Œê¸°ì¼ìžë“¤; 1ë²ˆì§¸ ë°ì´í„°ëŠ” ì‹¤ì§ˆì ì¸ ë§Œê¸°ì¼ìž, 2ë²ˆì§¸ ë°ì´í„°ëŠ” FLAGì˜ ë§Œê¸°ì¼ìž, 3ë²ˆì§¸ ë°ì´í„°ëŠ” ì†Œìœ ìž ì ‘ì†ì¼ ê¸°ë°˜
+	 *         ë§Œê¸°ì¼ìž
 	 */
 
 	public static long[] getExpireDateAndUpdate(Plot plot) {

@@ -44,7 +44,7 @@ public class ClearPlotCommand implements CommandExecutor {
 
 			sender.sendMessage(Lang.withPlaceHolder(Lang.CLEAR_PLOT_CONFIRM,
 					new String[] { "%price%", "%plot%", "%cmd_confirm%", "%sec%" },
-					new Object[] { String.format("%.1f", price * plotsize), clearConfirm.playerplot, "/¶¥ÃÊ±âÈ­ ÀÛ¾÷È®ÀÎ",
+					new Object[] { String.format("%.1f", price * plotsize), clearConfirm.playerplot, "/ë•…ì´ˆê¸°í™” ì‘ì—…í™•ì¸",
 							Main.confirm_sec }));
 
 			MCUtils.cancelConfirmLater(sender, clearConfirm, p);
@@ -137,7 +137,7 @@ public class ClearPlotCommand implements CommandExecutor {
 				public void run() {
 
 					if (args.length == 1) {
-						if (args[0].equalsIgnoreCase("È®ÀÎ") || args[0].equalsIgnoreCase("ÀÛ¾÷È®ÀÎ")) {
+						if (args[0].equalsIgnoreCase("í™•ì¸") || args[0].equalsIgnoreCase("ì‘ì—…í™•ì¸")) {
 
 							if (Main.useConfirm_Clear && clearConfirm.isRequested) {
 

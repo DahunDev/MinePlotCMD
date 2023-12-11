@@ -69,7 +69,7 @@ public class OnPlaceBreak implements Listener {
 
 			if ((expire_old / 120000) < (expire / 120000)) {
 
-				// playerplot.setFlag(Flags.KEEP, expire) ±¸Çö
+				// playerplot.setFlag(Flags.KEEP, expire) êµ¬í˜„
 
 				if (ExpireManager.IMP != null) {
 					ExpireManager.IMP.updateExpired(playerplot);
@@ -78,7 +78,7 @@ public class OnPlaceBreak implements Listener {
 				boolean result = EventUtil.manager.callFlagAdd(Flags.KEEP, playerplot);
 				if (result) {
 
-					// playerplot.setFlag(Flags.KEEP, expire) ÀÇ ³»ºÎ ÇÊ¿ä¸Þ¼Òµå ±¸Çö
+					// playerplot.setFlag(Flags.KEEP, expire) ì˜ ë‚´ë¶€ í•„ìš”ë©”ì†Œë“œ êµ¬í˜„
 
 					Iterator<Plot> var4 = playerplot.getConnectedPlots().iterator();
 
