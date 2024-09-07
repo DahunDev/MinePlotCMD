@@ -1,7 +1,14 @@
-# MinePlotCMD
-extention of Minecraft PlotSqaured plugin for minecraft 1.12.2
+MinePlotCMD is an extension of the Minecraft PlotSquared plugin, designed specifically for Minecraft version 1.12.2. This plugin provides additional plot management functionality, primarily tailored for Korean users.
 
-This plugin was mainly made for Korean users.
+**Features**
+This plugin enhances the functionality of PlotSquared with several new commands for managing and customizing plots. It includes features like:
+
+Reloading plugin settings
+Biome management with price settings
+Plot clearing and reset functionalities
+Member management (adding, removing, and blacklisting)
+Local plot chatting and chat spying for administrators
+Plot expiration date management
 
 **Commands in this plugin:**
 
