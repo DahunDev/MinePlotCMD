@@ -11,6 +11,7 @@ This plugin enhances the functionality of PlotSquared with several new commands 
 - Member management (adding, removing, and blacklisting)
 - Local plot chatting and chat spying for administrators
 - Plot expiration date management
+  
 **Customization:** Prices for plot actions (such as buying/selling, adding members, and changing biomes) and plot expiration dates (how long a plot should be inactive before it expires) can be customized by modifying the `config.yml` file.
 
 **Commands in this plugin:**
