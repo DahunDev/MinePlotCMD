@@ -290,47 +290,39 @@ public class Main extends JavaPlugin implements Listener {
 	public boolean onCommand(final CommandSender sender, final Command command, final String commandLabel,
 			final String[] args) {
 
-		if (commandLabel.equalsIgnoreCase("Mineplotcmd")) {
-			if (sender.hasPermission("MinePlotCMD.reload")) {
-				if (args.length == 0) {
-
-					sender.sendMessage("§b§l[ §f§lMine Plot CMD §b§l] §e/Mineplotcmd reload §f: 플러그인 설정 리로드");
-					return true;
-
-				} else {
-					if (args[0].equalsIgnoreCase("reload")) {
-
-						(new BukkitRunnable() {
-							public void run() {
-
-								reloadConfiguration();
-								splitJSON();
-							}
-
-						}).runTaskLaterAsynchronously(this, 0L);
-
-						sender.sendMessage("§b§l[ §f§lMine Plot CMD §b§l] §f플러그인 설정 리로드 완료");
-						return true;
-
-					} else {
-
-						sender.sendMessage("§b§l[ §f§lMine Plot CMD §b§l] §e/Minecmd reload §f: 플러그인 설정 리로드");
-						return true;
-
-					}
-
-				}
-
-			} else {
-
-				sender.sendMessage("§b§l[ §f§lMine SV §b§l] §c권한이 없습니다. 필요한 권한: MinePlotCMD.reload");
-				return true;
-
-			}
+		if (!commandLabel.equalsIgnoreCase("Mineplotcmd")) {
+			return false;
 		}
 
-		return false;
+		if (!sender.hasPermission("MinePlotCMD.reload")) {
+			sender.sendMessage("§b§l[ §f§lMine SV §b§l] §c권한이 없습니다. 필요한 권한: MinePlotCMD.reload");
+			return true;
+		}
 
+		if (args.length == 0) {
+
+			sender.sendMessage("§b§l[ §f§lMine Plot CMD §b§l] §e/Mineplotcmd reload §f: 플러그인 설정 리로드");
+			return true;
+
+		}
+
+		if (args[0].equalsIgnoreCase("reload")) {
+			(new BukkitRunnable() {
+				public void run() {
+
+					reloadConfiguration();
+					splitJSON();
+				}
+
+			}).runTaskLaterAsynchronously(this, 0L);
+
+			sender.sendMessage("§b§l[ §f§lMine Plot CMD §b§l] §f플러그인 설정 리로드 완료");
+			return true;
+
+		}
+
+		sender.sendMessage("§b§l[ §f§lMine Plot CMD §b§l] §e/Minecmd reload §f: 플러그인 설정 리로드");
+		return true;
 	}
 
 	public static HashMap<String, PlayerConfirmHolder> getData() {
