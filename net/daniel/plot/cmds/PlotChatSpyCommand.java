@@ -11,35 +11,29 @@ import net.daniel.plotcmd.Utils.MCUtils;
 
 public class PlotChatSpyCommand implements CommandExecutor {
 
-	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+    @Override
+    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-		if (  MCUtils.checkPlayerPerm(sender, "MinePlotCMD.Admin.localChat")   ) {
-			
-			Player player = (Player) sender;
-	
+        if (MCUtils.checkPlayerPerm(sender, "MinePlotCMD.Admin.localChat")) {
 
-			if(Main.spyPlayers.contains(player.getUniqueId())) {
-				
-				Main.spyPlayers.remove(player.getUniqueId());
+            Player player = (Player) sender;
 
-				sender.sendMessage(Lang.PLOT_CHAT_SPY_DISABLED.toString());
+            if (Main.spyPlayers.contains(player.getUniqueId())) {
 
-			
-				
-			}else {
-				Main.spyPlayers.add(player.getUniqueId());
-				
-				sender.sendMessage(Lang.PLOT_CHAT_SPY_ENABLED.toString());
+                Main.spyPlayers.remove(player.getUniqueId());
+
+                sender.sendMessage(Lang.PLOT_CHAT_SPY_DISABLED.toString());
 
 
-				
-			}
-			
-			
-			
-		}
-		
-		return true;	
-	}
+            } else {
+                Main.spyPlayers.add(player.getUniqueId());
+
+                sender.sendMessage(Lang.PLOT_CHAT_SPY_ENABLED.toString());
+
+            }
+
+        }
+
+        return true;
+    }
 }
