@@ -198,7 +198,7 @@ public class deletePlotCommand implements CommandExecutor {
                                 Lang.DELETE_PLOT_HELP_DEFAULT, playerplot, sender, "delete", loc);
 
                         if (Main.useConfirm_delete) {
-                            MCUtils.sendHelpMessageWithPrice(Lang.DELETE_CONFIRM_HELP,
+                           MCUtils.sendHelpMessageWithPrice(Lang.DELETE_CONFIRM_HELP,
                                     Lang.DELETE_HELP_PRICE_DEFAULT, Lang.DELETE_CONFIRM_HELP, playerplot, sender,
                                     "delete", loc);
                         }
