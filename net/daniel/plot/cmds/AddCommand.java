@@ -75,6 +75,7 @@ public class AddCommand implements CommandExecutor {
             if (!(playerplot.getConnectedPlots().size() == addConfirm.plotsize || !Main.useConfirm_Add)) {
                 addConfirm.isRequested = false;
                 sender.sendMessage(Lang.CANCEL_BY_SIZE_CHANGE.toString());
+                return;
             }
 
             if (playerplot.getMembers().contains(uuid)) {
@@ -95,6 +96,7 @@ public class AddCommand implements CommandExecutor {
             }
 
             if (!MCUtils.checkBalance(player, calcedPrice, sender, addConfirm)) {
+                addConfirm.isRequested = false;
                 return;
             }
 
@@ -114,6 +116,7 @@ public class AddCommand implements CommandExecutor {
             System.out.println(Lang.withPlaceHolder(Lang.ADD_MEMBER_CONSOLE,
                     new String[]{"%price%", "%target%", "%plot%"}, calcedPrice, nick,
                     playerplot));
+
 
         }
 
@@ -141,6 +144,7 @@ public class AddCommand implements CommandExecutor {
 
                         addMember(addConfirm, ExPrice, sender, addConfirm.player, addConfirm.playerplot,
                                 addConfirm.uuid, addConfirm.nick);
+                        addConfirm.isRequested = false;
 
                     } else {
                         addConfirm.isRequested = false;
@@ -172,6 +176,7 @@ public class AddCommand implements CommandExecutor {
                         sender.sendMessage(Lang.CONFIG_NOT_SET.toString());
                         System.out.println(Lang.CONFIG_NOT_SET_CONSOLE.toString().replaceAll(
                                 "%config_node%", "Price-by-World." + loc.getWorld().getName() + ".add"));
+                        addConfirm.isRequested = false;
                         return;
 
                     } else {
