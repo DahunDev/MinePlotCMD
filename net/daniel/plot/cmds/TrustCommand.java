@@ -24,229 +24,228 @@ import net.daniel.plotcmd.Utils.MCUtils;
 
 public class TrustCommand implements CommandExecutor {
 
-	String OtherPlotPerm = "MinePlotCMD.trust.forOtherPlot";
+    String OtherPlotPerm = "MinePlotCMD.trust.forOtherPlot";
 
-	private void setConfirm(TrustConfirm trustConfirm, CommandSender sender, String nick, Plot playerplot, Player p,
-			UUID uuid, int plotsize, double price) {
+    private void setConfirm(TrustConfirm trustConfirm, CommandSender sender, String nick, Plot playerplot, Player p,
+                            UUID uuid, int plotsize, double price) {
 
-		MCUtils.setConfirmCancelled(sender, p, trustConfirm, false);
+        MCUtils.setConfirmCancelled(sender, p, trustConfirm, false);
 
-		if (Main.Eco.getBalance(p) < price * plotsize) {
-			sender.sendMessage(Lang.NO_MONEY.toString().replaceAll("%money_need%",
-					String.format("%.2f", price * plotsize - Main.Eco.getBalance(p))));
-			trustConfirm.isRequested = false;
+        if (Main.Eco.getBalance(p) < price * plotsize) {
+            sender.sendMessage(Lang.NO_MONEY.toString().replaceAll("%money_need%",
+                    String.format("%.2f", price * plotsize - Main.Eco.getBalance(p))));
+            trustConfirm.isRequested = false;
 
-		} else {
+        } else {
 
-			trustConfirm.isRequested = true;
-			trustConfirm.nick = nick;
-			trustConfirm.player = p;
-			trustConfirm.playerplot = playerplot;
-			trustConfirm.price = price;
-			trustConfirm.plotsize = plotsize;
-			trustConfirm.uuid = uuid;
+            trustConfirm.isRequested = true;
+            trustConfirm.nick = nick;
+            trustConfirm.player = p;
+            trustConfirm.playerplot = playerplot;
+            trustConfirm.price = price;
+            trustConfirm.plotsize = plotsize;
+            trustConfirm.uuid = uuid;
 
-			trustConfirm.lastReqTime = System.currentTimeMillis() / 1000L;
+            trustConfirm.lastReqTime = System.currentTimeMillis() / 1000L;
 
-			
-			sender.sendMessage(Lang.withPlaceHolder(Lang.ADD_TRUSTED_CONFIRM,
-					new String[] { "%price%", "%plot%", "%target%", "%cmd_confirm%", "%sec%" },
-					String.format("%.1f", price * plotsize), trustConfirm.playerplot, nick, "/땅멤버 작업확인",
-					Main.confirm_sec));
 
-			MCUtils.cancelConfirmLater(sender, trustConfirm, p);
-		}
+            sender.sendMessage(Lang.withPlaceHolder(Lang.ADD_TRUSTED_CONFIRM,
+                    new String[]{"%price%", "%plot%", "%target%", "%cmd_confirm%", "%sec%"},
+                    String.format("%.1f", price * plotsize), trustConfirm.playerplot, nick, "/땅멤버 작업확인",
+                    Main.confirm_sec));
 
-	}
+            MCUtils.cancelConfirmLater(sender, trustConfirm, p);
+        }
 
-	private void addTrusted(TrustConfirm trustConfirm, double calcedPrice, CommandSender sender, Player player,
-			Plot playerplot, UUID uuid, String nick) {
+    }
 
-		if (MCUtils.checkforConfirm(playerplot, sender, player, trustConfirm, OtherPlotPerm)) {
+    private void addTrusted(TrustConfirm trustConfirm, double calcedPrice, CommandSender sender, Player player,
+                            Plot playerplot, UUID uuid, String nick) {
 
-			if (playerplot.getConnectedPlots().size() == trustConfirm.plotsize || !Main.useConfirm_Trust) {
+        if (MCUtils.checkforConfirm(playerplot, sender, player, trustConfirm, OtherPlotPerm)) {
 
-				if (!playerplot.isOwner(uuid)) {
-					if (!playerplot.getTrusted().contains(uuid)) {
+            if (playerplot.getConnectedPlots().size() == trustConfirm.plotsize || !Main.useConfirm_Trust) {
 
-						if (playerplot.getTrusted().size() + playerplot.getMembers().size()
-								+ 1 <= playerplot.getArea().MAX_PLOT_MEMBERS) {
-							if (MCUtils.checkBalance(player, calcedPrice, sender, trustConfirm)) {
-								if (uuid != DBFunc.everyone) {
-									if (!playerplot.removeTrusted(uuid)) {
-										if (playerplot.getDenied().contains(uuid)) {
-											playerplot.removeDenied(uuid);
-										}
-									}
-								}
-								playerplot.addTrusted(uuid);
-								EventUtil.manager.callMember(BukkitUtil.getPlayer(player), playerplot, uuid, true);
+                if (!playerplot.isOwner(uuid)) {
+                    if (!playerplot.getTrusted().contains(uuid)) {
 
-								Main.Eco.withdrawPlayer(player, calcedPrice);
+                        if (playerplot.getTrusted().size() + playerplot.getMembers().size()
+                                + 1 <= playerplot.getArea().MAX_PLOT_MEMBERS) {
+                            if (MCUtils.checkBalance(player, calcedPrice, sender, trustConfirm)) {
+                                if (uuid != DBFunc.everyone) {
+                                    if (!playerplot.removeTrusted(uuid)) {
+                                        if (playerplot.getDenied().contains(uuid)) {
+                                            playerplot.removeDenied(uuid);
+                                        }
+                                    }
+                                }
+                                playerplot.addTrusted(uuid);
+                                EventUtil.manager.callMember(BukkitUtil.getPlayer(player), playerplot, uuid, true);
 
-								sender.sendMessage(Lang.withPlaceHolder(Lang.ADD_TRUSTED,
-										new String[] { "%price%", "%target%", "%plot%" }, calcedPrice, nick,
-										playerplot));
+                                Main.Eco.withdrawPlayer(player, calcedPrice);
 
-								System.out.println(Lang.withPlaceHolder(Lang.ADD_TRUSTED_CONSOLE,
-										new String[] { "%price%", "%target%", "%plot%", "%player%" }, calcedPrice, nick,
-										playerplot, player.getName()));
-							}
+                                sender.sendMessage(Lang.withPlaceHolder(Lang.ADD_TRUSTED,
+                                        new String[]{"%price%", "%target%", "%plot%"}, calcedPrice, nick,
+                                        playerplot));
 
-						} else {
+                                System.out.println(Lang.withPlaceHolder(Lang.ADD_TRUSTED_CONSOLE,
+                                        new String[]{"%price%", "%target%", "%plot%", "%player%"}, calcedPrice, nick,
+                                        playerplot, player.getName()));
+                            }
 
-							MainUtil.sendMessage(BukkitUtil.getPlayer(player), C.PLOT_MAX_MEMBERS);
-							MCUtils.setConfirmCancelled(sender, player, trustConfirm, false);
+                        } else {
 
-							return;
-						}
+                            MainUtil.sendMessage(BukkitUtil.getPlayer(player), C.PLOT_MAX_MEMBERS);
+                            MCUtils.setConfirmCancelled(sender, player, trustConfirm, false);
 
-					} else {
+                            return;
+                        }
 
-						sender.sendMessage(Lang.ALREADY_ADDED.toString().replaceAll("%target%", nick));
-						MCUtils.setConfirmCancelled(sender, player, trustConfirm, false);
+                    } else {
 
-						return;
-					}
+                        sender.sendMessage(Lang.ALREADY_ADDED.toString().replaceAll("%target%", nick));
+                        MCUtils.setConfirmCancelled(sender, player, trustConfirm, false);
 
-				} else {
+                        return;
+                    }
 
-					sender.sendMessage(Lang.ALREADY_OWNER.toString().replaceAll("%target%", nick));
+                } else {
 
-					MCUtils.setConfirmCancelled(sender, player, trustConfirm, false);
+                    sender.sendMessage(Lang.ALREADY_OWNER.toString().replaceAll("%target%", nick));
 
-					return;
-				}
+                    MCUtils.setConfirmCancelled(sender, player, trustConfirm, false);
 
-			} else {
+                    return;
+                }
 
-				trustConfirm.isRequested = false;
-				sender.sendMessage(Lang.CANCEL_BY_SIZE_CHANGE.toString());
+            } else {
 
-			}
-		}
+                trustConfirm.isRequested = false;
+                sender.sendMessage(Lang.CANCEL_BY_SIZE_CHANGE.toString());
 
-		trustConfirm.isRequested = false;
+            }
+        }
 
-	}
+        trustConfirm.isRequested = false;
 
-	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+    }
 
-		if (MCUtils.checkPlayerPerm(sender, "MinePlotCMD.trust")) {
-			Player p = (Player) sender;
-			Location loc = p.getLocation();
-			Plot playerplot = Main.plotAPI.getPlot(loc);
+    @Override
+    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-			if (args.length == 1) {
+        if (!MCUtils.checkPlayerPerm(sender, "MinePlotCMD.trust")) {
+            return true;
+        }
 
-				(new BukkitRunnable() {
-					public void run() {
+        Player p = (Player) sender;
+        Location loc = p.getLocation();
+        Plot playerplot = Main.plotAPI.getPlot(loc);
 
-						TrustConfirm trustConfirm = Main.getData().get(p.getUniqueId().toString()).trust;
+        if (!(args.length == 1)) {
+            if (args.length > 1) {
 
-						if (args[0].equalsIgnoreCase("작업확인") || args[0].equalsIgnoreCase("확인")) {
+                sender.sendMessage(Lang.NO_NAME_SPACE.toString());
 
-							if (Main.useConfirm_Trust && trustConfirm.isRequested) {
+            } else {
 
-								double ExPrice = trustConfirm.price * trustConfirm.plotsize;
+                MCUtils.sendHelpMessageWithPrice(Lang.ADD_TRUSTED_HELP, Lang.ADD_TRUSTED_PRICE_DEFAULT,
+                        Lang.ADD_TRUSTED_HELP_DEFAULT, playerplot, sender, "trust", loc);
 
-								addTrusted(trustConfirm, ExPrice, sender, trustConfirm.player, trustConfirm.playerplot,
-										trustConfirm.uuid, trustConfirm.nick);
+                return true;
 
-							} else {
-								trustConfirm.isRequested = false;
+            }
+            return true;
 
-								sender.sendMessage(Lang.NOT_REQUESTED_CONFIRM.toString());
-								return;
-							}
-							return;
-						}
 
-						if (MCUtils.checkforConfirm(playerplot, sender, p, trustConfirm, OtherPlotPerm)) {
-							final java.util.Set<Plot> plots = playerplot.getConnectedPlots();
+        }
 
-							// 땅이 합쳐진 경우 합쳐진 만큼 금액 배수 적용 필요
+        (new BukkitRunnable() {
+            public void run() {
 
-							double price = Main.get().getConfig()
-									.getDouble("Price-by-World." + loc.getWorld().getName() + ".trust", Double.NaN);
+                TrustConfirm trustConfirm = Main.getData().get(p.getUniqueId().toString()).trust;
 
-							if (price == Double.NaN) {
+                if (args[0].equalsIgnoreCase("작업확인") || args[0].equalsIgnoreCase("확인")) {
 
-								if (Main.cancelIfConfigNotSet) {
-									sender.sendMessage(Lang.CONFIG_NOT_SET.toString());
-									System.out.println(Lang.CONFIG_NOT_SET_CONSOLE.toString().replaceAll(
-											"%config_node%", "Price-by-World." + loc.getWorld().getName() + ".trust"));
-									return;
+                    if (Main.useConfirm_Trust && trustConfirm.isRequested) {
 
-								} else {
-									price = 0.0;
+                        double ExPrice = trustConfirm.price * trustConfirm.plotsize;
 
-								}
-							}
+                        addTrusted(trustConfirm, ExPrice, sender, trustConfirm.player, trustConfirm.playerplot,
+                                trustConfirm.uuid, trustConfirm.nick);
 
-							if (args[0].equalsIgnoreCase("*")) {
+                    } else {
+                        trustConfirm.isRequested = false;
 
-								if (Main.useConfirm_Trust) {
-									setConfirm(trustConfirm, sender, C.EVERYONE.toString(), playerplot, p,
-											DBFunc.everyone,  plots.size(), price);
+                        sender.sendMessage(Lang.NOT_REQUESTED_CONFIRM.toString());
+                        return;
+                    }
+                    return;
+                }
 
-								} else {
-									addTrusted(trustConfirm, price * plots.size(), sender, p, playerplot,
-											DBFunc.everyone, C.EVERYONE.toString());
+                if (!MCUtils.checkforConfirm(playerplot, sender, p, trustConfirm, OtherPlotPerm)) {
+                    return;
+                }
+                final java.util.Set<Plot> plots = playerplot.getConnectedPlots();
 
-								}
-								return;
+                // 땅이 합쳐진 경우 합쳐진 만큼 금액 배수 적용 필요
 
-							} else {
-								UUID uuid = UUIDHandler.getUUIDFromString(args[0]);
-								if (uuid == null || uuid.toString().isEmpty()) {
+                double price = Main.get().getConfig()
+                        .getDouble("Price-by-World." + loc.getWorld().getName() + ".trust", Double.NaN);
 
-									sender.sendMessage(Lang.PlAYERNOTFOUND.toString().replaceAll("%player%", args[0]));
+                if (price == Double.NaN) {
 
-									MCUtils.setConfirmCancelled(sender, p, trustConfirm, false);
+                    if (Main.cancelIfConfigNotSet) {
+                        sender.sendMessage(Lang.CONFIG_NOT_SET.toString());
+                        System.out.println(Lang.CONFIG_NOT_SET_CONSOLE.toString().replaceAll(
+                                "%config_node%", "Price-by-World." + loc.getWorld().getName() + ".trust"));
+                        return;
 
-									return;
+                    } else {
+                        price = 0.0;
 
-								}
+                    }
+                }
 
-								if (Main.useConfirm_Trust) {
+                if (args[0].equalsIgnoreCase("*")) {
 
-									setConfirm(trustConfirm, sender, args[0], playerplot, p, uuid,  plots.size(),
-											price);
+                    if (Main.useConfirm_Trust) {
+                        setConfirm(trustConfirm, sender, C.EVERYONE.toString(), playerplot, p,
+                                DBFunc.everyone, plots.size(), price);
 
-								} else {
+                    } else {
+                        addTrusted(trustConfirm, price * plots.size(), sender, p, playerplot,
+                                DBFunc.everyone, C.EVERYONE.toString());
 
-									addTrusted(trustConfirm, price * plots.size(), sender, p, playerplot, uuid, args[0]	);
+                    }
+                    return;
 
-								}
+                }
+                UUID uuid = UUIDHandler.getUUIDFromString(args[0]);
+                if (uuid == null || uuid.toString().isEmpty()) {
 
-							}
-						}
+                    sender.sendMessage(Lang.PlAYERNOTFOUND.toString().replaceAll("%player%", args[0]));
 
-					}
+                    MCUtils.setConfirmCancelled(sender, p, trustConfirm, false);
 
-				}).runTaskAsynchronously(Main.plugin);
+                    return;
 
-			} else {
+                }
 
-				if (args.length > 1) {
+                if (Main.useConfirm_Trust) {
 
-					sender.sendMessage(Lang.NO_NAME_SPACE.toString());
+                    setConfirm(trustConfirm, sender, args[0], playerplot, p, uuid, plots.size(),
+                            price);
 
-				} else {
+                } else {
 
-					MCUtils.sendHelpMessageWithPrice(Lang.ADD_TRUSTED_HELP, Lang.ADD_TRUSTED_PRICE_DEFAULT,
-							Lang.ADD_TRUSTED_HELP_DEFAULT, playerplot, sender, "trust", loc);
+                    addTrusted(trustConfirm, price * plots.size(), sender, p, playerplot, uuid, args[0]);
 
-					return true;
+                }
+            }
 
-				}
+        }).runTaskAsynchronously(Main.plugin);
 
-			}
-			return true;
-		}
-		return true;
+        return true;
 
-	}
+    }
 }

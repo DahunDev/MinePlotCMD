@@ -200,254 +200,247 @@ public class RemoveCommand implements CommandExecutor, TabCompleter {
         Location loc = p.getLocation();
         Plot playerplot = Main.plotAPI.getPlot(loc);
 
-        if (args.length >= 1) {
+        if (!(args.length >= 1)) {
+            sender.sendMessage(Lang.PLOT_REMOVE_HELP.toString());
+            return true;
+        }
 
-            (new BukkitRunnable() {
-                public void run() {
 
-                    switch (args[0]) {
-                        case "차단":
+        (new BukkitRunnable() {
+            public void run() {
 
-                            if (MCUtils.checkPlayerPerm(sender, undenyPerm)) {
-                                if (playerplot != null) {
+                switch (args[0]) {
+                    case "차단":
 
-                                    if (playerplot.hasOwner()) {
-                                        if (playerplot.isOwner(p.getUniqueId())
-                                                || sender.hasPermission("MinePlotCMD.undeny.forOtherPlot")) {
-                                            if (args.length == 2) {
+                        if (MCUtils.checkPlayerPerm(sender, undenyPerm)) {
+                            if (playerplot == null) {
+                                sender.sendMessage(Lang.NOT_IN_PLOT.toString());
+                                return;
+                            }
 
-                                                if (args[1].equalsIgnoreCase("*")) {
-                                                    undeny(DBFunc.everyone, p, C.EVERYONE.toString(), playerplot);
+                            if (!playerplot.hasOwner()) {
+                                sender.sendMessage(Lang.PLOT_OWNER_NOT_SET.toString());
+                                return;
+                            }
 
-                                                } else {
-                                                    UUID target = UUIDHandler.getUUIDFromString(args[1]);
-                                                    if (target != null && target.toString().length() > 0) {
-                                                        undeny(target, p, args[1], playerplot);
 
-                                                    } else {
-                                                        sender.sendMessage(Lang.PlAYERNOTFOUND.toString()
-                                                                .replaceAll("%player%", args[1]));
-                                                    }
+                            if (!(playerplot.isOwner(p.getUniqueId())
+                                    || sender.hasPermission("MinePlotCMD.undeny.forOtherPlot"))) {
 
-                                                }
+                                sender.sendMessage(Lang.NOT_YOUR_PLOT.toString());
+                                return;
+                            }
 
-                                            } else {
-                                                sender.sendMessage(Lang.PLOT_UNDENY_HELP.toString());
-                                            }
-                                            return;
+                            if (args.length != 2) {
+                                sender.sendMessage(Lang.PLOT_UNDENY_HELP.toString());
+                                return;
+                            }
+                            if (args[1].equalsIgnoreCase("*")) {
+                                undeny(DBFunc.everyone, p, C.EVERYONE.toString(), playerplot);
 
-                                        } else {
-                                            sender.sendMessage(Lang.NOT_YOUR_PLOT.toString());
-                                            return;
-                                        }
-
-                                    } else {
-                                        sender.sendMessage(Lang.PLOT_OWNER_NOT_SET.toString());
-                                        return;
-                                    }
+                            } else {
+                                UUID target = UUIDHandler.getUUIDFromString(args[1]);
+                                if (target != null && !target.toString().isEmpty()) {
+                                    undeny(target, p, args[1], playerplot);
 
                                 } else {
-
-                                    sender.sendMessage(Lang.NOT_IN_PLOT.toString());
-                                    return;
-
-                                }
-                            }
-
-                            break;
-
-                        case "멤버":
-
-                            if (MCUtils.checkPlayerPerm(sender, unTrustPerm)) {
-                                RemoveTrustConfirm unTrustConfirm = Main.getData()
-                                        .get(p.getUniqueId().toString()).removeTrust;
-                                if (MCUtils.checkforConfirm(playerplot, sender, p, unTrustConfirm, bypassTrustedPerm)) {
-
-                                    if (args.length == 2) {
-
-                                        if (args[1].equalsIgnoreCase("작업확인") || args[1].equalsIgnoreCase("확인")) {
-
-                                            if (Main.useConfirm_unTrust && unTrustConfirm.isRequested) {
-
-                                                unTrust(unTrustConfirm, sender, unTrustConfirm.player,
-                                                        unTrustConfirm.playerplot, unTrustConfirm.uuid,
-                                                        unTrustConfirm.nick);
-
-                                            } else {
-                                                unTrustConfirm.isRequested = false;
-
-                                                sender.sendMessage(Lang.NOT_REQUESTED_CONFIRM.toString());
-                                                return;
-                                            }
-                                            return;
-                                        } else {
-
-                                            final java.util.Set<Plot> plots = playerplot.getConnectedPlots();
-
-                                            // 땅이 합쳐진 경우 합쳐진 만큼 금액 배수 적용 필요
-
-                                            if (args[1].equalsIgnoreCase("*")) {
-
-                                                if (Main.useConfirm_Add) {
-
-                                                    setRemoveTrustConfirm(unTrustConfirm, sender, C.EVERYONE.toString(),
-                                                            playerplot, p, DBFunc.everyone, plots.size());
-
-                                                } else {
-                                                    unTrust(unTrustConfirm, sender, p, playerplot, DBFunc.everyone,
-                                                            C.EVERYONE.toString());
-
-                                                }
-
-                                                return;
-
-                                            } else {
-                                                UUID uuid = UUIDHandler.getUUIDFromString(args[1]);
-                                                if (uuid == null || uuid.toString().isEmpty()) {
-
-                                                    sender.sendMessage(
-                                                            Lang.PlAYERNOTFOUND.toString().replaceAll("%player%", args[1]));
-
-                                                    MCUtils.setConfirmCancelled(sender, p, unTrustConfirm, false);
-
-                                                    return;
-
-                                                }
-
-                                                if (Main.useConfirm_unTrust) {
-
-                                                    setRemoveTrustConfirm(unTrustConfirm, sender, args[1], playerplot, p,
-                                                            uuid, plots.size());
-
-                                                } else {
-
-                                                    unTrust(unTrustConfirm, sender, p, playerplot, uuid, args[1]);
-
-                                                }
-
-                                            }
-
-                                        }
-
-                                    } else {
-
-                                        if (args.length > 2) {
-                                            sender.sendMessage(Lang.NO_NAME_SPACE.toString());
-
-                                        } else {
-                                            sender.sendMessage(Lang.PLOT_UNTRUST_HELP.toString());
-                                        }
-
-                                    }
-
+                                    sender.sendMessage(Lang.PlAYERNOTFOUND.toString()
+                                            .replaceAll("%player%", args[1]));
                                 }
 
                             }
 
-                            break;
+                            return;
 
-                        case "약식멤버":
+                        }
 
-                            if (MCUtils.checkPlayerPerm(sender, removeMemberPerm)) {
-                                RemoveMemberConfirm memberConfirm = Main.getData()
-                                        .get(p.getUniqueId().toString()).removeMember;
-                                if (MCUtils.checkforConfirm(playerplot, sender, p, memberConfirm, bypassMemPerm)) {
+                        break;
 
-                                    if (args.length == 2) {
+                    case "멤버":
 
-                                        if (args[1].equalsIgnoreCase("작업확인") || args[1].equalsIgnoreCase("확인")) {
+                        if (!MCUtils.checkPlayerPerm(sender, unTrustPerm)) {
+                            return;
+                        }
+                        RemoveTrustConfirm unTrustConfirm = Main.getData()
+                                .get(p.getUniqueId().toString()).removeTrust;
+                        if (!MCUtils.checkforConfirm(playerplot, sender, p, unTrustConfirm, bypassTrustedPerm)) {
+                            return;
+                        }
+                        if (args.length != 2) {
+                            if (args.length > 2) {
+                                sender.sendMessage(Lang.NO_NAME_SPACE.toString());
 
-                                            if (Main.useConfirm_removeMember && memberConfirm.isRequested) {
-                                                removeMember(memberConfirm, sender, memberConfirm.player,
-                                                        memberConfirm.playerplot, memberConfirm.uuid, memberConfirm.nick);
+                            } else {
+                                sender.sendMessage(Lang.PLOT_UNTRUST_HELP.toString());
+                            }
+                            return;
 
-                                                return;
+                        }
 
-                                            } else {
-                                                memberConfirm.isRequested = false;
+                        if (args[1].equalsIgnoreCase("작업확인") || args[1].equalsIgnoreCase("확인")) {
 
-                                                sender.sendMessage(Lang.NOT_REQUESTED_CONFIRM.toString());
-                                                return;
-                                            }
+                            if (Main.useConfirm_unTrust && unTrustConfirm.isRequested) {
 
-                                        } else {
+                                unTrust(unTrustConfirm, sender, unTrustConfirm.player,
+                                        unTrustConfirm.playerplot, unTrustConfirm.uuid,
+                                        unTrustConfirm.nick);
 
-                                            final java.util.Set<Plot> plots = playerplot.getConnectedPlots();
+                            } else {
+                                unTrustConfirm.isRequested = false;
 
-                                            // 땅이 합쳐진 경우 합쳐진 만큼 금액 배수 적용 필요
+                                sender.sendMessage(Lang.NOT_REQUESTED_CONFIRM.toString());
+                                return;
+                            }
+                            return;
+                        } else {
 
-                                            if (args[1].equalsIgnoreCase("*")) {
+                            final java.util.Set<Plot> plots = playerplot.getConnectedPlots();
 
-                                                if (Main.useConfirm_removeMember) {
+                            // 땅이 합쳐진 경우 합쳐진 만큼 금액 배수 적용 필요
 
-                                                    setRemoveMemberConfirm(memberConfirm, sender, C.EVERYONE.toString(),
-                                                            playerplot, p, DBFunc.everyone, plots.size());
+                            if (args[1].equalsIgnoreCase("*")) {
 
-                                                } else {
-                                                    removeMember(memberConfirm, sender, p, playerplot, DBFunc.everyone,
-                                                            C.EVERYONE.toString());
+                                if (Main.useConfirm_Add) {
 
-                                                }
+                                    setRemoveTrustConfirm(unTrustConfirm, sender, C.EVERYONE.toString(),
+                                            playerplot, p, DBFunc.everyone, plots.size());
 
-                                                return;
-
-                                            } else {
-                                                UUID uuid = UUIDHandler.getUUIDFromString(args[1]);
-                                                if (uuid == null || uuid.toString().isEmpty()) {
-
-                                                    sender.sendMessage(
-                                                            Lang.PlAYERNOTFOUND.toString().replaceAll("%player%", args[1]));
-
-                                                    MCUtils.setConfirmCancelled(sender, p, memberConfirm, false);
-
-                                                    return;
-
-                                                }
-
-                                                if (Main.useConfirm_removeMember) {
-
-                                                    setRemoveMemberConfirm(memberConfirm, sender, args[1], playerplot, p,
-                                                            uuid, plots.size());
-
-                                                } else {
-
-                                                    removeMember(memberConfirm, sender, p, playerplot, uuid, args[1]);
-
-                                                }
-
-                                            }
-
-                                        }
-
-                                    } else {
-
-                                        if (args.length > 2) {
-                                            sender.sendMessage(Lang.NO_NAME_SPACE.toString());
-
-                                        } else {
-                                            sender.sendMessage(Lang.PLOT_UNTRUST_HELP.toString());
-                                        }
-
-                                    }
+                                } else {
+                                    unTrust(unTrustConfirm, sender, p, playerplot, DBFunc.everyone,
+                                            C.EVERYONE.toString());
 
                                 }
 
+                                return;
+
+                            }
+                            UUID uuid = UUIDHandler.getUUIDFromString(args[1]);
+                            if (uuid == null || uuid.toString().isEmpty()) {
+
+                                sender.sendMessage(
+                                        Lang.PlAYERNOTFOUND.toString().replaceAll("%player%", args[1]));
+
+                                MCUtils.setConfirmCancelled(sender, p, unTrustConfirm, false);
+
+                                return;
+
                             }
 
-                            break;
+                            if (Main.useConfirm_unTrust) {
 
-                        default:
-                            sender.sendMessage(Lang.PLOT_REMOVE_HELP.toString());
-                            break;
-                    }
+                                setRemoveTrustConfirm(unTrustConfirm, sender, args[1], playerplot, p,
+                                        uuid, plots.size());
 
+                            } else {
+
+                                unTrust(unTrustConfirm, sender, p, playerplot, uuid, args[1]);
+
+                            }
+
+
+                        }
+
+
+                        break;
+
+                    case "약식멤버":
+
+                        if (!MCUtils.checkPlayerPerm(sender, removeMemberPerm)) {
+                            return;
+                        }
+
+
+                        RemoveMemberConfirm memberConfirm = Main.getData()
+                                .get(p.getUniqueId().toString()).removeMember;
+                        if (!MCUtils.checkforConfirm(playerplot, sender, p, memberConfirm, bypassMemPerm)) {
+                            return;
+                        }
+
+                        if (args.length == 2) {
+
+                            if (args.length > 2) {
+                                sender.sendMessage(Lang.NO_NAME_SPACE.toString());
+
+                            } else {
+                                sender.sendMessage(Lang.PLOT_UNTRUST_HELP.toString());
+                            }
+
+                            return;
+
+                        }
+
+                        if (args[1].equalsIgnoreCase("작업확인") || args[1].equalsIgnoreCase("확인")) {
+
+                            if (Main.useConfirm_removeMember && memberConfirm.isRequested) {
+                                removeMember(memberConfirm, sender, memberConfirm.player,
+                                        memberConfirm.playerplot, memberConfirm.uuid, memberConfirm.nick);
+
+                                return;
+
+                            } else {
+                                memberConfirm.isRequested = false;
+
+                                sender.sendMessage(Lang.NOT_REQUESTED_CONFIRM.toString());
+                                return;
+                            }
+
+                            return;
+
+                        }
+
+                        final java.util.Set<Plot> plots = playerplot.getConnectedPlots();
+
+                        // 땅이 합쳐진 경우 합쳐진 만큼 금액 배수 적용 필요
+
+                        if (args[1].equalsIgnoreCase("*")) {
+
+                            if (Main.useConfirm_removeMember) {
+
+                                setRemoveMemberConfirm(memberConfirm, sender, C.EVERYONE.toString(),
+                                        playerplot, p, DBFunc.everyone, plots.size());
+
+                            } else {
+                                removeMember(memberConfirm, sender, p, playerplot, DBFunc.everyone,
+                                        C.EVERYONE.toString());
+
+                            }
+
+                            return;
+
+                        }
+                        UUID uuid = UUIDHandler.getUUIDFromString(args[1]);
+                        if (uuid == null || uuid.toString().isEmpty()) {
+
+                            sender.sendMessage(
+                                    Lang.PlAYERNOTFOUND.toString().replaceAll("%player%", args[1]));
+
+                            MCUtils.setConfirmCancelled(sender, p, memberConfirm, false);
+
+                            return;
+
+                        }
+
+                        if (Main.useConfirm_removeMember) {
+
+                            setRemoveMemberConfirm(memberConfirm, sender, args[1], playerplot, p,
+                                    uuid, plots.size());
+
+                        } else {
+
+                            removeMember(memberConfirm, sender, p, playerplot, uuid, args[1]);
+
+                        }
+
+                        break;
+
+                    default:
+                        sender.sendMessage(Lang.PLOT_REMOVE_HELP.toString());
+                        break;
                 }
 
-            }).runTaskAsynchronously(Main.plugin);
-        } else {
-            sender.sendMessage(Lang.PLOT_REMOVE_HELP.toString());
+            }
 
-        }
+        }).runTaskAsynchronously(Main.plugin);
 
         return true;
     }
