@@ -23,80 +23,57 @@ public class InfoCommand implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
 		if (sender.hasPermission("MinePlotCmd.info")) {
+			sender.sendMessage(Lang.NO_PERM.toString());
+			return true;
 
-			if (args.length > 0) {
+		}
+		if (args.length > 0) {
 
-				Plot plot = null;
+			Plot plot = null;
 
-				String id = args[0];
+			String id = args[0];
 
-				if (sender instanceof Player) {
-					Player p = (Player) sender;
+			if (sender instanceof Player) {
+				Player p = (Player) sender;
 
-					PlotPlayer pp = BukkitUtil.getPlayer(p);
-					plot = MainUtil.getPlotFromString(pp, id, false);
-
-				} else {
-					plot = MainUtil.getPlotFromString(null, id, false);
-
-				}
-
-				checkAndSendMSG(plot, sender, true);
-
-				return true;
+				PlotPlayer pp = BukkitUtil.getPlayer(p);
+				plot = MainUtil.getPlotFromString(pp, id, false);
 
 			} else {
-
-				if (sender instanceof Player) {
-					Player p = (Player) sender;
-
-					Plot plot = Main.plotAPI.getPlot(p.getLocation());
-
-					checkAndSendMSG(plot, sender, false);
-
-				} else {
-
-					sender.sendMessage(Lang.INGAME_ONLY.toString());
-					sender.sendMessage(Lang.PLOT_INFO_HELP.toString());
-					return true;
-
-				}
+				plot = MainUtil.getPlotFromString(null, id, false);
 
 			}
+
+			checkAndSendMSG(plot, sender, true);
 
 			return true;
 
 		} else {
-			sender.sendMessage(Lang.NO_PERM.toString());
-			return true;
+
+			if (sender instanceof Player) {
+				Player p = (Player) sender;
+
+				Plot plot = Main.plotAPI.getPlot(p.getLocation());
+
+				checkAndSendMSG(plot, sender, false);
+
+			} else {
+
+				sender.sendMessage(Lang.INGAME_ONLY.toString());
+				sender.sendMessage(Lang.PLOT_INFO_HELP.toString());
+				return true;
+
+			}
+
 		}
+
+		return true;
 
 	}
 
 	private void checkAndSendMSG(Plot plot, CommandSender sender, boolean args) {
 
-		if (plot != null) {
-
-			if (plot.hasOwner()) {
-
-				String biome = plot.getBiome();
-
-				(new BukkitRunnable() {
-
-					@Override
-					public void run() {
-						sendInfo(plot, sender, biome);
-						return;
-
-					}
-				}).runTaskAsynchronously(Main.plugin);
-			} else {
-				sender.sendMessage(Lang.PLOT_OWNER_NOT_SET.toString());
-				return;
-			}
-
-		} else {
-
+		if (plot == null) {
 			if (args) {
 
 				sender.sendMessage(Lang.PLOT_INFO_HELP.toString());
@@ -109,6 +86,23 @@ public class InfoCommand implements CommandExecutor {
 			return;
 
 		}
+
+		if (!plot.hasOwner()) {
+			sender.sendMessage(Lang.PLOT_OWNER_NOT_SET.toString());
+			return;
+		}
+
+		String biome = plot.getBiome();
+
+		(new BukkitRunnable() {
+
+			@Override
+			public void run() {
+				sendInfo(plot, sender, biome);
+				return;
+
+			}
+		}).runTaskAsynchronously(Main.plugin);
 
 	}
 
