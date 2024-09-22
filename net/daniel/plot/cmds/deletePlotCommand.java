@@ -61,48 +61,46 @@ public class deletePlotCommand implements CommandExecutor {
         }
 
         if (MCUtils.checkforConfirm(playerplot, sender, player, deleteConfirm, OtherPlotPerm)) {
-            int size = playerplot.getConnectedPlots().size();
+            deleteConfirm.isRequested = false;
+            return;
+        }
+        int size = playerplot.getConnectedPlots().size();
 
-            if (deleteConfirm.plotsize == size || !Main.useConfirm_delete) {
-
-                if (MCUtils.checkBalance(player, calcedprice, sender, deleteConfirm)) {
-                    final long start = System.currentTimeMillis();
-                    boolean result = playerplot.deletePlot(new Runnable() {
-                        @Override
-                        public void run() {
-                            playerplot.removeRunning();
-                            long time = System.currentTimeMillis() - start;
-
-                            Main.Eco.withdrawPlayer(player, calcedprice);
-                            deleteConfirm.isRequested = false;
-
-                            sender.sendMessage(Lang.withPlaceHolder(Lang.DELETED_PLOT,
-                                    new String[]{"%price%", "%plot%", "%time%"}, calcedprice, playerplot,
-                                    time + "ms"));
-
-                            System.out.println(Lang.withPlaceHolder(Lang.DELETED_PLOT,
-                                    new String[]{"%price%", "%plot%", "%player%", "%time%"}, calcedprice, playerplot,
-                                    player.getName(), time + "ms"));
-
-                        }
-                    });
-                    if (result) {
-                        playerplot.addRunning();
-                    } else {
-                        MainUtil.sendMessage(BukkitUtil.getPlayer(player), C.WAIT_FOR_TIMER);
-                        MCUtils.setConfirmCancelled(sender, player, deleteConfirm, false);
-
-                    }
-                }
-
-            } else {
-
-                deleteConfirm.isRequested = false;
-                sender.sendMessage(Lang.CANCEL_BY_SIZE_CHANGE.toString());
-                return;
-            }
+        if (!(deleteConfirm.plotsize == size || !Main.useConfirm_delete)) {
+            deleteConfirm.isRequested = false;
+            sender.sendMessage(Lang.CANCEL_BY_SIZE_CHANGE.toString());
+            return;
         }
 
+        if (MCUtils.checkBalance(player, calcedprice, sender, deleteConfirm)) {
+            final long start = System.currentTimeMillis();
+            boolean result = playerplot.deletePlot(new Runnable() {
+                @Override
+                public void run() {
+                    playerplot.removeRunning();
+                    long time = System.currentTimeMillis() - start;
+
+                    Main.Eco.withdrawPlayer(player, calcedprice);
+                    deleteConfirm.isRequested = false;
+
+                    sender.sendMessage(Lang.withPlaceHolder(Lang.DELETED_PLOT,
+                            new String[]{"%price%", "%plot%", "%time%"}, calcedprice, playerplot,
+                            time + "ms"));
+
+                    System.out.println(Lang.withPlaceHolder(Lang.DELETED_PLOT,
+                            new String[]{"%price%", "%plot%", "%player%", "%time%"}, calcedprice, playerplot,
+                            player.getName(), time + "ms"));
+
+                }
+            });
+            if (result) {
+                playerplot.addRunning();
+            } else {
+                MainUtil.sendMessage(BukkitUtil.getPlayer(player), C.WAIT_FOR_TIMER);
+                MCUtils.setConfirmCancelled(sender, player, deleteConfirm, false);
+
+            }
+        }
         deleteConfirm.isRequested = false;
 
     }
@@ -110,109 +108,107 @@ public class deletePlotCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-        if (MCUtils.checkPlayerPerm(sender, "MinePlotCMD.delete")) {
+        if (!MCUtils.checkPlayerPerm(sender, "MinePlotCMD.delete")) {
+            return true;
+        }
+        Player p = (Player) sender;
+        Location loc = p.getLocation();
+        Plot playerplot = Main.plotAPI.getPlot(loc);
 
-            Player p = (Player) sender;
-            Location loc = p.getLocation();
-            Plot playerplot = Main.plotAPI.getPlot(loc);
+        DeleteConfirm deleteConfirm = Main.getData().get(p.getUniqueId().toString()).delete;
 
-            DeleteConfirm deleteConfirm = Main.getData().get(p.getUniqueId().toString()).delete;
+        (new BukkitRunnable() {
+            public void run() {
 
-            (new BukkitRunnable() {
-                public void run() {
+                if (args.length == 1) {
+                    if (args[0].equalsIgnoreCase("확인") || args[0].equalsIgnoreCase("작업확인")) {
 
-                    if (args.length == 1) {
-                        if (args[0].equalsIgnoreCase("확인") || args[0].equalsIgnoreCase("작업확인")) {
+                        if (Main.useConfirm_delete && deleteConfirm.isRequested) {
 
-                            if (Main.useConfirm_delete && deleteConfirm.isRequested) {
-
-                                double ExPrice = deleteConfirm.price
-                                        * deleteConfirm.playerplot.getConnectedPlots().size();
-                                deletePlot(deleteConfirm.player, deleteConfirm.playerplot, ExPrice, deleteConfirm,
-                                        sender);
-
-                            } else {
-                                deleteConfirm.isRequested = false;
-
-                                sender.sendMessage(Lang.NOT_REQUESTED_CONFIRM.toString());
-                                return;
-                            }
+                            double ExPrice = deleteConfirm.price
+                                    * deleteConfirm.playerplot.getConnectedPlots().size();
+                            deletePlot(deleteConfirm.player, deleteConfirm.playerplot, ExPrice, deleteConfirm,
+                                    sender);
 
                         } else {
-                            MCUtils.sendHelpMessageWithPrice(Lang.DELETE_PLOT_HELP, Lang.DELETE_HELP_PRICE_DEFAULT,
-                                    Lang.DELETE_PLOT_HELP, playerplot, sender, "delete", loc);
+                            deleteConfirm.isRequested = false;
 
-                            if (Main.useConfirm_delete) {
-                                MCUtils.sendHelpMessageWithPrice(Lang.DELETE_CONFIRM_HELP,
-                                        Lang.DELETE_HELP_PRICE_DEFAULT, Lang.DELETE_CONFIRM_HELP, playerplot, sender,
-                                        "delete", loc);
-                            }
-
+                            sender.sendMessage(Lang.NOT_REQUESTED_CONFIRM.toString());
                         }
 
                     } else {
-                        if (args.length == 0) {
+                        MCUtils.sendHelpMessageWithPrice(Lang.DELETE_PLOT_HELP, Lang.DELETE_HELP_PRICE_DEFAULT,
+                                Lang.DELETE_PLOT_HELP, playerplot, sender, "delete", loc);
 
-                            if (MCUtils.checkforConfirm(playerplot, sender, p, deleteConfirm, OtherPlotPerm)) {
-                                final java.util.Set<Plot> plots = playerplot.getConnectedPlots();
-                                MCUtils.setConfirmCancelled(sender, p, deleteConfirm, false);
+                        if (Main.useConfirm_delete) {
+                            MCUtils.sendHelpMessageWithPrice(Lang.DELETE_CONFIRM_HELP,
+                                    Lang.DELETE_HELP_PRICE_DEFAULT, Lang.DELETE_CONFIRM_HELP, playerplot, sender,
+                                    "delete", loc);
+                        }
 
-                                double price = Main.get().getConfig().getDouble(
-                                        "Price-by-World." + loc.getWorld().getName() + ".delete", Double.NaN);
+                    }
 
-                                if (price == Double.NaN) {
+                } else {
+                    if (args.length == 0) {
 
-                                    if (Main.cancelIfConfigNotSet) {
-                                        sender.sendMessage(Lang.CONFIG_NOT_SET.toString());
-                                        System.out.println(
-                                                Lang.CONFIG_NOT_SET_CONSOLE.toString().replaceAll("%config_node%",
-                                                        "Price-by-World." + loc.getWorld().getName() + ".delete"));
-                                        return;
+                        if (MCUtils.checkforConfirm(playerplot, sender, p, deleteConfirm, OtherPlotPerm)) {
+                            final java.util.Set<Plot> plots = playerplot.getConnectedPlots();
+                            MCUtils.setConfirmCancelled(sender, p, deleteConfirm, false);
 
-                                    } else {
-                                        price = 0.0;
+                            double price = Main.get().getConfig().getDouble(
+                                    "Price-by-World." + loc.getWorld().getName() + ".delete", Double.NaN);
 
-                                    }
-                                }
+                            if (price == Double.NaN) {
 
-                                if (MCUtils.checkBalance(p, price * plots.size(), sender, deleteConfirm)) {
-                                    if (Main.useConfirm_delete) {
+                                if (Main.cancelIfConfigNotSet) {
+                                    sender.sendMessage(Lang.CONFIG_NOT_SET.toString());
+                                    System.out.println(
+                                            Lang.CONFIG_NOT_SET_CONSOLE.toString().replaceAll("%config_node%",
+                                                    "Price-by-World." + loc.getWorld().getName() + ".delete"));
+                                    return;
 
-                                        MCUtils.setConfirmCancelled(sender, p, deleteConfirm, false);
-
-                                        setConfirm(deleteConfirm, sender, playerplot, p, plots.size(), price);
-                                    } else {
-
-                                        deletePlot(p, playerplot, plots.size() * price, deleteConfirm, sender);
-
-                                        deleteConfirm.isRequested = false;
-
-                                    }
+                                } else {
+                                    price = 0.0;
 
                                 }
+                            }
 
-                            } else {
+                            if (MCUtils.checkBalance(p, price * plots.size(), sender, deleteConfirm)) {
+                                if (Main.useConfirm_delete) {
+
+                                    MCUtils.setConfirmCancelled(sender, p, deleteConfirm, false);
+
+                                    setConfirm(deleteConfirm, sender, playerplot, p, plots.size(), price);
+                                } else {
+
+                                    deletePlot(p, playerplot, plots.size() * price, deleteConfirm, sender);
+
+                                    deleteConfirm.isRequested = false;
+
+                                }
+
                             }
 
                         } else {
+                        }
 
-                            MCUtils.sendHelpMessageWithPrice(Lang.DELETE_PLOT_HELP, Lang.DELETE_HELP_PRICE_DEFAULT,
-                                    Lang.DELETE_PLOT_HELP_DEFAULT, playerplot, sender, "delete", loc);
+                    } else {
 
-                            if (Main.useConfirm_delete) {
-                                MCUtils.sendHelpMessageWithPrice(Lang.DELETE_CONFIRM_HELP,
-                                        Lang.DELETE_HELP_PRICE_DEFAULT, Lang.DELETE_CONFIRM_HELP, playerplot, sender,
-                                        "delete", loc);
-                            }
+                        MCUtils.sendHelpMessageWithPrice(Lang.DELETE_PLOT_HELP, Lang.DELETE_HELP_PRICE_DEFAULT,
+                                Lang.DELETE_PLOT_HELP_DEFAULT, playerplot, sender, "delete", loc);
 
+                        if (Main.useConfirm_delete) {
+                            MCUtils.sendHelpMessageWithPrice(Lang.DELETE_CONFIRM_HELP,
+                                    Lang.DELETE_HELP_PRICE_DEFAULT, Lang.DELETE_CONFIRM_HELP, playerplot, sender,
+                                    "delete", loc);
                         }
 
                     }
 
                 }
-            }).runTaskAsynchronously(Main.plugin);
-        }
 
+            }
+        }).runTaskAsynchronously(Main.plugin);
         return true;
     }
 
