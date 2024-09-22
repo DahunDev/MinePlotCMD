@@ -17,115 +17,107 @@ import net.daniel.Plotcmds.main.Main;
 
 public class MigrateCommand implements CommandExecutor {
 
-	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+    @Override
+    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-		if (sender.hasPermission("MinePlotCMD.migrate")) {
+        if (!sender.hasPermission("MinePlotCMD.migrate")) {
+            sender.sendMessage(Lang.NO_PERM.toString());
+            return true;
+        }
+        if (args.length != 2) {
 
-			if (args.length == 2) {
+            sender.sendMessage(Lang.MIGRATE_HELP.toString());
+            return true;
 
-				(new BukkitRunnable() {
-					public void run() {
+        }
 
-						UUID from = UUIDHandler.getUUID(args[0], null);
+        (new BukkitRunnable() {
+            public void run() {
 
-						UUID to = UUIDHandler.getUUID(args[1], null);
+                UUID from = UUIDHandler.getUUID(args[0], null);
 
-						ArrayList<Plot> ownedPlots = new ArrayList<Plot>();
-						ArrayList<Plot> trustedPlots = new ArrayList<Plot>();
-						ArrayList<Plot> addedPlots = new ArrayList<Plot>();
+                UUID to = UUIDHandler.getUUID(args[1], null);
 
-						java.util.Set<Plot> allPlots = Main.plotAPI.getAllPlots();
+                ArrayList<Plot> ownedPlots = new ArrayList<Plot>();
+                ArrayList<Plot> trustedPlots = new ArrayList<Plot>();
+                ArrayList<Plot> addedPlots = new ArrayList<Plot>();
 
-						if (from == null || to == null) {
+                java.util.Set<Plot> allPlots = Main.plotAPI.getAllPlots();
 
-							if (from == null && to == null) {
+                if (from == null || to == null) {
 
-								sender.sendMessage(Lang.PlAYERNOTFOUND.toString().replaceAll("%player%",
-										args[0] + ", " + args[1]));
-								return;
-							} else if (from == null) {
-								sender.sendMessage(Lang.PlAYERNOTFOUND.toString().replaceAll("%player%", args[0]));
-								return;
+                    if (from == null && to == null) {
 
-							} else {
-								sender.sendMessage(Lang.PlAYERNOTFOUND.toString().replaceAll("%player%", args[1]));
-								return;
+                        sender.sendMessage(Lang.PlAYERNOTFOUND.toString().replaceAll("%player%",
+                                args[0] + ", " + args[1]));
+                        return;
+                    } else if (from == null) {
+                        sender.sendMessage(Lang.PlAYERNOTFOUND.toString().replaceAll("%player%", args[0]));
+                        return;
 
-							}
+                    } else {
+                        sender.sendMessage(Lang.PlAYERNOTFOUND.toString().replaceAll("%player%", args[1]));
+                        return;
 
-						}
+                    }
 
-						for (Plot plot : allPlots) {
-							if (plot.isOwner(from) && !plot.isMerged()) {
-								ownedPlots.add(plot);
-							}
+                }
 
-							HashSet<UUID> members = plot.getMembers();
+                for (Plot plot : allPlots) {
+                    if (plot.isOwner(from) && !plot.isMerged()) {
+                        ownedPlots.add(plot);
+                    }
 
-							if (members.contains(from)) {
-								addedPlots.add(plot);
-							}
+                    HashSet<UUID> members = plot.getMembers();
 
-							HashSet<UUID> trusteds = plot.getTrusted();
+                    if (members.contains(from)) {
+                        addedPlots.add(plot);
+                    }
 
-							if (trusteds.contains(from)) {
-								trustedPlots.add(plot);
-							}
+                    HashSet<UUID> trusteds = plot.getTrusted();
 
-						}
+                    if (trusteds.contains(from)) {
+                        trustedPlots.add(plot);
+                    }
 
-						for (Plot plot : ownedPlots) {
-							plot.setOwner(to);
-						}
+                }
 
-						sender.sendMessage(Lang.withPlaceHolder(Lang.MIGRATED_OWNER,
-								new String[] { "%plotlist%", "%from%", "%to%" }, ownedPlots, args[0], args[1]));
+                for (Plot plot : ownedPlots) {
+                    plot.setOwner(to);
+                }
 
-						System.out.println(Lang.withPlaceHolder(Lang.MIGRATED_MEMBER_CONSOLE,
-								new String[] { "%plotlist%", "%from%", "%to%" }, ownedPlots, args[0], args[1]));
+                sender.sendMessage(Lang.withPlaceHolder(Lang.MIGRATED_OWNER,
+                        new String[]{"%plotlist%", "%from%", "%to%"}, ownedPlots, args[0], args[1]));
 
-						for (Plot plot : trustedPlots) {
-							plot.addTrusted(to);
+                System.out.println(Lang.withPlaceHolder(Lang.MIGRATED_MEMBER_CONSOLE,
+                        new String[]{"%plotlist%", "%from%", "%to%"}, ownedPlots, args[0], args[1]));
 
-						}
+                for (Plot plot : trustedPlots) {
+                    plot.addTrusted(to);
 
-						sender.sendMessage(Lang.withPlaceHolder(Lang.MIGRATED_TRUSTED,
-								new String[] { "%plotlist%", "%from%", "%to%" }, trustedPlots, args[0], args[1]));
-						System.out.println(Lang.withPlaceHolder(Lang.MIGRATED_TRUSTED_CONSOLE,
-								new String[] { "%plotlist%", "%from%", "%to%" }, trustedPlots, args[0], args[1]));
+                }
 
-						for (Plot plot : addedPlots) {
-							plot.addMember(to);
+                sender.sendMessage(Lang.withPlaceHolder(Lang.MIGRATED_TRUSTED,
+                        new String[]{"%plotlist%", "%from%", "%to%"}, trustedPlots, args[0], args[1]));
+                System.out.println(Lang.withPlaceHolder(Lang.MIGRATED_TRUSTED_CONSOLE,
+                        new String[]{"%plotlist%", "%from%", "%to%"}, trustedPlots, args[0], args[1]));
 
-						}
+                for (Plot plot : addedPlots) {
+                    plot.addMember(to);
 
-						sender.sendMessage(Lang.withPlaceHolder(Lang.MIGRATED_MEMBER,
-								new String[] { "%plotlist%", "%from%", "%to%" }, addedPlots, args[0], args[1]));
-						System.out.println(Lang.withPlaceHolder(Lang.MIGRATED_MEMBER_CONSOLE,
-								new String[] { "%plotlist%", "%from%", "%to%" }, addedPlots, args[0], args[1]));
+                }
 
-						return;
+                sender.sendMessage(Lang.withPlaceHolder(Lang.MIGRATED_MEMBER,
+                        new String[]{"%plotlist%", "%from%", "%to%"}, addedPlots, args[0], args[1]));
+                System.out.println(Lang.withPlaceHolder(Lang.MIGRATED_MEMBER_CONSOLE,
+                        new String[]{"%plotlist%", "%from%", "%to%"}, addedPlots, args[0], args[1]));
 
-					}
+            }
 
-				}).runTaskAsynchronously(Main.plugin);
+        }).runTaskAsynchronously(Main.plugin);
 
-				return true;
+        return true;
 
-			} else {
-
-				sender.sendMessage(Lang.MIGRATE_HELP.toString());
-				return true;
-			}
-
-		} else {
-
-			sender.sendMessage(Lang.NO_PERM.toString());
-			return true;
-
-		}
-
-	}
+    }
 
 }
