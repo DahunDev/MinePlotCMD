@@ -112,100 +112,100 @@ public class BiomePlotCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
         if (!MCUtils.checkPlayerPerm(sender, "MinePlotCMD.biome")) {
-			return true;
+            return true;
         }
-		(new BukkitRunnable() {
-			public void run() {
+        (new BukkitRunnable() {
+            public void run() {
 
-				Player p = (Player) sender;
-				Location loc = p.getLocation();
+                Player p = (Player) sender;
+                Location loc = p.getLocation();
 
-				Plot playerplot = Main.plotAPI.getPlot(loc);
+                Plot playerplot = Main.plotAPI.getPlot(loc);
 
-				if (args.length < 1) {
-					MCUtils.sendHelpMessageWithPrice(Lang.BIOME_HELP, Lang.BIOME_HELP_PRICE_DEFAULT,
-							Lang.BIOME_HELP_DEFAULT, playerplot, sender, "biome", loc);
-					return;
-				}
+                if (args.length < 1) {
+                    MCUtils.sendHelpMessageWithPrice(Lang.BIOME_HELP, Lang.BIOME_HELP_PRICE_DEFAULT,
+                            Lang.BIOME_HELP_DEFAULT, playerplot, sender, "biome", loc);
+                    return;
+                }
 
-				double price = Main.get().getConfig()
-						.getDouble("Price-by-World." + loc.getWorld().getName() + ".biome", Double.NaN);
+                double price = Main.get().getConfig()
+                        .getDouble("Price-by-World." + loc.getWorld().getName() + ".biome", Double.NaN);
 
-				BiomeConfirm biomeConfirm = Main.getData().get(p.getUniqueId().toString()).biome;
+                BiomeConfirm biomeConfirm = Main.getData().get(p.getUniqueId().toString()).biome;
 
-				if (price == Double.NaN) {
+                if (price == Double.NaN) {
 
-					if (Main.cancelIfConfigNotSet) {
-						sender.sendMessage(Lang.CONFIG_NOT_SET.toString());
-						System.out.println(Lang.CONFIG_NOT_SET_CONSOLE.toString().replaceAll("%config_node%",
-								"Price-by-World." + loc.getWorld().getName() + ".biome"));
-						return;
+                    if (Main.cancelIfConfigNotSet) {
+                        sender.sendMessage(Lang.CONFIG_NOT_SET.toString());
+                        System.out.println(Lang.CONFIG_NOT_SET_CONSOLE.toString().replaceAll("%config_node%",
+                                "Price-by-World." + loc.getWorld().getName() + ".biome"));
+                        return;
 
-					} else {
-						price = 0.0;
+                    } else {
+                        price = 0.0;
 
-					}
-				}
+                    }
+                }
 
-				if (args[0].equalsIgnoreCase("작업확인") || args[0].equalsIgnoreCase("확인")) {
+                if (args[0].equalsIgnoreCase("작업확인") || args[0].equalsIgnoreCase("확인")) {
 
-					if (!(Main.useConfirm_Biome && biomeConfirm.isRequested)) {
-						biomeConfirm.isRequested = false;
-						sender.sendMessage(Lang.NOT_REQUESTED_CONFIRM.toString());
-					}
-					double ExPrice = biomeConfirm.price * biomeConfirm.plotsize;
+                    if (!(Main.useConfirm_Biome && biomeConfirm.isRequested)) {
+                        biomeConfirm.isRequested = false;
+                        sender.sendMessage(Lang.NOT_REQUESTED_CONFIRM.toString());
+                    }
+                    double ExPrice = biomeConfirm.price * biomeConfirm.plotsize;
 
-					setbiome(biomeConfirm.player, biomeConfirm.playerplot, ExPrice, biomeConfirm, sender,
-							biomeConfirm.biome);
+                    setbiome(biomeConfirm.player, biomeConfirm.playerplot, ExPrice, biomeConfirm, sender,
+                            biomeConfirm.biome);
 
 
-				} else if (args[0].equalsIgnoreCase("조회") || args[0].equalsIgnoreCase("정보")) {
-					if (playerplot != null) {
+                } else if (args[0].equalsIgnoreCase("조회") || args[0].equalsIgnoreCase("정보")) {
+                    if (playerplot != null) {
 
-						sender.sendMessage(Lang.BIOME_INFO.toString().replaceAll("%biome%", playerplot.getBiome()));
+                        sender.sendMessage(Lang.BIOME_INFO.toString().replaceAll("%biome%", playerplot.getBiome()));
 
-					} else {
-						sender.sendMessage(Lang.NOT_IN_PLOT.toString());
+                    } else {
+                        sender.sendMessage(Lang.NOT_IN_PLOT.toString());
 
-					}
-				} else {
+                    }
+                } else {
 
-					if (!MCUtils.checkforConfirm(playerplot, sender, p, biomeConfirm, OtherPlotPerm)) {
-						return;
-					}
-					final java.util.Set<Plot> plots = playerplot.getConnectedPlots();
+                    if (!MCUtils.checkforConfirm(playerplot, sender, p, biomeConfirm, OtherPlotPerm)) {
+                        return;
+                    }
+                    final java.util.Set<Plot> plots = playerplot.getConnectedPlots();
 
-					if (playerplot.getRunning() > 0) {
-						MainUtil.sendMessage(BukkitUtil.getPlayer(p), C.WAIT_FOR_TIMER);
-						return;
-					}
+                    if (playerplot.getRunning() > 0) {
+                        MainUtil.sendMessage(BukkitUtil.getPlayer(p), C.WAIT_FOR_TIMER);
+                        return;
+                    }
 
-					if (MCUtils.isVaildBiome(args[0])) {
+                    if (MCUtils.isVaildBiome(args[0])) {
 
-						if (Main.useConfirm_Biome) {
+                        if (Main.useConfirm_Biome) {
 
-							setConfirm(biomeConfirm, sender, playerplot, p, plots.size(), args[0], price);
+                            setConfirm(biomeConfirm, sender, playerplot, p, plots.size(), args[0], price);
 
-						} else {
+                        } else {
 
-							setbiome(p, playerplot, price * plots.size(), biomeConfirm, sender, args[0]);
-						}
+                            setbiome(p, playerplot, price * plots.size(), biomeConfirm, sender, args[0]);
+                        }
 
-					} else {
-						MCUtils.setConfirmCancelled(sender, p, biomeConfirm, false);
+                    } else {
+                        MCUtils.setConfirmCancelled(sender, p, biomeConfirm, false);
 
-						MainUtil.sendMessage(BukkitUtil.getPlayer(p), C.NEED_BIOME);
-						String biomes = StringMan.join(WorldUtil.IMP.getBiomeList(),
-								C.BLOCK_LIST_SEPARATER.s());
-						MainUtil.sendMessage(BukkitUtil.getPlayer(p),
-								C.SUBCOMMAND_SET_OPTIONS_HEADER.s() + biomes);
+                        MainUtil.sendMessage(BukkitUtil.getPlayer(p), C.NEED_BIOME);
+                        String biomes = StringMan.join(WorldUtil.IMP.getBiomeList(),
+                                C.BLOCK_LIST_SEPARATER.s());
+                        MainUtil.sendMessage(BukkitUtil.getPlayer(p),
+                                C.SUBCOMMAND_SET_OPTIONS_HEADER.s() + biomes);
 
-					}
-				}
+                    }
+                }
 
-			}
+            }
 
-		}).runTaskAsynchronously(Main.plugin);
+        }).runTaskAsynchronously(Main.plugin);
         return true;
 
     }
