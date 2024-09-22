@@ -28,89 +28,85 @@ public class ListCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (sender.hasPermission("MinePlotCMD.list")) {
+        if (!sender.hasPermission("MinePlotCMD.list")) {
+            return true;
+        }
 
-            (new BukkitRunnable() {
+        (new BukkitRunnable() {
 
-                @Override
-                public void run() {
+            @Override
+            public void run() {
 
-                    if (args.length < 1) {
+                if (args.length < 1) {
 
-                        if (sender instanceof Player player) {
+                    if (sender instanceof Player player) {
 
-                            String cmdval = label + " " + player.getName();
-                            sendList(sender, player.getUniqueId(), 1, cmdval, player.getName());
-
-                        } else {
-                            sender.sendMessage(Lang.INGAME_ONLY.toString());
-                            sender.sendMessage(Lang.PLOT_LIST_OTHER_HELP.toString());
-                        }
+                        String cmdval = label + " " + player.getName();
+                        sendList(sender, player.getUniqueId(), 1, cmdval, player.getName());
 
                     } else {
+                        sender.sendMessage(Lang.INGAME_ONLY.toString());
+                        sender.sendMessage(Lang.PLOT_LIST_OTHER_HELP.toString());
+                    }
+                    return;
+                }
+                //at this point args.length < 1 is false
 
-                        if (args.length == 2) {
+                if (args.length != 2) {
+                    if (args.length > 2) {
+                        sender.sendMessage(Lang.NO_NAME_SPACE.toString());
+                        sender.sendMessage(Lang.PLOT_LIST_OTHER_HELP.toString());
 
-                            int page = 1;
+                    } else {
+                        sender.sendMessage(Lang.PAGE_VALUE_NOT_SET.toString());
 
-                            try {
+                        sender.sendMessage(
+                                Lang.PLOT_LIST_MINE_HELP.toString().replaceAll("%player%", sender.getName()));
 
-                                page = Integer.parseInt(args[1]);
-
-                            } catch (Exception e) {
-
-                                sender.sendMessage(Lang.NOT_PAGE_NUMBER.toString().replaceAll("%value%", args[1]));
-                                sender.sendMessage(Lang.PLOT_LIST_OTHER_HELP.toString());
-                                return;
-                            }
-
-                            if (page > 0) {
-
-                                UUID uuid = UUIDHandler.getUUIDFromString(args[0]);
-
-                                if (uuid != null && !uuid.toString().isEmpty()) {
-
-                                    StringBuffer buffer = new StringBuffer(label);
-                                    for (int i = 0; i < args.length - 1; i++) {
-                                        buffer.append(" " + args[i]);
-                                    }
-
-                                    sendList(sender, uuid, page, buffer.toString(), args[0]);
-
-                                } else {
-                                    sender.sendMessage(Lang.PlAYERNOTFOUND.toString().replaceAll("%player%", args[0]));
-                                }
-
-                            } else {
-                                sender.sendMessage(Lang.NOT_PAGE_NUMBER.toString().replaceAll("%value%", args[1]));
-                                sender.sendMessage(Lang.PLOT_LIST_OTHER_HELP.toString());
-
-                            }
-
-                        } else {
-
-                            if (args.length > 2) {
-                                sender.sendMessage(Lang.NO_NAME_SPACE.toString());
-                                sender.sendMessage(Lang.PLOT_LIST_OTHER_HELP.toString());
-
-                            } else {
-                                sender.sendMessage(Lang.PAGE_VALUE_NOT_SET.toString());
-
-                                sender.sendMessage(
-                                        Lang.PLOT_LIST_MINE_HELP.toString().replaceAll("%player%", sender.getName()));
-
-                                sender.sendMessage(Lang.PLOT_LIST_OTHER_HELP.toString());
-
-                            }
-
-                        }
+                        sender.sendMessage(Lang.PLOT_LIST_OTHER_HELP.toString());
 
                     }
 
-                }
-            }).runTaskAsynchronously(Main.plugin);
+                    return;
 
-        }
+
+                }
+                int page = 1;
+
+                try {
+
+                    page = Integer.parseInt(args[1]);
+
+                } catch (Exception e) {
+
+                    sender.sendMessage(Lang.NOT_PAGE_NUMBER.toString().replaceAll("%value%", args[1]));
+                    sender.sendMessage(Lang.PLOT_LIST_OTHER_HELP.toString());
+                    return;
+                }
+
+                if (!(page > 0)) {
+                    sender.sendMessage(Lang.NOT_PAGE_NUMBER.toString().replaceAll("%value%", args[1]));
+                    sender.sendMessage(Lang.PLOT_LIST_OTHER_HELP.toString());
+                    return;
+                }
+                UUID uuid = UUIDHandler.getUUIDFromString(args[0]);
+
+                if (uuid != null && !uuid.toString().isEmpty()) {
+
+                    StringBuffer buffer = new StringBuffer(label);
+                    for (int i = 0; i < args.length - 1; i++) {
+                        buffer.append(" " + args[i]);
+                    }
+
+                    sendList(sender, uuid, page, buffer.toString(), args[0]);
+
+                } else {
+                    sender.sendMessage(Lang.PlAYERNOTFOUND.toString().replaceAll("%player%", args[0]));
+                }
+
+
+            }
+        }).runTaskAsynchronously(Main.plugin);
 
         return true;
     }
@@ -324,18 +320,34 @@ public class ListCommand implements CommandExecutor {
             rs.addExtra(t);
             return rs;
 
-        } else {
+        }
 
-            int index = 0;
-            for (UUID uuid : plot.getOwners()) {
 
-                String name = UUIDHandler.getName(uuid);
-                if (name == null) {
+        int index = 0;
+        for (UUID uuid : plot.getOwners()) {
 
-                    TextComponent t = new TextComponent(Lang.VALUE_COLOR.toString() + Lang.UNKNOWN);
+            String name = UUIDHandler.getName(uuid);
+            if (name == null) {
+
+                TextComponent t = new TextComponent(Lang.VALUE_COLOR.toString() + Lang.UNKNOWN);
+                t.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                        new ComponentBuilder(
+                                Lang.HOVER_ISONLINE.toString().replaceAll("%isOnline%", Lang.OFFLINE.toString()))
+                                .create()));
+
+                rs.addExtra(t);
+
+                if (index < ownerSize - 1) {
+                    rs.addExtra(", ");
+                }
+
+            } else {
+                PlotPlayer pp = UUIDHandler.getPlayer(uuid);
+                if (pp != null) {
+                    TextComponent t = new TextComponent(Lang.VALUE_COLOR + name);
                     t.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                             new ComponentBuilder(
-                                    Lang.HOVER_ISONLINE.toString().replaceAll("%isOnline%", Lang.OFFLINE.toString()))
+                                    Lang.HOVER_ISONLINE.toString().replaceAll("%isOnline%", Lang.ONLINE.toString()))
                                     .create()));
 
                     rs.addExtra(t);
@@ -343,38 +355,21 @@ public class ListCommand implements CommandExecutor {
                     if (index < ownerSize - 1) {
                         rs.addExtra(", ");
                     }
-
                 } else {
-                    PlotPlayer pp = UUIDHandler.getPlayer(uuid);
-                    if (pp != null) {
-                        TextComponent t = new TextComponent(Lang.VALUE_COLOR + name);
-                        t.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                                new ComponentBuilder(
-                                        Lang.HOVER_ISONLINE.toString().replaceAll("%isOnline%", Lang.ONLINE.toString()))
-                                        .create()));
+                    TextComponent t = new TextComponent(Lang.VALUE_COLOR + name);
+                    t.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(
+                            Lang.HOVER_ISONLINE.toString().replaceAll("%isOnline%", Lang.OFFLINE.toString()))
+                            .create()));
 
-                        rs.addExtra(t);
+                    rs.addExtra(t);
 
-                        if (index < ownerSize - 1) {
-                            rs.addExtra(", ");
-                        }
-                    } else {
-                        TextComponent t = new TextComponent(Lang.VALUE_COLOR + name);
-                        t.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(
-                                Lang.HOVER_ISONLINE.toString().replaceAll("%isOnline%", Lang.OFFLINE.toString()))
-                                .create()));
-
-                        rs.addExtra(t);
-
-                        if (index < ownerSize - 1) {
-                            rs.addExtra(", ");
-                        }
+                    if (index < ownerSize - 1) {
+                        rs.addExtra(", ");
                     }
                 }
-
-                index++;
             }
 
+            index++;
         }
 
         return rs;
