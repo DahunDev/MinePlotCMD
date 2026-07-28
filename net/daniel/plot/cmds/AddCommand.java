@@ -62,6 +62,7 @@ public class AddCommand implements CommandExecutor {
 			addConfirm.isRequested = false;
 			return;
 		}
+		//check state shift due to timing change
 
 		if (playerplot.isOwner(uuid)) {
 			sender.sendMessage(Lang.ALREADY_OWNER.toString().replaceAll("%target%", nick));
