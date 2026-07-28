@@ -19,146 +19,128 @@ import net.daniel.plotcmd.Utils.MCUtils;
 
 public class InfoCommand implements CommandExecutor {
 
-    @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+	@Override
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-        if (sender.hasPermission("MinePlotCmd.info")) {
-            sender.sendMessage(Lang.NO_PERM.toString());
-            return true;
+		if (!sender.hasPermission("MinePlotCmd.info")) {
+			sender.sendMessage(Lang.NO_PERM.toString());
+			return true;
+		}
 
-        }
-        if (args.length > 0) {
+		if (args.length > 0) {
 
-            Plot plot = null;
+			Plot plot = null;
 
-            String id = args[0];
+			String id = args[0];
 
-            if (sender instanceof Player p) {
+			if (sender instanceof Player) {
+				Player p = (Player) sender;
 
-                PlotPlayer pp = BukkitUtil.getPlayer(p);
-                plot = MainUtil.getPlotFromString(pp, id, false);
+				PlotPlayer pp = BukkitUtil.getPlayer(p);
+				plot = MainUtil.getPlotFromString(pp, id, false);
 
-            } else {
-                plot = MainUtil.getPlotFromString(null, id, false);
+			} else {
+				plot = MainUtil.getPlotFromString(null, id, false);
+			}
 
-            }
+			checkAndSendMSG(plot, sender, true);
 
-            checkAndSendMSG(plot, sender, true);
+			return true;
+		}
 
-            return true;
+		if (!(sender instanceof Player)) {
+			sender.sendMessage(Lang.INGAME_ONLY.toString());
+			sender.sendMessage(Lang.PLOT_INFO_HELP.toString());
+			return true;
+		}
 
-        } else {
+		Player p = (Player) sender;
 
-            if (sender instanceof Player p) {
+		Plot plot = Main.plotAPI.getPlot(p.getLocation());
 
-                Plot plot = Main.plotAPI.getPlot(p.getLocation());
+		checkAndSendMSG(plot, sender, false);
 
-                checkAndSendMSG(plot, sender, false);
+		return true;
+	}
 
-            } else {
+	private void checkAndSendMSG(Plot plot, CommandSender sender, boolean args) {
 
-                sender.sendMessage(Lang.INGAME_ONLY.toString());
-                sender.sendMessage(Lang.PLOT_INFO_HELP.toString());
-                return true;
+		if (plot == null) {
 
-            }
+			if (args) {
+				sender.sendMessage(Lang.PLOT_INFO_HELP.toString());
+			} else {
+				sender.sendMessage(Lang.NOT_IN_PLOT.toString());
+			}
 
-        }
+			return;
+		}
 
-        return true;
+		if (!plot.hasOwner()) {
+			sender.sendMessage(Lang.PLOT_OWNER_NOT_SET.toString());
+			return;
+		}
 
-    }
+		String biome = plot.getBiome();
 
-    private void checkAndSendMSG(Plot plot, CommandSender sender, boolean args) {
+		(new BukkitRunnable() {
 
-        if (plot == null) {
-            if (args) {
+			@Override
+			public void run() {
+				sendInfo(plot, sender, biome);
+				return;
+			}
+		}).runTaskAsynchronously(Main.plugin);
+	}
 
-                sender.sendMessage(Lang.PLOT_INFO_HELP.toString());
+	private void sendInfo(Plot plot, CommandSender sender, String biome) {
 
-            } else {
-                sender.sendMessage(Lang.NOT_IN_PLOT.toString());
+		StringBuffer info = new StringBuffer();
+		info.append(Lang.PLOT_INFO.toString());
 
-            }
+		MCUtils.replaceAll(info, "%ID%", plot.getId().x + ";" + plot.getId().y);
 
-            return;
+		MCUtils.replaceAll(info, "%owner%", MCUtils.getPlayerList(plot.getOwners()));
 
-        }
+		MCUtils.replaceAll(info, "%biome%", biome);
 
-        if (!plot.hasOwner()) {
-            sender.sendMessage(Lang.PLOT_OWNER_NOT_SET.toString());
-            return;
-        }
+		Optional<?> optional = plot.getFlag(Flags.PRICE);
 
-        String biome = plot.getBiome();
+		if (!optional.isPresent()) {
+			MCUtils.replaceAll(info, "%sell_price%", Lang.NOT_FOR_SELL.toString());
+		} else if (optional.get() instanceof Double) {
+			double price = (double) optional.get();
+			MCUtils.replaceAll(info, "%sell_price%", price);
+		}
 
-        (new BukkitRunnable() {
+		if (!(sender instanceof Player)) {
+			MCUtils.replaceAll(info, "%canBuild%", "false");
+		} else {
+			Player p = (Player) sender;
 
-            @Override
-            public void run() {
-                sendInfo(plot, sender, biome);
+			MCUtils.replaceAll(info, "%canBuild%",
+					(plot.isAdded(p.getUniqueId()) && !plot.isDenied(p.getUniqueId())) + "");
+		}
 
-            }
-        }).runTaskAsynchronously(Main.plugin);
+		MCUtils.replaceAll(info, "%rate%", plot.getAverageRating() + "");
 
-    }
+		MCUtils.replaceAll(info, "%trusted%", MCUtils.getPlayerList(plot.getTrusted()));
 
-    private void sendInfo(Plot plot, CommandSender sender, String biome) {
+		MCUtils.replaceAll(info, "%members%", MCUtils.getPlayerList(plot.getMembers()));
 
-        StringBuffer info = new StringBuffer();
-        info.append(Lang.PLOT_INFO);
+		MCUtils.replaceAll(info, "%denied%", MCUtils.getPlayerList(plot.getDenied()));
 
-        MCUtils.replaceAll(info, "%ID%", plot.getId().x + ";" + plot.getId().y);
+		String alias = plot.getAlias();
 
-        MCUtils.replaceAll(info, "%owner%", MCUtils.getPlayerList(plot.getOwners()));
+		if (alias.length() <= 0) {
+			MCUtils.replaceAll(info, "%ailas%", Lang.EMPTY_LIST.toString());
+		} else {
+			MCUtils.replaceAll(info, "%ailas%", alias);
+		}
 
-        MCUtils.replaceAll(info, "%biome%", biome);
+		MCUtils.replaceAll(info, "%flags%", MCUtils.convertWithIteration(plot.getFlags()));
+		MCUtils.replaceAll(info, "%expire_date%", MCUtils.getExpireDate(plot));
 
-        Optional<?> optional = plot.getFlag(Flags.PRICE);
-
-        if (optional.isPresent()) {
-
-            if (optional.get() instanceof Double) {
-
-                double price = (double) optional.get();
-                MCUtils.replaceAll(info, "%sell_price%", price);
-
-            }
-        } else {
-            MCUtils.replaceAll(info, "%sell_price%", Lang.NOT_FOR_SELL.toString());
-        }
-
-        if (sender instanceof Player p) {
-
-            MCUtils.replaceAll(info, "%canBuild%",
-                    (plot.isAdded(p.getUniqueId()) && !plot.isDenied(p.getUniqueId())) + "");
-        } else {
-            MCUtils.replaceAll(info, "%canBuild%", "false");
-
-        }
-
-        MCUtils.replaceAll(info, "%rate%", plot.getAverageRating() + "");
-
-        MCUtils.replaceAll(info, "%trusted%", MCUtils.getPlayerList(plot.getTrusted()));
-
-        MCUtils.replaceAll(info, "%members%", MCUtils.getPlayerList(plot.getMembers()));
-
-        MCUtils.replaceAll(info, "%denied%", MCUtils.getPlayerList(plot.getDenied()));
-
-        String alias = plot.getAlias();
-
-        if (alias.length() > 0) {
-            MCUtils.replaceAll(info, "%ailas%", alias);
-
-        } else {
-            MCUtils.replaceAll(info, "%ailas%", Lang.EMPTY_LIST.toString());
-        }
-
-        MCUtils.replaceAll(info, "%flags%", MCUtils.convertWithIteration(plot.getFlags()));
-        MCUtils.replaceAll(info, "%expire_date%", MCUtils.getExpireDate(plot));
-
-        sender.sendMessage(info.toString());
-
-    }
-
+		sender.sendMessage(info.toString());
+	}
 }
