@@ -48,6 +48,8 @@ public class deleteExpiredCommand implements CommandExecutor {
 					}
 				}
 
+				//lock/unlock for race condition handle
+
 				for (Plot plot : expiredPlots) {
 
 					if (plot.getRunning() > 0) {
@@ -67,7 +69,7 @@ public class deleteExpiredCommand implements CommandExecutor {
 						continue;
 					}
 
-					plot.addRunning();
+					plot.addRunning(); //lock
 				}
 
 				long took = System.currentTimeMillis() - start;
