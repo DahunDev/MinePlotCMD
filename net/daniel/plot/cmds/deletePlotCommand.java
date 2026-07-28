@@ -51,7 +51,7 @@ public class deletePlotCommand implements CommandExecutor {
 	private void deletePlot(Player player, Plot playerplot, double calcedprice, DeleteConfirm deleteConfirm,
 			CommandSender sender) {
 
-		if (playerplot.getRunning() > 0) {
+		if (playerplot.getRunning() > 0) { //race condition
 			MainUtil.sendMessage(BukkitUtil.getPlayer(player), C.WAIT_FOR_TIMER);
 			MCUtils.setConfirmCancelled(sender, player, deleteConfirm, false);
 			return;
