@@ -1,6 +1,3 @@
-같은 방식으로 **조건과 로직은 그대로 유지하고 early termination만 적용**했습니다. 이 코드에는 `== Double.NaN` 비교가 없습니다.
-
-```java
 package net.daniel.plot.cmds;
 
 import java.util.ArrayList;
@@ -116,4 +113,3 @@ public class MigrateCommand implements CommandExecutor {
 		return true;
 	}
 }
-```
