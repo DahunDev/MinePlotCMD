@@ -17,119 +17,114 @@ import net.daniel.plotcmd.Utils.MCUtils;
 
 public class keepPlotCommand implements CommandExecutor {
 
-    @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+	@Override
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(Lang.INGAME_ONLY.toString());
-            return true;
-        }
-        if (!sender.hasPermission("MinePlotCMD.keep")) {
-            sender.sendMessage(Lang.NO_PERM.toString());
+		if (!(sender instanceof Player)) {
+			sender.sendMessage(Lang.INGAME_ONLY.toString());
+			return true;
+		}
 
-            return true;
+		if (!sender.hasPermission("MinePlotCMD.keep")) {
+			sender.sendMessage(Lang.NO_PERM.toString());
+			return true;
+		}
 
-        }
+		(new BukkitRunnable() {
 
+			public void run() {
 
-        (new BukkitRunnable() {
+				Player p = (Player) sender;
+				Location loc = p.getLocation();
+				Plot playerplot = Main.plotAPI.getPlot(loc);
 
-            public void run() {
+				if (playerplot == null) {
+					sender.sendMessage(Lang.NOT_IN_PLOT.toString());
+					return;
+				}
 
-                Player p = (Player) sender;
-                Location loc = p.getLocation();
-                Plot playerplot = Main.plotAPI.getPlot(loc);
+				if (!playerplot.hasOwner()) {
+					sender.sendMessage(Lang.PLOT_OWNER_NOT_SET.toString());
+					return;
+				}
 
-                if (playerplot != null) {
-                    sender.sendMessage(Lang.NOT_IN_PLOT.toString());
-                    return;
+				if (args.length <= 0) {
+					sender.sendMessage(Lang.KEEP_PLOT_HELPS.toString());
+					return;
+				}
 
-                }
+				if (args[0].equalsIgnoreCase("Á¶È¸") || args[0].equalsIgnoreCase("È®ÀÎ")) {
+					sender.sendMessage(MCUtils.getExpireDate(playerplot));
+					return;
+				}
 
-                if (!playerplot.hasOwner()) {
-                    sender.sendMessage(Lang.PLOT_OWNER_NOT_SET.toString());
-                    return;
-                }
-                if (args.length > 0) {
-                    sender.sendMessage(Lang.KEEP_PLOT_HELPS.toString());
-                    return;
-                }
+				if (!args[0].equalsIgnoreCase("°»½Å")) {
+					sender.sendMessage(Lang.KEEP_PLOT_HELPS.toString());
+					return;
+				}
 
+				if (!sender.hasPermission("MinePlotCmd.keep.other")
+						&& !playerplot.isAdded(p.getUniqueId())) {
 
-                if (args[0].equalsIgnoreCase("조회") || args[0].equalsIgnoreCase("확인")) {
+					sender.sendMessage(Lang.NOT_ALLOWED_PLOT.toString());
+					return;
+				}
 
-                    sender.sendMessage(MCUtils.getExpireDate(playerplot));
+				double days = Main.get().getConfig().getDouble(
+						"Expire-Days-by-World." + loc.getWorld().getName(), Double.NaN);
 
-                } else if (args[0].equalsIgnoreCase("갱신")) {
+				if (Double.isNaN(days)) {
 
-                    if (sender.hasPermission("MinePlotCmd.keep.other")
-                            || playerplot.isAdded(p.getUniqueId())) {
+					if (Main.cancelIfConfigNotSet) {
+						sender.sendMessage(Lang.CONFIG_NOT_SET.toString());
 
-                        double days = Main.get().getConfig().getDouble(
-                                "Expire-Days-by-World." + loc.getWorld().getName(), Double.NaN);
+						System.out.println(Lang.CONFIG_NOT_SET_CONSOLE.toString()
+								.replaceAll("%config_node%",
+										"Expire-Days-by-World." + loc.getWorld().getName()));
 
-                        if (days == Double.NaN) {
+						return;
+					}
 
-                            if (Main.cancelIfConfigNotSet) {
-                                sender.sendMessage(Lang.CONFIG_NOT_SET.toString());
-                                System.out.println(Lang.CONFIG_NOT_SET_CONSOLE.toString()
-                                        .replaceAll("%config_node%", "Expire-Days-by-World."
-                                                + loc.getWorld().getName()));
-                                return;
+					days = 30.0;
+				}
 
-                            } else {
-                                days = 30.0;
+				long expire = Math.round(days * 86400000) + System.currentTimeMillis();
 
-                            }
-                        }
+				long expire_old = 0L;
 
-                        long expire = Math.round(days * 86400000) + System.currentTimeMillis();
+				Optional<?> optional = playerplot.getFlag(Flags.KEEP);
 
-                        long expire_old = 0L;
+				if (optional.isPresent()) {
+					if (optional.get() instanceof Long) {
+						expire_old = (long) optional.get();
+					}
+				}
 
-                        Optional<?> optional = playerplot.getFlag(Flags.KEEP);
+				if (optional.toString().toLowerCase().contains("true")) {
+					expire_old = 9223372036854775807L;
+				}
 
-                        if (optional.isPresent()) {
-                            if (optional.get() instanceof Long) {
-                                expire_old = (long) optional.get();
-                            }
-                        }
+				if (expire_old >= expire) {
+					sender.sendMessage(Lang.NOT_NEED_UPDATE_EXPIRE_DATE.toString()
+							.replaceAll("%expire_date%", MCUtils.msTo_Time(expire_old)));
 
-                        if (optional.toString().toLowerCase().contains("true")) {
-                            expire_old = 9223372036854775807L;
-                        }
+					return;
+				}
 
-                        if (expire_old < expire) {
+				playerplot.setFlag(Flags.KEEP, expire);
 
-                            playerplot.setFlag(Flags.KEEP, expire);
+				// playerplot.setFlag(Flags.KEEP, expire);
+				sender.sendMessage(Lang.withPlaceHolder(Lang.KEEP_PLOT_UPDATED,
+						new String[] { "%expire_date%", "%plot%" },
+						MCUtils.msTo_Time(expire), playerplot));
 
-                            // playerplot.setFlag(Flags.KEEP, expire);
-                            sender.sendMessage(Lang.withPlaceHolder(Lang.KEEP_PLOT_UPDATED,
-                                    new String[]{"%expire_date%", "%plot%"},
-                                    MCUtils.msTo_Time(expire), playerplot));
+				System.out.println(Lang.withPlaceHolder(Lang.KEEP_PLOT_UPDATED_CONSOLE,
+						new String[] { "%expire_date%", "%plot%" },
+						MCUtils.msTo_Time(expire), playerplot));
+			}
 
-                            System.out
-                                    .println(Lang.withPlaceHolder(Lang.KEEP_PLOT_UPDATED_CONSOLE,
-                                            new String[]{"%expire_date%", "%plot%"},
-                                            MCUtils.msTo_Time(expire), playerplot));
+		}).runTaskAsynchronously(Main.plugin);
 
-                        } else {
-                            sender.sendMessage(Lang.NOT_NEED_UPDATE_EXPIRE_DATE.toString()
-                                    .replaceAll("%expire_date%", MCUtils.msTo_Time(expire_old)));
-
-                        }
-
-                    } else {
-                        sender.sendMessage(Lang.NOT_ALLOWED_PLOT.toString());
-                    }
-                } else {
-                    sender.sendMessage(Lang.KEEP_PLOT_HELPS.toString());
-                }
-            }
-
-        }).runTaskAsynchronously(Main.plugin);
-
-        return true;
-    }
-
+		return true;
+	}
 }
