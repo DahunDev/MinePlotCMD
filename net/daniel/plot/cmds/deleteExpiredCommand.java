@@ -15,88 +15,78 @@ import net.daniel.plotcmd.Utils.MCUtils;
 
 public class deleteExpiredCommand implements CommandExecutor {
 
-    @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+	@Override
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-        if (!sender.hasPermission("MinePlotCMD.resetExpired")) {
-            sender.sendMessage(Lang.NO_PERM.toString());
-            return true;
+		if (!sender.hasPermission("MinePlotCMD.resetExpired")) {
+			sender.sendMessage(Lang.NO_PERM.toString());
+			return true;
+		}
 
-        }
+		if (args.length != 0) {
+			sender.sendMessage(Lang.DELETE_EXPIRED_HELP.toString());
+			return true;
+		}
 
-        if (args.length == 0) {
+		(new BukkitRunnable() {
+			public void run() {
 
-            sender.sendMessage(Lang.DELETE_EXPIRED_HELP.toString());
-            return true;
+				long start = System.currentTimeMillis();
 
-        }
+				ArrayList<Plot> expiredPlots = new ArrayList<Plot>();
+				ArrayList<Plot> deletedPlots = new ArrayList<Plot>();
+				ArrayList<Plot> failedPlots = new ArrayList<Plot>();
 
-        (new BukkitRunnable() {
-            public void run() {
+				java.util.Set<Plot> allPlots = Main.plotAPI.getAllPlots();
 
-                long start = System.currentTimeMillis();
-                ArrayList<Plot> expiredPlots = new ArrayList<Plot>();
+				for (Plot plot : allPlots) {
 
-                ArrayList<Plot> deletedPlots = new ArrayList<Plot>();
-                ArrayList<Plot> failedPlots = new ArrayList<Plot>();
+					long[] temp = MCUtils.getExpireDateAndUpdate(plot);
 
+					if (System.currentTimeMillis() + 1000L > temp[0]) {
+						expiredPlots.add(plot);
+					}
+				}
 
-                java.util.Set<Plot> allPlots = Main.plotAPI.getAllPlots();
+				for (Plot plot : expiredPlots) {
 
-                for (Plot plot : allPlots) {
+					if (plot.getRunning() > 0) {
+						failedPlots.add(plot);
+						break;
+					}
 
-                    long[] temp = MCUtils.getExpireDateAndUpdate(plot);
+					boolean result = plot.deletePlot(new Runnable() {
+						@Override
+						public void run() {
+							plot.removeRunning();
+							deletedPlots.add(plot);
+						}
+					});
 
-                    if (System.currentTimeMillis() + 1000L > temp[0]) {
-                        expiredPlots.add(plot);
-                    }
+					if (!result) {
+						continue;
+					}
 
-                }
+					plot.addRunning();
+				}
 
+				long took = System.currentTimeMillis() - start;
 
-                for (Plot plot : expiredPlots) {
+				String deleted = Lang.withPlaceHolder(Lang.DELETE_EXPIRED_INFO,
+						new String[] { "%time%", "%deleted_plots%" }, took, deletedPlots);
 
+				String failed = Lang.DELETE_EXPIRED_FAILED_RUNNING.toString()
+						.replaceAll("%failed_plots%", String.valueOf(failedPlots));
 
-                    if (plot.getRunning() > 0) {
-                        failedPlots.add(plot);
-                        break;
-                    }
+				sender.sendMessage(deleted);
+				System.out.println(deleted);
 
+				sender.sendMessage(failed);
+				System.out.println(failed);
+			}
 
-                    boolean result = plot.deletePlot(new Runnable() {
-                        @Override
-                        public void run() {
-                            plot.removeRunning();
-                            deletedPlots.add(plot);
-                        }
+		}).runTaskAsynchronously(Main.plugin);
 
-                    });
-                    if (result) {
-                        plot.addRunning();
-
-                    }
-                }
-
-
-                long took = System.currentTimeMillis() - start;
-
-
-                String deleted = Lang.withPlaceHolder(Lang.DELETE_EXPIRED_INFO, new String[]{"%time%", "%deleted_plots%"}, took, deletedPlots);
-
-                String failed = Lang.DELETE_EXPIRED_FAILED_RUNNING.toString().replaceAll("%failed_plots%", String.valueOf(failedPlots));
-
-                sender.sendMessage(deleted);
-                System.out.println(deleted);
-                sender.sendMessage(failed);
-                System.out.println(failed);
-
-            }
-
-        }).runTaskAsynchronously(Main.plugin);
-
-        return true;
-
-
-    }
-
+		return true;
+	}
 }
