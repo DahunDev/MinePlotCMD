@@ -54,7 +54,7 @@ public class BiomePlotCommand implements CommandExecutor {
 	private void setbiome(Player player, Plot playerplot, double calcedprice, BiomeConfirm biomeConfirm,
 			CommandSender sender, String biome) {
 
-		if (playerplot.getRunning() > 0) {
+		if (playerplot.getRunning() > 0) { //race condition possibility check
 			MainUtil.sendMessage(BukkitUtil.getPlayer(player), C.WAIT_FOR_TIMER);
 			MCUtils.setConfirmCancelled(sender, player, biomeConfirm, false);
 			return;
@@ -67,13 +67,13 @@ public class BiomePlotCommand implements CommandExecutor {
 
 		int size = playerplot.getConnectedPlots().size();
 
-		if (biomeConfirm.plotsize != size && Main.useConfirm_Biome) {
+		if (biomeConfirm.plotsize != size && Main.useConfirm_Biome) { //state timing risk validation
 			biomeConfirm.isRequested = false;
 			sender.sendMessage(Lang.CANCEL_BY_SIZE_CHANGE.toString());
 			return;
 		}
 
-		if (!MCUtils.checkBalance(player, calcedprice, sender, biomeConfirm)) {
+		if (!MCUtils.checkBalance(player, calcedprice, sender, biomeConfirm)) { //state timing risk validation
 			biomeConfirm.isRequested = false;
 			return;
 		}
