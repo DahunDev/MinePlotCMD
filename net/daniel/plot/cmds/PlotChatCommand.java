@@ -23,90 +23,92 @@ import net.daniel.plotcmd.Utils.MCUtils;
 
 public class PlotChatCommand implements CommandExecutor {
 
-    @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+	@Override
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-        if (!MCUtils.checkPlayerPerm(sender, "MinePlotCMD.localChat")) {
-            return true;
-        }
+		if (!MCUtils.checkPlayerPerm(sender, "MinePlotCMD.localChat")) {
+			return true;
+		}
 
+		if (args.length < 1) {
+			sender.sendMessage(Lang.PLOT_CHAT_HELP.toString().replaceAll("%command%", label));
+			return true;
+		}
 
-        if (!(args.length >= 1)) {
-            sender.sendMessage(Lang.PLOT_CHAT_HELP.toString().replaceAll("%command%", label));
-            return true;
-        }
-        (new BukkitRunnable() {
-            public void run() {
+		(new BukkitRunnable() {
+			public void run() {
 
-                StringBuilder str = new StringBuilder();
-                for (int i = 0; i < args.length; i++) {
-                    str.append(args[i] + " ");
-                }
+				StringBuilder str = new StringBuilder();
 
-                String msg = ChatColor.translateAlternateColorCodes('&', str.toString());
-                msg = Matcher.quoteReplacement(MCUtils.removeLastChar(msg));
+				for (int i = 0; i < args.length; i++) {
+					str.append(args[i] + " ");
+				}
 
-                Player player = (Player) sender;
-                Plot playerplot = Main.plotAPI.getPlot(player.getLocation());
+				String msg = ChatColor.translateAlternateColorCodes('&', str.toString());
+				msg = Matcher.quoteReplacement(MCUtils.removeLastChar(msg));
 
-                if (playerplot == null) {
-                    sender.sendMessage(Lang.NOT_IN_PLOT.toString());
-                    return;
-                }
+				Player player = (Player) sender;
+				Plot playerplot = Main.plotAPI.getPlot(player.getLocation());
 
+				if (playerplot == null) {
+					sender.sendMessage(Lang.NOT_IN_PLOT.toString());
+					return;
+				}
 
-                List<PlotPlayer> players = playerplot.getPlayersInPlot();
+				List<PlotPlayer> players = playerplot.getPlayersInPlot();
 
-                if (players.size() <= 1) {
-                    sender.sendMessage(Lang.PLOTCHAT_NO_PLAYERS.toString());
-                    return;
-                }
+				if (players.size() <= 1) {
+					sender.sendMessage(Lang.PLOTCHAT_NO_PLAYERS.toString());
+					return;
+				}
 
-                ArrayList<UUID> exclude = new ArrayList<UUID>();
-                String chat = Lang.PLOT_CHAT_MSG_FORMAT.toString()
-                        .replaceAll("%displayName%", player.getDisplayName()).replaceAll("%msg%", msg)
-                        .replaceAll("%player%", player.getName());
+				ArrayList<UUID> exclude = new ArrayList<UUID>();
 
-                String spyChat = Lang.PLOT_CHAT_SPY_MSG_FORAMT.toString()
-                        .replaceAll("%plotID%", playerplot.toString())
-                        .replaceAll("%displayName%", player.getDisplayName()).replaceAll("%msg%", msg)
-                        .replaceAll("%player%", player.getName());
+				String chat = Lang.PLOT_CHAT_MSG_FORMAT.toString()
+						.replaceAll("%displayName%", player.getDisplayName())
+						.replaceAll("%msg%", msg)
+						.replaceAll("%player%", player.getName());
 
-                Main.plugin.logger.info(spyChat);
-                final User send = Main.essentials.getUser(player);
+				String spyChat = Lang.PLOT_CHAT_SPY_MSG_FORAMT.toString()
+						.replaceAll("%plotID%", playerplot.toString())
+						.replaceAll("%displayName%", player.getDisplayName())
+						.replaceAll("%msg%", msg)
+						.replaceAll("%player%", player.getName());
 
-                if (send.isMuted()) {
-                    sender.sendMessage(Lang.PLOTCHAT_MUTED.toString());
-                    return;
-                }
-                for (PlotPlayer p : players) {
+				Main.plugin.logger.info(spyChat);
 
-                    final User onlineUser = Main.essentials.getUser(p.getUUID());
+				final User send = Main.essentials.getUser(player);
 
-                    if (!(onlineUser.isIgnoredPlayer(send))) {
-                        onlineUser.sendMessage(chat);
-                    }
+				if (send.isMuted()) {
+					sender.sendMessage(Lang.PLOTCHAT_MUTED.toString());
+					return;
+				}
 
-                    exclude.add(p.getUUID());
+				for (PlotPlayer p : players) {
 
-                }
+					final User onlineUser = Main.essentials.getUser(p.getUUID());
 
-                for (UUID uuid : Main.spyPlayers) {
+					if (!onlineUser.isIgnoredPlayer(send)) {
+						onlineUser.sendMessage(chat);
+					}
 
-                    Player p = Bukkit.getPlayer(uuid);
+					exclude.add(p.getUUID());
+				}
 
-                    if (p != null && !exclude.contains(uuid)) {
+				for (UUID uuid : Main.spyPlayers) {
 
-                        p.sendMessage(spyChat);
+					Player p = Bukkit.getPlayer(uuid);
 
-                    }
+					if (p == null || exclude.contains(uuid)) {
+						continue;
+					}
 
-                }
+					p.sendMessage(spyChat);
+				}
+			}
 
-            }
+		}).runTaskAsynchronously(Main.plugin);
 
-        }).runTaskAsynchronously(Main.plugin);
-
-        return true;
-    }
+		return true;
+	}
 }
