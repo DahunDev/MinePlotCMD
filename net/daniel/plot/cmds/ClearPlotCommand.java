@@ -52,7 +52,7 @@ public class ClearPlotCommand implements CommandExecutor {
 	private void clearPlot(Player player, Plot playerplot, double calcedprice, ClearConfirm clearConfirm,
 			CommandSender sender) {
 
-		if (playerplot.getRunning() > 0) {
+		if (playerplot.getRunning() > 0) { //race condition check
 			MainUtil.sendMessage(BukkitUtil.getPlayer(player), C.WAIT_FOR_TIMER);
 			MCUtils.setConfirmCancelled(sender, player, clearConfirm, false);
 			return;
@@ -77,7 +77,7 @@ public class ClearPlotCommand implements CommandExecutor {
 		}
 
 		long start = System.currentTimeMillis();
-
+		//lock and unlock for race condition prevenetion
 		boolean result = playerplot.clear(true, false, new Runnable() {
 			@Override
 			public void run() {
