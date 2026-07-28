@@ -26,371 +26,373 @@ import net.md_5.bungee.api.chat.TextComponent;
 
 public class ListCommand implements CommandExecutor {
 
-    @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (!sender.hasPermission("MinePlotCMD.list")) {
-            return true;
-        }
+	@Override
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-        (new BukkitRunnable() {
+		if (!sender.hasPermission("MinePlotCMD.list")) {
+			return true;
+		}
 
-            @Override
-            public void run() {
+		(new BukkitRunnable() {
 
-                if (args.length < 1) {
+			@Override
+			public void run() {
 
-                    if (sender instanceof Player player) {
+				if (args.length < 1) {
 
-                        String cmdval = label + " " + player.getName();
-                        sendList(sender, player.getUniqueId(), 1, cmdval, player.getName());
+					if (!(sender instanceof Player)) {
+						sender.sendMessage(Lang.INGAME_ONLY.toString());
+						sender.sendMessage(Lang.PLOT_LIST_OTHER_HELP.toString());
+						return;
+					}
 
-                    } else {
-                        sender.sendMessage(Lang.INGAME_ONLY.toString());
-                        sender.sendMessage(Lang.PLOT_LIST_OTHER_HELP.toString());
-                    }
-                    return;
-                }
-                //at this point args.length < 1 is false
+					Player player = (Player) sender;
+					String cmdval = label + " " + player.getName();
 
-                if (args.length != 2) {
-                    if (args.length > 2) {
-                        sender.sendMessage(Lang.NO_NAME_SPACE.toString());
-                        sender.sendMessage(Lang.PLOT_LIST_OTHER_HELP.toString());
+					sendList(sender, player.getUniqueId(), 1, cmdval, player.getName());
+					return;
+				}
 
-                    } else {
-                        sender.sendMessage(Lang.PAGE_VALUE_NOT_SET.toString());
+				if (args.length > 2) {
+					sender.sendMessage(Lang.NO_NAME_SPACE.toString());
+					sender.sendMessage(Lang.PLOT_LIST_OTHER_HELP.toString());
+					return;
+				}
 
-                        sender.sendMessage(
-                                Lang.PLOT_LIST_MINE_HELP.toString().replaceAll("%player%", sender.getName()));
+				if (args.length < 2) {
+					sender.sendMessage(Lang.PAGE_VALUE_NOT_SET.toString());
 
-                        sender.sendMessage(Lang.PLOT_LIST_OTHER_HELP.toString());
+					sender.sendMessage(
+							Lang.PLOT_LIST_MINE_HELP.toString().replaceAll("%player%", sender.getName()));
 
-                    }
+					sender.sendMessage(Lang.PLOT_LIST_OTHER_HELP.toString());
+					return;
+				}
 
-                    return;
+				int page = 1;
 
+				try {
+					page = Integer.parseInt(args[1]);
 
-                }
-                int page = 1;
+				} catch (Exception e) {
+					sender.sendMessage(Lang.NOT_PAGE_NUMBER.toString().replaceAll("%value%", args[1]));
+					sender.sendMessage(Lang.PLOT_LIST_OTHER_HELP.toString());
+					return;
+				}
 
-                try {
+				if (page <= 0) {
+					sender.sendMessage(Lang.NOT_PAGE_NUMBER.toString().replaceAll("%value%", args[1]));
+					sender.sendMessage(Lang.PLOT_LIST_OTHER_HELP.toString());
+					return;
+				}
 
-                    page = Integer.parseInt(args[1]);
+				UUID uuid = UUIDHandler.getUUIDFromString(args[0]);
 
-                } catch (Exception e) {
+				if (uuid == null || uuid.toString().isEmpty()) {
+					sender.sendMessage(Lang.PlAYERNOTFOUND.toString().replaceAll("%player%", args[0]));
+					return;
+				}
 
-                    sender.sendMessage(Lang.NOT_PAGE_NUMBER.toString().replaceAll("%value%", args[1]));
-                    sender.sendMessage(Lang.PLOT_LIST_OTHER_HELP.toString());
-                    return;
-                }
+				StringBuffer buffer = new StringBuffer(label);
 
-                if (!(page > 0)) {
-                    sender.sendMessage(Lang.NOT_PAGE_NUMBER.toString().replaceAll("%value%", args[1]));
-                    sender.sendMessage(Lang.PLOT_LIST_OTHER_HELP.toString());
-                    return;
-                }
-                UUID uuid = UUIDHandler.getUUIDFromString(args[0]);
+				for (int i = 0; i < args.length - 1; i++) {
+					buffer.append(" " + args[i]);
+				}
 
-                if (uuid != null && !uuid.toString().isEmpty()) {
+				sendList(sender, uuid, page, buffer.toString(), args[0]);
+			}
+		}).runTaskAsynchronously(Main.plugin);
 
-                    StringBuffer buffer = new StringBuffer(label);
-                    for (int i = 0; i < args.length - 1; i++) {
-                        buffer.append(" " + args[i]);
-                    }
+		return true;
+	}
 
-                    sendList(sender, uuid, page, buffer.toString(), args[0]);
+	private void sendList(CommandSender sender, UUID uuid, int page, String cmd, String searchName) {
 
-                } else {
-                    sender.sendMessage(Lang.PlAYERNOTFOUND.toString().replaceAll("%player%", args[0]));
-                }
+		List<Plot> plots = PS.get().sortPlotsByTemp(PS.get().getBasePlots(uuid));
 
+		for (Plot plot : PS.get().getPlots()) {
 
-            }
-        }).runTaskAsynchronously(Main.plugin);
+			if (plot.getTrusted().contains(uuid) || plot.getMembers().contains(uuid)) {
+				plots.add(plot);
+			}
+		}
 
-        return true;
-    }
+		int totalSize = plots.size();
+		int maxPage = (int) Math.ceil(totalSize / 10.0);
 
-    private void sendList(CommandSender sender, UUID uuid, int page, String cmd, String searchName) {
+		if (maxPage < 1) {
+			maxPage = 1;
+		}
 
-        List<Plot> plots = PS.get().sortPlotsByTemp(PS.get().getBasePlots(uuid));
+		if (page > maxPage && page != 1) {
+			sender.sendMessage(Lang.withPlaceHolder(Lang.OUT_BOUND_PAGE,
+					new String[] { "%page%", "%minPage%", "%maxPage%" }, page, 1, maxPage));
 
-        for (Plot plot : PS.get().getPlots()) {
+			sender.sendMessage(Lang.PLOT_LIST_OTHER_HELP.toString());
+			return;
+		}
 
-            if (plot.getTrusted().contains(uuid) || plot.getMembers().contains(uuid)) {
-                plots.add(plot);
-            }
-        }
+		String currentPage = Lang.withPlaceHolder(Lang.CURRENT_PAGE,
+				new String[] { "%current_page%", "%max_page%" }, page, maxPage);
 
-        int totalSize = plots.size();
-        int maxPage = (int) Math.ceil(totalSize / 10.0);
-        if (maxPage < 1) {
-            maxPage = 1;
-        }
+		String head = Lang.withPlaceHolder(Lang.PLOT_LIST_HEADER,
+				new String[] { "%page%", "%size%", "%player%" }, currentPage, totalSize, searchName);
 
-        if (page <= maxPage || page == 1) {
+		TextComponent plotListInfo = new TextComponent(head + "\n");
 
-            String currentPage = Lang.withPlaceHolder(Lang.CURRENT_PAGE,
-                    new String[]{"%current_page%", "%max_page%"}, page, maxPage);
+		if (totalSize <= 0) {
+			plotListInfo.addExtra(Lang.EMPTY_LIST.toString() + "\n");
+		} else {
+			plotListInfo.addExtra(getInfoList(plots, page));
+		}
 
-            String head = Lang.withPlaceHolder(Lang.PLOT_LIST_HEADER,
-                    new String[]{"%page%", "%size%", "%player%"}, currentPage, totalSize, searchName);
+		plotListInfo.addExtra(getFooter(plots, page, maxPage, cmd));
 
-            TextComponent plotListInfo = new TextComponent(head + "\n");
+		sender.spigot().sendMessage(plotListInfo);
+	}
 
+	private TextComponent getFooter(List<Plot> plots, int page, int maxPage, String cmd) {
 
-            if (totalSize > 0) {
-                plotListInfo.addExtra(getInfoList(plots, page));
+		TextComponent footer = new TextComponent();
 
-            } else {
-                plotListInfo.addExtra(Lang.EMPTY_LIST + "\n");
-            }
+		int valSize = Main.values_footer.size();
 
-            plotListInfo.addExtra(getFooter(plots, page, maxPage, cmd));
+		for (int i = 0; i < valSize; i++) {
 
-            sender.spigot().sendMessage(plotListInfo);
+			if (Main.index_Previous.contains(i)) {
 
-        } else {
+				if (page <= 1) {
+					footer.addExtra(Lang.PAGE_NONEXIST_COLOR.toString() + Lang.PREVIOUS_PAGE.toString());
+					continue;
+				}
 
-            sender.sendMessage(Lang.withPlaceHolder(Lang.OUT_BOUND_PAGE,
-                    new String[]{"%page%", "%minPage%", "%maxPage%"}, page, 1, maxPage));
+				TextComponent prev = new TextComponent(
+						Lang.PAGE_EXIST_COLOR.toString() + Lang.PREVIOUS_PAGE.toString());
 
-            sender.sendMessage(Lang.PLOT_LIST_OTHER_HELP.toString());
+				prev.setClickEvent(
+						new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + cmd + " " + String.valueOf(page - 1)));
 
-        }
+				footer.addExtra(prev);
+				continue;
+			}
 
-    }
+			if (Main.index_Next.contains(i)) {
 
-    private TextComponent getFooter(List<Plot> plots, int page, int maxPage, String cmd) {
+				if (page >= maxPage) {
+					footer.addExtra(Lang.PAGE_NONEXIST_COLOR.toString() + Lang.NEXT_PAGE.toString());
+					continue;
+				}
 
-        TextComponent footer = new TextComponent();
+				TextComponent next = new TextComponent(
+						Lang.PAGE_EXIST_COLOR.toString() + Lang.NEXT_PAGE.toString());
 
-        int valSize = Main.values_footer.size();
-        for (int i = 0; i < valSize; i++) {
+				next.setClickEvent(
+						new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + cmd + " " + String.valueOf(page + 1)));
 
-            if (Main.index_Previous.contains(i)) {
+				footer.addExtra(next);
+				continue;
+			}
 
-                if (page > 1) {
-                    TextComponent prev = new TextComponent(
-                            Lang.PAGE_EXIST_COLOR.toString() + Lang.PREVIOUS_PAGE);
+			footer.addExtra(Main.values_footer.get(i));
+		}
 
-                    prev.setClickEvent(
-                            new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + cmd + " " + (page - 1)));
-                    footer.addExtra(prev);
+		return footer;
+	}
 
-                } else {
+	private TextComponent getInfoList(List<Plot> plots, int page) {
 
-                    footer.addExtra(Lang.PAGE_NONEXIST_COLOR.toString() + Lang.PREVIOUS_PAGE);
+		TextComponent list = new TextComponent();
 
-                }
+		int Index = (page - 1) * 10;
 
-            } else if (Main.index_Next.contains(i)) {
+		int endIndex = page * 10;
 
-                if (page < maxPage) {
-                    TextComponent next = new TextComponent(
-                            Lang.PAGE_EXIST_COLOR.toString() + Lang.NEXT_PAGE);
-                    next.setClickEvent(
-                            new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + cmd + " " + (page + 1)));
+		if (endIndex > plots.size()) {
+			endIndex = plots.size();
+		}
 
-                    footer.addExtra(next);
+		while (Index < endIndex) {
+			list.addExtra(getPlotInfo(plots.get(Index), Index + 1));
+			Index++;
+		}
 
-                } else {
+		return list;
+	}
 
-                    footer.addExtra(Lang.PAGE_NONEXIST_COLOR.toString() + Lang.NEXT_PAGE);
+	private TextComponent getPlotInfo(Plot plot, int index) {
 
-                }
+		TextComponent plotInfo = new TextComponent();
 
-            } else {
-                footer.addExtra(Main.values_footer.get(i));
+		StringBuffer hover = new StringBuffer(Lang.HOVER_PLOT_INFO.toString());
 
-            }
+		MCUtils.replaceAll(hover, "%trusted%", MCUtils.getPlayerList(plot.getTrusted()));
 
-        }
+		MCUtils.replaceAll(hover, "%members%", MCUtils.getPlayerList(plot.getMembers()));
 
-        return footer;
+		MCUtils.replaceAll(hover, "%flags%", MCUtils.convertWithIteration(plot.getFlags()));
 
-    }
+		String hoverInfo = hover.toString();
 
-    private TextComponent getInfoList(List<Plot> plots, int page) {
+		TextComponent index_ = getIndexHover(plot, index);
+		TextComponent id = getHoverInfo(plot, hoverInfo);
 
-        TextComponent list = new TextComponent();
+		TextComponent owner = getOwners(plot);
 
-        int Index = (page - 1) * 10;
+		for (int i = 0; i < Main.values_info.size(); i++) {
 
-        int endIndex = page * 10;
+			if (Main.index_index.contains(i)) {
+				plotInfo.addExtra(index_);
+				continue;
+			}
 
-        if (endIndex > plots.size()) {
-            endIndex = plots.size();
-        }
+			if (Main.index_ID.contains(i)) {
+				plotInfo.addExtra(id);
+				continue;
+			}
 
-        while (Index < endIndex) {
+			if (Main.index_owner.contains(i)) {
+				plotInfo.addExtra(owner);
+				continue;
+			}
 
-            list.addExtra(getPlotInfo(plots.get(Index), Index + 1));
-            Index++;
+			// String temp = placeholder(Main.values_info.get(i), replacefrom, replaceTo);
+			String temp = Main.values_info.get(i)
+					.replaceAll("%sell_price%", Lang.VALUE_COLOR.toString() + getPrice(plot))
+					.replaceAll("%expire_date%", MCUtils.getExpireDate(plot));
 
-        }
+			plotInfo.addExtra(new TextComponent(temp));
+		}
 
-        return list;
+		plotInfo.addExtra("\n");
 
-    }
+		return plotInfo;
+	}
 
-    private TextComponent getPlotInfo(Plot plot, int index) {
+	private TextComponent getIndexHover(Plot plot, int index) {
 
-        TextComponent plotInfo = new TextComponent();
+		String id = plot.toString();
 
-        StringBuffer hover = new StringBuffer(Lang.HOVER_PLOT_INFO.toString());
+		TextComponent rs = new TextComponent(Lang.INDEX_NUMBER_COLOR.toString() + String.valueOf(index));
 
-        MCUtils.replaceAll(hover, "%trusted%", MCUtils.getPlayerList(plot.getTrusted()));
+		rs.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+				new ComponentBuilder(Lang.HOVER_LIST_VISIT_CMD.toString().replaceAll("%plot%", id)).create()));
 
-        MCUtils.replaceAll(hover, "%members%", MCUtils.getPlayerList(plot.getMembers()));
+		rs.setClickEvent(
+				new ClickEvent(ClickEvent.Action.RUN_COMMAND, Lang.LIST_VISIT_CMD.toString().replaceAll("%plot%", id)));
 
-        MCUtils.replaceAll(hover, "%flags%", MCUtils.convertWithIteration(plot.getFlags()));
+		return rs;
+	}
 
-        String hoverInfo = hover.toString();
+	private TextComponent getHoverInfo(Plot plot, String info) {
 
-        TextComponent index_ = getIndexHover(plot, index);
-        TextComponent id = getHoverInfo(plot, hoverInfo);
+		TextComponent rs = new TextComponent(Lang.LIST_PLOTID_COLOR.toString() + plot.toString());
 
-        TextComponent owner = getOwners(plot);
+		rs.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(info).create()));
 
-        for (int i = 0; i < Main.values_info.size(); i++) {
+		rs.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,
+				Lang.LIST_INFO_CMD.toString().replaceAll("%plot%", plot.toString())));
 
-            if (Main.index_index.contains(i)) {
-                plotInfo.addExtra(index_);
-            } else if (Main.index_ID.contains(i)) {
-                plotInfo.addExtra(id);
-            } else if (Main.index_owner.contains(i)) {
-                plotInfo.addExtra(owner);
-            } else {
-                // String temp = placeholder(Main.values_info.get(i), replacefrom, replaceTo);
-                String temp = Main.values_info.get(i)
-                        .replaceAll("%sell_price%", Lang.VALUE_COLOR + getPrice(plot))
-                        .replaceAll("%expire_date%", MCUtils.getExpireDate(plot));
+		return rs;
+	}
 
-                plotInfo.addExtra(new TextComponent(temp));
-            }
+	private TextComponent getOwners(Plot plot) {
 
-        }
+		TextComponent rs = new TextComponent(Lang.LIST_OWNER_COLOR.toString());
 
-        plotInfo.addExtra("\n");
+		int ownerSize = plot.getOwners().size();
 
-        return plotInfo;
+		if (ownerSize < 1) {
 
-    }
+			TextComponent t = new TextComponent(Lang.EMPTY_LIST.toString());
 
-    private TextComponent getIndexHover(Plot plot, int index) {
+			t.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+					new ComponentBuilder(
+							Lang.HOVER_ISONLINE.toString().replaceAll("%isOnline%", Lang.OFFLINE.toString()))
+							.create()));
 
-        String id = plot.toString();
+			rs.addExtra(t);
+			return rs;
+		}
 
-        TextComponent rs = new TextComponent(Lang.INDEX_NUMBER_COLOR.toString() + index);
+		int index = 0;
 
-        rs.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                new ComponentBuilder(Lang.HOVER_LIST_VISIT_CMD.toString().replaceAll("%plot%", id)).create()));
+		for (UUID uuid : plot.getOwners()) {
 
-        rs.setClickEvent(
-                new ClickEvent(ClickEvent.Action.RUN_COMMAND, Lang.LIST_VISIT_CMD.toString().replaceAll("%plot%", id)));
-        return rs;
+			String name = UUIDHandler.getName(uuid);
 
-    }
+			if (name == null) {
 
-    private TextComponent getHoverInfo(Plot plot, String info) {
-        TextComponent rs = new TextComponent(Lang.LIST_PLOTID_COLOR.toString() + plot.toString());
+				TextComponent t = new TextComponent(Lang.VALUE_COLOR.toString() + Lang.UNKNOWN.toString());
 
-        rs.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(info).create()));
-        rs.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,
-                Lang.LIST_INFO_CMD.toString().replaceAll("%plot%", plot.toString())));
-        return rs;
+				t.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+						new ComponentBuilder(
+								Lang.HOVER_ISONLINE.toString().replaceAll("%isOnline%", Lang.OFFLINE.toString()))
+								.create()));
 
-    }
+				rs.addExtra(t);
 
-    private TextComponent getOwners(Plot plot) {
-        TextComponent rs = new TextComponent(Lang.LIST_OWNER_COLOR.toString());
+				if (index < ownerSize - 1) {
+					rs.addExtra(", ");
+				}
 
-        int ownerSize = plot.getOwners().size();
+				index++;
+				continue;
+			}
 
-        if (ownerSize < 1) {
+			PlotPlayer pp = UUIDHandler.getPlayer(uuid);
 
-            TextComponent t = new TextComponent(Lang.EMPTY_LIST.toString());
+			if (pp != null) {
 
-            t.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                    new ComponentBuilder(
-                            Lang.HOVER_ISONLINE.toString().replaceAll("%isOnline%", Lang.OFFLINE.toString()))
-                            .create()));
+				TextComponent t = new TextComponent(Lang.VALUE_COLOR.toString() + name);
 
-            rs.addExtra(t);
-            return rs;
+				t.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+						new ComponentBuilder(
+								Lang.HOVER_ISONLINE.toString().replaceAll("%isOnline%", Lang.ONLINE.toString()))
+								.create()));
 
-        }
+				rs.addExtra(t);
 
+				if (index < ownerSize - 1) {
+					rs.addExtra(", ");
+				}
 
-        int index = 0;
-        for (UUID uuid : plot.getOwners()) {
+				index++;
+				continue;
+			}
 
-            String name = UUIDHandler.getName(uuid);
-            if (name == null) {
+			TextComponent t = new TextComponent(Lang.VALUE_COLOR.toString() + name);
 
-                TextComponent t = new TextComponent(Lang.VALUE_COLOR.toString() + Lang.UNKNOWN);
-                t.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                        new ComponentBuilder(
-                                Lang.HOVER_ISONLINE.toString().replaceAll("%isOnline%", Lang.OFFLINE.toString()))
-                                .create()));
+			t.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+					new ComponentBuilder(
+							Lang.HOVER_ISONLINE.toString().replaceAll("%isOnline%", Lang.OFFLINE.toString()))
+							.create()));
 
-                rs.addExtra(t);
+			rs.addExtra(t);
 
-                if (index < ownerSize - 1) {
-                    rs.addExtra(", ");
-                }
+			if (index < ownerSize - 1) {
+				rs.addExtra(", ");
+			}
 
-            } else {
-                PlotPlayer pp = UUIDHandler.getPlayer(uuid);
-                if (pp != null) {
-                    TextComponent t = new TextComponent(Lang.VALUE_COLOR + name);
-                    t.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                            new ComponentBuilder(
-                                    Lang.HOVER_ISONLINE.toString().replaceAll("%isOnline%", Lang.ONLINE.toString()))
-                                    .create()));
+			index++;
+		}
 
-                    rs.addExtra(t);
+		return rs;
+	}
 
-                    if (index < ownerSize - 1) {
-                        rs.addExtra(", ");
-                    }
-                } else {
-                    TextComponent t = new TextComponent(Lang.VALUE_COLOR + name);
-                    t.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(
-                            Lang.HOVER_ISONLINE.toString().replaceAll("%isOnline%", Lang.OFFLINE.toString()))
-                            .create()));
+	private String getPrice(Plot plot) {
 
-                    rs.addExtra(t);
+		Optional<?> optional = plot.getFlag(Flags.PRICE);
 
-                    if (index < ownerSize - 1) {
-                        rs.addExtra(", ");
-                    }
-                }
-            }
+		if (!optional.isPresent()) {
+			return Lang.NOT_FOR_SELL.toString();
+		}
 
-            index++;
-        }
+		if (!(optional.get() instanceof Double)) {
+			return Lang.NOT_FOR_SELL.toString();
+		}
 
-        return rs;
+		double price = (double) optional.get();
 
-    }
-
-    private String getPrice(Plot plot) {
-
-        Optional<?> optional = plot.getFlag(Flags.PRICE);
-
-        if (optional.isPresent()) {
-
-            if (optional.get() instanceof Double) {
-
-                double price = (double) optional.get();
-                return String.format("%.1f", price);
-
-            }
-        }
-        return Lang.NOT_FOR_SELL.toString();
-
-    }
-
+		return String.format("%.1f", price);
+	}
 }
