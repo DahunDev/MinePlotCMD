@@ -1,0 +1,52 @@
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+confirmSec: 15
+
+    
+cancelCMDIfConfigNotSet: true
+
+Price-by-World:
+  bigworld:
+    clear: 2000000
+    add: 450000
+    trust: 500000
+    biome: 1200000
+    delete: 10000
+  plotworld:
+    clear: 5000000
+    add: 75000
+    trust: 80000
+    biome: 300000
+    delete: 10000
+  smallplot:
+    clear: 10000
+    add: 7500
+    trust: 50000
+    biome: 30000
+    delete: 1000
+    
+Expire-Days-by-World:
+  bigworld: 30
+  plotworld: 30
+  smallplot: 45
+    
+UseConfirm:
+  Clear: true
+  Add: false
+  Trust: false
+  Biome: false
+  Delete: true
+  RemoveMember: false
+  UnTrust: false
+
+Expire_Days_After_OWNER_JOIN: 30
+
+Protection-Blocks:
+- "CHEST"
+- "TRAPPED_CHEST"
+- "DIODE_BLOCK_OFF"
+- "DIODE_BLOCK_ON"
+- "DROPPER"
+- "DISPENSER"
+- "HOPPER"
+- "REDSTONE_COMPARATOR"

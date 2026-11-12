@@ -1,0 +1,14 @@
+# macOS metadata
+.DS_Store
+**/.DS_Store
+
+# IntelliJ IDEA & Project files
+.idea/
+*.iml
+out/
+build/
+target/
+
+# OS and log files
+*.log
+Thumbs.db

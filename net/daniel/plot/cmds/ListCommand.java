@@ -1,0 +1,401 @@
+package net.daniel.plot.cmds;
+
+import java.util.List;
+import java.util.UUID;
+
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+import com.google.common.base.Optional;
+import com.intellectualcrafters.plot.PS;
+import com.intellectualcrafters.plot.flag.Flags;
+import com.intellectualcrafters.plot.object.Plot;
+import com.intellectualcrafters.plot.object.PlotPlayer;
+import com.intellectualcrafters.plot.util.UUIDHandler;
+
+import net.daniel.Plotcmds.main.Lang;
+import net.daniel.Plotcmds.main.Main;
+import net.daniel.Plotcmds.main.ReloadSnapshot;
+import net.daniel.plotcmd.Utils.MCUtils;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
+
+public class ListCommand implements CommandExecutor {
+
+	@Override
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+
+		if (!sender.hasPermission("MinePlotCMD.list")) {
+			return true;
+		}
+
+		Main.runGuardedAsync(sender, new Runnable() {
+
+			@Override
+			public void run() {
+
+				if (args.length < 1) {
+
+					if (!(sender instanceof Player)) {
+						sender.sendMessage(Lang.INGAME_ONLY.toString());
+						sender.sendMessage(Lang.PLOT_LIST_OTHER_HELP.toString());
+						return;
+					}
+
+					Player player = (Player) sender;
+					String cmdval = label + " " + player.getName();
+
+					sendList(sender, player.getUniqueId(), 1, cmdval, player.getName());
+					return;
+				}
+
+				if (args.length > 2) {
+					sender.sendMessage(Lang.NO_NAME_SPACE.toString());
+					sender.sendMessage(Lang.PLOT_LIST_OTHER_HELP.toString());
+					return;
+				}
+
+				if (args.length < 2) {
+					sender.sendMessage(Lang.PAGE_VALUE_NOT_SET.toString());
+
+					sender.sendMessage(
+							Lang.PLOT_LIST_MINE_HELP.toString().replaceAll("%player%", sender.getName()));
+
+					sender.sendMessage(Lang.PLOT_LIST_OTHER_HELP.toString());
+					return;
+				}
+
+				int page = 1;
+
+				try {
+					page = Integer.parseInt(args[1]);
+
+				} catch (Exception e) {
+					sender.sendMessage(Lang.NOT_PAGE_NUMBER.toString().replaceAll("%value%", args[1]));
+					sender.sendMessage(Lang.PLOT_LIST_OTHER_HELP.toString());
+					return;
+				}
+
+				if (page <= 0) {
+					sender.sendMessage(Lang.NOT_PAGE_NUMBER.toString().replaceAll("%value%", args[1]));
+					sender.sendMessage(Lang.PLOT_LIST_OTHER_HELP.toString());
+					return;
+				}
+
+				UUID uuid = UUIDHandler.getUUIDFromString(args[0]);
+
+				if (uuid == null || uuid.toString().isEmpty()) {
+					sender.sendMessage(Lang.PlAYERNOTFOUND.toString().replaceAll("%player%", args[0]));
+					return;
+				}
+
+				StringBuffer buffer = new StringBuffer(label);
+
+				for (int i = 0; i < args.length - 1; i++) {
+					buffer.append(" " + args[i]);
+				}
+
+				sendList(sender, uuid, page, buffer.toString(), args[0]);
+			}
+		});
+
+		return true;
+	}
+
+	private void sendList(CommandSender sender, UUID uuid, int page, String cmd, String searchName) {
+
+		List<Plot> plots = PS.get().sortPlotsByTemp(PS.get().getBasePlots(uuid));
+
+		for (Plot plot : PS.get().getPlots()) {
+
+			if (plot.getTrusted().contains(uuid) || plot.getMembers().contains(uuid)) {
+				plots.add(plot);
+			}
+		}
+
+		int totalSize = plots.size();
+		int maxPage = (int) Math.ceil(totalSize / 10.0);
+
+		if (maxPage < 1) {
+			maxPage = 1;
+		}
+
+		if (page > maxPage && page != 1) {
+			sender.sendMessage(Lang.withPlaceHolder(Lang.OUT_BOUND_PAGE,
+					new String[] { "%page%", "%minPage%", "%maxPage%" }, page, 1, maxPage));
+
+			sender.sendMessage(Lang.PLOT_LIST_OTHER_HELP.toString());
+			return;
+		}
+
+		String currentPage = Lang.withPlaceHolder(Lang.CURRENT_PAGE,
+				new String[] { "%current_page%", "%max_page%" }, page, maxPage);
+
+		String head = Lang.withPlaceHolder(Lang.PLOT_LIST_HEADER,
+				new String[] { "%page%", "%size%", "%player%" }, currentPage, totalSize, searchName);
+
+		ReloadSnapshot generation = Main.snapshot();
+		TextComponent plotListInfo = new TextComponent(head + "\n");
+
+		if (totalSize <= 0) {
+			plotListInfo.addExtra(Lang.EMPTY_LIST.toString() + "\n");
+		} else {
+			plotListInfo.addExtra(getInfoList(plots, page, generation.info));
+		}
+
+		plotListInfo.addExtra(getFooter(plots, page, maxPage, cmd, generation.footer));
+
+		sender.spigot().sendMessage(plotListInfo);
+	}
+
+	private TextComponent getFooter(List<Plot> plots, int page, int maxPage, String cmd, ReloadSnapshot.Template template) {
+
+		TextComponent footer = new TextComponent();
+
+		int valSize = template.segments.size();
+
+		for (int i = 0; i < valSize; i++) {
+
+			if (template.first.contains(i)) {
+
+				if (page <= 1) {
+					footer.addExtra(Lang.PAGE_NONEXIST_COLOR.toString() + Lang.PREVIOUS_PAGE.toString());
+					continue;
+				}
+
+				TextComponent prev = new TextComponent(
+						Lang.PAGE_EXIST_COLOR.toString() + Lang.PREVIOUS_PAGE.toString());
+
+				prev.setClickEvent(
+						new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + cmd + " " + String.valueOf(page - 1)));
+
+				footer.addExtra(prev);
+				continue;
+			}
+
+			if (template.second.contains(i)) {
+
+				if (page >= maxPage) {
+					footer.addExtra(Lang.PAGE_NONEXIST_COLOR.toString() + Lang.NEXT_PAGE.toString());
+					continue;
+				}
+
+				TextComponent next = new TextComponent(
+						Lang.PAGE_EXIST_COLOR.toString() + Lang.NEXT_PAGE.toString());
+
+				next.setClickEvent(
+						new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + cmd + " " + String.valueOf(page + 1)));
+
+				footer.addExtra(next);
+				continue;
+			}
+
+			footer.addExtra(template.segments.get(i));
+		}
+
+		return footer;
+	}
+
+
+	private TextComponent getInfoList(List<Plot> plots, int page, ReloadSnapshot.Template template) {
+
+		TextComponent list = new TextComponent();
+
+		int Index = (page - 1) * 10;
+
+		int endIndex = page * 10;
+
+		if (endIndex > plots.size()) {
+			endIndex = plots.size();
+		}
+
+		while (Index < endIndex) {
+			list.addExtra(getPlotInfo(plots.get(Index), Index + 1, template));
+			Index++;
+		}
+
+		return list;
+	}
+
+	private TextComponent getPlotInfo(Plot plot, int index, ReloadSnapshot.Template template) {
+
+		TextComponent plotInfo = new TextComponent();
+
+		StringBuffer hover = new StringBuffer(Lang.HOVER_PLOT_INFO.toString());
+
+		MCUtils.replaceAll(hover, "%trusted%", MCUtils.getPlayerList(plot.getTrusted()));
+
+		MCUtils.replaceAll(hover, "%members%", MCUtils.getPlayerList(plot.getMembers()));
+
+		MCUtils.replaceAll(hover, "%flags%", MCUtils.convertWithIteration(plot.getFlags()));
+
+		String hoverInfo = hover.toString();
+
+		TextComponent index_ = getIndexHover(plot, index);
+		TextComponent id = getHoverInfo(plot, hoverInfo);
+
+		TextComponent owner = getOwners(plot);
+
+		for (int i = 0; i < template.segments.size(); i++) {
+
+			if (template.first.contains(i)) {
+				plotInfo.addExtra(index_);
+				continue;
+			}
+
+			if (template.second.contains(i)) {
+				plotInfo.addExtra(id);
+				continue;
+			}
+
+			if (template.third.contains(i)) {
+				plotInfo.addExtra(owner);
+				continue;
+			}
+
+			// String temp = placeholder(template.segments.get(i), replacefrom, replaceTo);
+			String temp = template.segments.get(i)
+					.replaceAll("%sell_price%", Lang.VALUE_COLOR.toString() + getPrice(plot))
+					.replaceAll("%expire_date%", MCUtils.getExpireDate(plot));
+
+			plotInfo.addExtra(new TextComponent(temp));
+		}
+
+		plotInfo.addExtra("\n");
+
+		return plotInfo;
+	}
+
+	private TextComponent getIndexHover(Plot plot, int index) {
+
+		String id = plot.toString();
+
+		TextComponent rs = new TextComponent(Lang.INDEX_NUMBER_COLOR.toString() + String.valueOf(index));
+
+		rs.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+				new ComponentBuilder(Lang.HOVER_LIST_VISIT_CMD.toString().replaceAll("%plot%", id)).create()));
+
+		rs.setClickEvent(
+				new ClickEvent(ClickEvent.Action.RUN_COMMAND, Lang.LIST_VISIT_CMD.toString().replaceAll("%plot%", id)));
+
+		return rs;
+	}
+
+	private TextComponent getHoverInfo(Plot plot, String info) {
+
+		TextComponent rs = new TextComponent(Lang.LIST_PLOTID_COLOR.toString() + plot.toString());
+
+		rs.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(info).create()));
+
+		rs.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,
+				Lang.LIST_INFO_CMD.toString().replaceAll("%plot%", plot.toString())));
+
+		return rs;
+	}
+
+	private TextComponent getOwners(Plot plot) {
+
+		TextComponent rs = new TextComponent(Lang.LIST_OWNER_COLOR.toString());
+
+		int ownerSize = plot.getOwners().size();
+
+		if (ownerSize < 1) {
+
+			TextComponent t = new TextComponent(Lang.EMPTY_LIST.toString());
+
+			t.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+					new ComponentBuilder(
+							Lang.HOVER_ISONLINE.toString().replaceAll("%isOnline%", Lang.OFFLINE.toString()))
+							.create()));
+
+			rs.addExtra(t);
+			return rs;
+		}
+
+
+		int index = 0;
+
+		for (UUID uuid : plot.getOwners()) {
+
+			String name = UUIDHandler.getName(uuid);
+
+			if (name == null) {
+
+				TextComponent t = new TextComponent(Lang.VALUE_COLOR.toString() + Lang.UNKNOWN.toString());
+
+				t.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+						new ComponentBuilder(
+								Lang.HOVER_ISONLINE.toString().replaceAll("%isOnline%", Lang.OFFLINE.toString()))
+								.create()));
+
+				rs.addExtra(t);
+
+				if (index < ownerSize - 1) {
+					rs.addExtra(", ");
+				}
+
+				index++;
+				continue;
+			}
+
+			PlotPlayer pp = UUIDHandler.getPlayer(uuid);
+
+			if (pp != null) {
+
+				TextComponent t = new TextComponent(Lang.VALUE_COLOR.toString() + name);
+
+				t.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+						new ComponentBuilder(
+								Lang.HOVER_ISONLINE.toString().replaceAll("%isOnline%", Lang.ONLINE.toString()))
+								.create()));
+
+				rs.addExtra(t);
+
+				if (index < ownerSize - 1) {
+					rs.addExtra(", ");
+				}
+
+				index++;
+				continue;
+			}
+
+			TextComponent t = new TextComponent(Lang.VALUE_COLOR.toString() + name);
+
+			t.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+					new ComponentBuilder(
+							Lang.HOVER_ISONLINE.toString().replaceAll("%isOnline%", Lang.OFFLINE.toString()))
+							.create()));
+
+			rs.addExtra(t);
+
+			if (index < ownerSize - 1) {
+				rs.addExtra(", ");
+			}
+
+			index++;
+		}
+
+		return rs;
+	}
+
+	private String getPrice(Plot plot) {
+
+		Optional<?> optional = plot.getFlag(Flags.PRICE);
+
+		if (!optional.isPresent()) {
+			return Lang.NOT_FOR_SELL.toString();
+		}
+
+		if (!(optional.get() instanceof Double)) {
+			return Lang.NOT_FOR_SELL.toString();
+		}
+
+		double price = (double) optional.get();
+
+		return String.format("%.1f", price);
+	}
+}
